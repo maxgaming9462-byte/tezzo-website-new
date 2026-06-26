@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Tezzo — India's #1 carpooling community. Travel anywhere together. Spend smarter and greener.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%232e9e54%22/><text x=%2250%22 y=%2268%22 font-size=%2255%22 text-anchor=%22middle%22>🚗</text></svg>">
+<title>Compare Travel & Plans – Tezzo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --green: #2e9e54;
+    --green-dark: #1e7a3e;
+    --green-light: #e8f8ee;
+    --text: #222;
+    --text-muted: #666;
+    --border: #e0e0e0;
+    --white: #fff;
+    --bg: #f7f7f7;
+    --hero-bg: #0d2c1e;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.10);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.07);
+    --font-display: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
+    --font-body: 'Inter', 'Segoe UI', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); color: var(--text); background: var(--white); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, .nav-logo, .footer-brand-name { font-family: var(--font-display); }
+  a { text-decoration: none; color: inherit; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    box-shadow: var(--shadow-sm);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 900; color: var(--green); letter-spacing: -0.5px; }
+  .nav-logo-img { height: 30px; width: auto; display: block; }
+  .nav-links { display: flex; align-items: center; gap: 28px; font-size: 15px; }
+  .nav-links a { color: var(--text); font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--green); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .btn-outline { border: 2px solid var(--green); color: var(--green); background: transparent; padding: 8px 22px; border-radius: 100px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-outline:hover { background: var(--green); color: #fff; }
+  .btn-green { background: var(--green); color: #fff; padding: 8px 22px; border-radius: 100px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s; }
+  .btn-green:hover { background: var(--green-dark); }
+  .currency-badge { display: flex; align-items: center; gap: 6px; border: 1.5px solid var(--border); border-radius: 100px; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; }
+  .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .nav-burger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+  .nav-burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+  .mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; background: #fff; border-bottom: 1px solid var(--border); flex-direction: column; padding: 16px 24px 24px; gap: 4px; z-index: 99; box-shadow: 0 8px 32px rgba(0,0,0,0.10); }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { padding: 12px 8px; font-size: 16px; font-weight: 600; border-bottom: 1px solid var(--border); color: var(--text); }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--green); }
+
+  /* SHARED */
+  .section-title { text-align: center; font-size: 34px; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .section-sub { text-align: center; font-size: 17px; color: var(--text-muted); margin-bottom: 56px; }
+  .btn-white { background: #fff; color: var(--green); padding: 14px 32px; border-radius: 100px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; transition: transform 0.2s; display: inline-block; }
+  .btn-white:hover { transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer { background: #0d2c1e; color: rgba(255,255,255,0.65); padding: 64px 40px 28px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1100px; margin: 0 auto 48px; }
+  .footer-brand-name { display: flex; align-items: center; margin-bottom: 14px; }
+  .footer-logo-img { height: 28px; width: auto; display: block; }
+  .footer-brand p { font-size: 14px; line-height: 1.75; max-width: 280px; }
+  .footer-col h4 { font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.9); margin-bottom: 18px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .footer-col a { display: block; font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 11px; transition: color 0.2s; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 12px; }
+  .footer-social { display: flex; gap: 14px; }
+  .social-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: background 0.2s; }
+  .social-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  @keyframes fadeInUp { from { opacity:0; transform:translateY(30px);} to { opacity:1; transform:translateY(0);} }
+
+  /* RESPONSIVE */
+  @media (max-width: 760px) {
+    nav { padding: 0 18px; }
+    .nav-links { display: none; }
+    .nav-burger { display: flex; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 500px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+  }
+
+
+  .page-hero {
+    min-height: 54vh;
+    background: linear-gradient(135deg, #0a2318 0%, #0d2c1e 45%, #145c34 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: 110px 40px 80px; text-align: center; position: relative; overflow: hidden;
+  }
+  .ph-circle { position: absolute; border-radius: 50%; background: rgba(46,158,84,0.08); }
+  .page-hero h1 { font-size: clamp(30px,5vw,54px); font-weight: 900; color: #fff; letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1.1; }
+  .page-hero h1 span { color: #6de49a; }
+  .page-hero p { font-size: 18px; color: rgba(255,255,255,0.72); max-width: 580px; margin: 0 auto; }
+
+  .plans-section { padding: 88px 40px; background: var(--white); }
+  .plans-wrap { max-width: 1100px; margin: 0 auto; }
+  .plans-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .plan-card { border-radius: 20px; padding: 40px 32px; border: 2px solid var(--border); position: relative; transition: all 0.25s; background: #fff; }
+  .plan-card.featured { border-color: var(--green); background: linear-gradient(145deg, #f0fbf4, #e4f6ec); }
+  .plan-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+  .plan-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--green); color: #fff; font-size: 11px; font-weight: 800; padding: 5px 18px; border-radius: 100px; white-space: nowrap; letter-spacing: 0.3px; }
+  .plan-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 6px; }
+  .plan-name { font-size: 28px; font-weight: 900; margin-bottom: 4px; }
+  .plan-price { font-size: 46px; font-weight: 900; color: var(--green); margin: 18px 0 4px; letter-spacing: -1.5px; }
+  .plan-price sub { font-size: 15px; font-weight: 500; color: var(--text-muted); letter-spacing: 0; vertical-align: middle; }
+  .plan-divider { height: 1.5px; background: var(--border); margin: 22px 0; }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
+  .plan-features li { font-size: 14px; display: flex; align-items: flex-start; gap: 9px; line-height: 1.5; }
+  .plan-features li::before { content: '✓'; color: var(--green); font-weight: 900; flex-shrink: 0; margin-top: 1px; }
+  .plan-features li.muted { color: var(--text-muted); }
+  .plan-features li.muted::before { content: '–'; color: #ccc; }
+  .plan-cta { width: 100%; padding: 13px; border-radius: 100px; font-size: 15px; font-weight: 700; cursor: pointer; border: 2px solid var(--green); transition: all 0.2s; text-align: center; display: block; }
+  .plan-cta.primary { background: var(--green); color: #fff; }
+  .plan-cta.primary:hover { background: var(--green-dark); }
+  .plan-cta.secondary { background: transparent; color: var(--green); }
+  .plan-cta.secondary:hover { background: var(--green); color: #fff; }
+
+  .table-section { padding: 0 40px 88px; background: var(--white); }
+  .table-wrap { max-width: 1100px; margin: 0 auto; }
+  .table-intro { text-align: center; margin-bottom: 48px; }
+  .table-intro h2 { font-size: 34px; font-weight: 900; margin-bottom: 10px; letter-spacing: -0.5px; }
+  .table-intro p { font-size: 16px; color: var(--text-muted); }
+  .cmp-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.10); }
+  .cmp-table th { padding: 20px 26px; text-align: left; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; background: #f8fdf8; border-bottom: 2px solid var(--border); }
+  .cmp-table th.hi { background: var(--green); color: #fff; }
+  .cmp-table td { padding: 18px 26px; font-size: 15px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .cmp-table tr:last-child td { border-bottom: none; }
+  .cmp-table td.hi { background: #f0fbf4; font-weight: 700; color: var(--green-dark); }
+  .cmp-table tr:hover td { background: #fafffe; }
+  .cmp-table tr:hover td.hi { background: #e8f8ee; }
+  .ck { color: var(--green); font-size: 19px; font-weight: 900; }
+  .cx { color: #ccc; font-size: 18px; }
+  .eco-tag { display: inline-flex; align-items: center; gap: 4px; background: #e8f8ee; color: var(--green-dark); font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 100px; }
+  .best-tag { background: var(--green); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 100px; vertical-align: middle; margin-left: 6px; }
+
+  .eco-section { padding: 88px 40px; background: var(--bg); }
+  .eco-wrap { max-width: 1100px; margin: 0 auto; }
+  .eco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .eco-visual { background: linear-gradient(145deg, #e4f6ec, #c8efd8); border-radius: 24px; padding: 40px; }
+  .eco-bar-row { margin-bottom: 18px; }
+  .eco-bar-label { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; margin-bottom: 7px; }
+  .eco-bar-track { height: 10px; background: rgba(46,158,84,0.15); border-radius: 100px; overflow: hidden; }
+  .eco-bar-fill { height: 100%; border-radius: 100px; transition: width 1s ease; }
+  .eco-text h2 { font-size: 34px; font-weight: 900; margin-bottom: 16px; line-height: 1.2; letter-spacing: -0.5px; }
+  .eco-text p { font-size: 15px; color: var(--text-muted); line-height: 1.8; margin-bottom: 14px; }
+  .eco-stat { display: flex; align-items: center; gap: 14px; background: #fff; border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; box-shadow: var(--shadow-sm); border: 1.5px solid #c8efd8; }
+  .eco-stat-num { font-size: 32px; font-weight: 900; color: var(--green); letter-spacing: -1px; }
+  .eco-stat-label { font-size: 13px; color: var(--text-muted); }
+
+  @media(max-width:900px){ .plans-grid{grid-template-columns:1fr 1fr;} .eco-grid{grid-template-columns:1fr;} }
+  @media(max-width:600px){ .plans-grid{grid-template-columns:1fr;} .cmp-table{font-size:13px;} .cmp-table th,.cmp-table td{padding:13px 14px;} }
+
+</style>
+</head>
+<body>
+<nav>
+  <a href="tezzo.html" class="nav-logo">
+    <img src="assets/logo-color.png" alt="Tezzo" class="nav-logo-img">
+  </a>
+  <div class="nav-links">
+    <a href="tezzo.html">Carpool</a>
+    <a href="compare.html" class="active">Compare</a>
+    <a href="systemdesign.html">System Design</a>
+    <a href="ghost.html">Ghost Mode</a>
+    <a href="bio.html">Bio</a>
+    
+  </div>
+  <div class="nav-right">
+    <div class="currency-badge">🇮🇳 IN – ₹</div>
+    <button class="btn-outline">Log in</button>
+    <button class="btn-green">Sign up</button>
+    <div class="nav-burger" onclick="toggleMenu(this)" id="navBurger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+<a href="tezzo.html">🚗 Carpool</a>
+<a href="compare.html">📊 Compare</a>
+<a href="systemdesign.html">⚙️ System Design</a>
+<a href="ghost.html">👻 Ghost Mode</a>
+<a href="bio.html">👤 Bio</a>
+</div>
+
+<div class="page-hero">
+  <div class="ph-circle" style="width:520px;height:520px;right:-120px;top:-160px;"></div>
+  <div class="ph-circle" style="width:300px;height:300px;left:-80px;bottom:-80px;"></div>
+  <div style="z-index:2;position:relative;animation:fadeInUp 0.8s ease both;">
+    <h1>Compare travel.<br><span>Pick smarter.</span></h1>
+    <p>See how Tezzo stacks up against buses, trains, and solo cabs — on price, speed, safety, and planet.</p>
+  </div>
+</div>
+
+<section class="plans-section">
+  <div class="plans-wrap">
+    <h2 class="section-title reveal">Pick your Tezzo plan</h2>
+    <p class="section-sub reveal">All plans include verified profiles, in-app messaging, and secure payments.</p>
+    <div class="plans-grid reveal">
+      <div class="plan-card">
+        <div class="plan-label">Starter</div>
+        <div class="plan-name">Traveller</div>
+        <div class="plan-price">Free<sub></sub></div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>Book up to 3 rides/month</li>
+          <li>Verified driver profiles</li>
+          <li>In-app messaging</li>
+          <li>Standard email support</li>
+          <li class="muted">Priority seat reservations</li>
+          <li class="muted">Ride route alerts</li>
+          <li class="muted">Ghost Mode</li>
+        </ul>
+        <button class="plan-cta secondary">Get started free</button>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-badge">⭐ Most Popular</div>
+        <div class="plan-label">Premium</div>
+        <div class="plan-name">Explorer</div>
+        <div class="plan-price">₹199<sub>/mo</sub></div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>Unlimited ride bookings</li>
+          <li>Priority seat reservations</li>
+          <li>Route alerts on your routes</li>
+          <li>Trip discount — save up to ₹50/ride</li>
+          <li>Ghost Mode — ride incognito</li>
+          <li>Priority 24/7 live support</li>
+          <li>Early access to new features</li>
+        </ul>
+        <button class="plan-cta primary">Start 14-day free trial</button>
+      </div>
+      <div class="plan-card">
+        <div class="plan-label">Business</div>
+        <div class="plan-name">Fleet</div>
+        <div class="plan-price">₹999<sub>/mo</sub></div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>Team accounts — up to 20 users</li>
+          <li>Monthly billing &amp; GST invoices</li>
+          <li>Dedicated account manager</li>
+          <li>Custom route scheduling</li>
+          <li>Live analytics dashboard</li>
+          <li>SSO &amp; admin controls</li>
+          <li>SLA-backed 24/7 support</li>
+        </ul>
+        <button class="plan-cta secondary">Contact sales →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="table-section">
+  <div class="table-wrap">
+    <div class="table-intro reveal">
+      <h2>Tezzo vs other travel modes</h2>
+      <p>Delhi → Agra (200 km) · Weekday morning · 1 passenger</p>
+    </div>
+    <div class="reveal" style="overflow-x:auto;">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th style="min-width:180px;">Criteria</th>
+            <th class="hi" style="min-width:160px;">🚗 Tezzo Carpool <span class="best-tag">BEST</span></th>
+            <th style="min-width:130px;">🚌 State Bus</th>
+            <th style="min-width:130px;">🚂 Train (2S)</th>
+            <th style="min-width:130px;">🚕 Ola / Uber</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Cost per person</strong></td><td class="hi">₹280</td><td>₹190</td><td>₹340</td><td>₹1,400+</td></tr>
+          <tr><td>Door-to-door pickup</td><td class="hi"><span class="ck">✓</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="ck">✓</span></td></tr>
+          <tr><td>AC comfort guaranteed</td><td class="hi"><span class="ck">✓</span></td><td>Varies</td><td>Varies</td><td><span class="ck">✓</span></td></tr>
+          <tr><td>Real-time GPS tracking</td><td class="hi"><span class="ck">✓</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="ck">✓</span></td></tr>
+          <tr><td>CO₂ per person</td><td class="hi"><span class="eco-tag">♻️ 4.2 kg</span></td><td>8.1 kg</td><td>3.8 kg</td><td>18.6 kg</td></tr>
+          <tr><td>Verified travellers</td><td class="hi"><span class="ck">✓</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td>Partial</td></tr>
+          <tr><td>Flexible departure time</td><td class="hi"><span class="ck">✓</span></td><td><span class="cx">✗</span></td><td><span class="cx">✗</span></td><td><span class="ck">✓</span></td></tr>
+          <tr><td>Instant booking</td><td class="hi"><span class="ck">✓</span></td><td>At station only</td><td>Pre-book needed</td><td><span class="ck">✓</span></td></tr>
+          <tr><td>Avg. travel time (Delhi→Agra)</td><td class="hi">2 h 45 min</td><td>4 h+</td><td>2 h (Gatimaan)</td><td>3 h 15 min</td></tr>
+          <tr><td>Cashless payment</td><td class="hi"><span class="ck">✓</span></td><td>Cash only</td><td><span class="ck">✓</span></td><td><span class="ck">✓</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="eco-section">
+  <div class="eco-wrap">
+    <div class="eco-grid reveal">
+      <div class="eco-visual">
+        <h3 style="font-size:20px;font-weight:900;margin-bottom:28px;color:var(--green-dark);">CO₂ emissions per trip (kg)</h3>
+        <div class="eco-bar-row"><div class="eco-bar-label"><span>🚗 Tezzo Carpool</span><span style="color:var(--green)">4.2 kg</span></div><div class="eco-bar-track"><div class="eco-bar-fill" style="width:23%;background:var(--green);"></div></div></div>
+        <div class="eco-bar-row"><div class="eco-bar-label"><span>🚌 State Bus</span><span>8.1 kg</span></div><div class="eco-bar-track"><div class="eco-bar-fill" style="width:44%;background:#90cba8;"></div></div></div>
+        <div class="eco-bar-row"><div class="eco-bar-label"><span>🚂 Train</span><span>3.8 kg</span></div><div class="eco-bar-track"><div class="eco-bar-fill" style="width:21%;background:#a8d8b4;"></div></div></div>
+        <div class="eco-bar-row"><div class="eco-bar-label"><span>🚕 Solo Cab</span><span style="color:#c0392b;">18.6 kg</span></div><div class="eco-bar-track"><div class="eco-bar-fill" style="width:100%;background:#e07070;"></div></div></div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:18px;">Source: IPCC Transport Emissions 2023 · 200 km route, economy estimates</p>
+      </div>
+      <div class="eco-text">
+        <h2>Your ride matters<br>for the planet.</h2>
+        <p>Every time you choose to carpool instead of driving solo or taking a cab, you're making a meaningful difference. On a 200 km trip, Tezzo carpoolers emit over 4× less CO₂ than solo cabs.</p>
+        <div class="eco-stat"><div class="eco-stat-num">130K</div><div><div style="font-weight:800;font-size:15px;">Tonnes of CO₂ saved</div><div class="eco-stat-label">by our community in 2025 alone</div></div></div>
+        <div class="eco-stat"><div class="eco-stat-num">4.4 kg</div><div><div style="font-weight:800;font-size:15px;">Avg. CO₂ saved per trip</div><div class="eco-stat-label">vs driving alone on same route</div></div></div>
+        <button class="btn-green" style="padding:13px 30px;font-size:15px;border-radius:100px;margin-top:8px;">Find a green ride →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name"><img src="assets/logo-white.png" alt="Tezzo" class="footer-logo-img"></div>
+      <p>India's #1 carpooling community. Travel anywhere together. Spend smarter and greener.</p>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <a href="bio.html">Who we are</a>
+      <a href="systemdesign.html">How it works</a>
+      <a href="#">Press</a>
+      <a href="#">We're Hiring!</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <a href="#">Help Centre</a>
+      <a href="contact.html">Contact us</a>
+      <a href="#">Safety</a>
+      <a href="#">Community guidelines</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="#">Terms &amp; Conditions</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Cookie Policy</a>
+      <a href="#">Accessibility</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© Tezzo 2026 · All rights reserved</span>
+    <div class="footer-social">
+      <div class="social-btn">𝕏</div>
+      <div class="social-btn">f</div>
+      <div class="social-btn">in</div>
+      <div class="social-btn">📷</div>
+    </div>
+  </div>
+</footer>
+<script>
+
+function toggleMenu(btn) {
+  btn.classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+const revealEls = document.querySelectorAll('.reveal');
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in-view'); revObs.unobserve(e.target); }});
+}, { threshold: 0.10 });
+revealEls.forEach(el => revObs.observe(el));
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.boxShadow =
+    window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.12)' : '0 2px 8px rgba(0,0,0,0.07)';
+});
+
+
+</script>
+</body>
+</html>
