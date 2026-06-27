@@ -4,8 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Tezzo — India's #1 carpooling community. Travel anywhere together. Spend smarter and greener.">
+<link rel="canonical" href="https://tezzo.co.in/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%232e9e54%22/><text x=%2250%22 y=%2268%22 font-size=%2255%22 text-anchor=%22middle%22>🚗</text></svg>">
 <title>Tezzo – Travel anywhere together. Spend smarter.</title>
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tezzo – Travel anywhere together. Spend smarter.">
+<meta property="og:description" content="Tezzo — India's #1 carpooling community. Travel anywhere together. Spend smarter and greener.">
+<meta property="og:url" content="https://tezzo.co.in/">
+<meta property="og:image" content="https://tezzo.co.in/assets/logo-color.png">
+<meta property="og:site_name" content="Tezzo">
+<meta property="og:locale" content="en_IN">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tezzo – Travel anywhere together. Spend smarter.">
+<meta name="twitter:description" content="Tezzo — India's #1 carpooling community. Travel anywhere together. Spend smarter and greener.">
+<meta name="twitter:image" content="https://tezzo.co.in/assets/logo-color.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -407,6 +422,38 @@
     .footer-bottom { flex-direction: column; text-align: center; }
     .explore-grid { grid-template-columns: 1fr; }
   }
+
+  /* AUTH MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(13,44,30,0.55); z-index: 1000;
+    display: none; align-items: center; justify-content: center; padding: 20px;
+    backdrop-filter: blur(3px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: #fff; border-radius: 20px; padding: 40px; max-width: 400px; width: 100%;
+    position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.3); animation: modalIn 0.25s ease both;
+  }
+  @keyframes modalIn { from { opacity:0; transform: translateY(16px) scale(0.97); } to { opacity:1; transform: translateY(0) scale(1); } }
+  .modal-close { position: absolute; top: 18px; right: 18px; background: none; border: none; font-size: 16px; cursor: pointer; color: var(--text-muted); }
+  #authModalTitle { font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+  .modal-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
+  .modal-field { margin-bottom: 16px; }
+  .modal-field label { display: block; font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .modal-field input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: inherit; }
+  .modal-field input:focus { outline: none; border-color: var(--green); }
+  .modal-submit { width: 100%; padding: 13px; border-radius: 100px; font-size: 15px; border: none; margin-top: 6px; }
+  .modal-switch { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 18px; }
+  .modal-switch a { color: var(--green); font-weight: 700; margin-left: 4px; }
+
+  /* SEARCH TOAST */
+  .search-toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #0d2c1e; color: #fff; padding: 14px 26px; border-radius: 100px; font-size: 14px; font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25); z-index: 1001; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s; display: flex; align-items: center; gap: 10px;
+  }
+  .search-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
@@ -426,8 +473,8 @@
   </div>
   <div class="nav-right">
     <div class="currency-badge">🇮🇳 IN – ₹</div>
-    <button class="btn-outline">Log in</button>
-    <button class="btn-green">Sign up</button>
+    <button class="btn-outline" onclick="openAuthModal('login')">Log in</button>
+    <button class="btn-green" onclick="openAuthModal('signup')">Sign up</button>
   </div>
 </nav>
 
@@ -452,14 +499,14 @@
           <label>From</label>
           <div class="field-input-wrap">
             <span class="field-icon">📍</span>
-            <input type="text" placeholder="City, station, place">
+            <input type="text" id="fromInput" placeholder="City, station, place">
           </div>
         </div>
         <div class="field-group">
           <label>To</label>
           <div class="field-input-wrap">
             <span class="field-icon">🏁</span>
-            <input type="text" placeholder="City, station, place">
+            <input type="text" id="toInput" placeholder="City, station, place">
           </div>
         </div>
         <div class="field-group">
@@ -473,7 +520,7 @@
           <label>Passengers</label>
           <div class="field-input-wrap">
             <span class="field-icon">👤</span>
-            <select>
+            <select id="passengersInput">
               <option>1 passenger</option>
               <option>2 passengers</option>
               <option>3 passengers</option>
@@ -481,7 +528,7 @@
             </select>
           </div>
         </div>
-        <button class="search-btn">🔍 Search</button>
+        <button class="search-btn" onclick="handleSearch()">🔍 Search</button>
       </div>
     </div>
   </div>
@@ -750,9 +797,99 @@
   </div>
 </footer>
 
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModalOverlay" onclick="closeAuthModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div id="authModalContent">
+      <h2 id="authModalTitle">Log in to Tezzo</h2>
+      <p id="authModalSub" class="modal-sub">Welcome back! Enter your details to continue.</p>
+      <form id="authForm">
+        <div class="modal-field">
+          <label>Phone or Email</label>
+          <input type="text" placeholder="98765 43210 or you@example.com" required>
+        </div>
+        <div class="modal-field" id="authNameField" style="display:none;">
+          <label>Full name</label>
+          <input type="text" placeholder="Your name" id="authNameInput">
+        </div>
+        <button type="submit" class="btn-green modal-submit">Continue →</button>
+      </form>
+      <p class="modal-switch">
+        <span id="authSwitchText">New to Tezzo?</span>
+        <a href="#" onclick="toggleAuthMode(event)" id="authSwitchLink">Sign up</a>
+      </p>
+    </div>
+    <div id="authSuccessContent" style="display:none;text-align:center;">
+      <div style="font-size:46px;margin-bottom:14px;">✅</div>
+      <h3 style="font-size:20px;font-weight:900;margin-bottom:8px;">You're on the list!</h3>
+      <p class="modal-sub">Tezzo accounts are launching soon. We'll notify you the moment you can log in.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH TOAST -->
+<div class="search-toast" id="searchToast"></div>
+
+
 <script>
 // Set today's date
 document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
+
+// ===== AUTH MODAL =====
+let authMode = 'login';
+function openAuthModal(mode) {
+  authMode = mode;
+  updateAuthModalUI();
+  document.getElementById('authModalOverlay').classList.add('open');
+  document.getElementById('authModalContent').style.display = 'block';
+  document.getElementById('authSuccessContent').style.display = 'none';
+}
+function closeAuthModal(e) {
+  if (e && e.target !== document.getElementById('authModalOverlay')) return;
+  document.getElementById('authModalOverlay').classList.remove('open');
+}
+function toggleAuthMode(e) {
+  e.preventDefault();
+  authMode = authMode === 'login' ? 'signup' : 'login';
+  updateAuthModalUI();
+}
+function updateAuthModalUI() {
+  const isLogin = authMode === 'login';
+  document.getElementById('authModalTitle').textContent = isLogin ? 'Log in to Tezzo' : 'Create your Tezzo account';
+  document.getElementById('authModalSub').textContent = isLogin
+    ? 'Welcome back! Enter your details to continue.'
+    : 'Join 30M+ members travelling smarter across India.';
+  document.getElementById('authNameField').style.display = isLogin ? 'none' : 'block';
+  document.getElementById('authSwitchText').textContent = isLogin ? 'New to Tezzo?' : 'Already have an account?';
+  document.getElementById('authSwitchLink').textContent = isLogin ? 'Sign up' : 'Log in';
+}
+document.getElementById('authForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  document.getElementById('authModalContent').style.display = 'none';
+  document.getElementById('authSuccessContent').style.display = 'block';
+});
+
+// ===== SEARCH =====
+function handleSearch() {
+  const escapeHtml = (s) => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const from = escapeHtml(document.getElementById('fromInput').value.trim());
+  const to = escapeHtml(document.getElementById('toInput').value.trim());
+  const toast = document.getElementById('searchToast');
+
+  if (!from || !to) {
+    toast.innerHTML = '⚠️ Please enter both From and To locations';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+    return;
+  }
+
+  toast.innerHTML = `🔍 Showing rides from <strong>${from}</strong> to <strong>${to}</strong>`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+  document.getElementById('rides').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 
 // Ride cards
 const rides = [

@@ -3,12 +3,17 @@
 Static HTML/CSS/JS website for Tezzo, India's carpooling platform.
 
 ## Pages
-- `index.html` (same as `tezzo.html`) — Homepage with ride search/booking
+- `index.html` (same as `tezzo.html`) — Homepage with ride search/booking (now functional: search scrolls to results with feedback toast, Log in/Sign up open a waitlist modal)
 - `compare.html` — Pricing plans & comparison vs bus/train/cab
 - `systemdesign.html` — How it works, architecture, tech stack
 - `ghost.html` — Ghost Mode (incognito riding) feature page
 - `bio.html` — About us, team, timeline, investors
 - `contact.html` — Contact / support form
+- `privacy.html` — Privacy Policy
+- `terms.html` — Terms & Conditions
+- `help.html` — Help Centre with interactive FAQ accordion
+- `404.html` — Custom branded "page not found" page (GitHub Pages serves this automatically for broken links)
+- `sitemap.xml` / `robots.txt` — SEO crawling files
 - `assets/logo-color.png` — Logo for light/white backgrounds (used in nav)
 - `assets/logo-white.png` — Logo for dark backgrounds (used in footer)
 
