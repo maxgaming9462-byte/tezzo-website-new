@@ -39,5 +39,16 @@ Static HTML/CSS/JS website for Tezzo, India's carpooling platform.
 
 ## Notes
 - All pages share one design system (colors, fonts, nav, footer) defined inline.
-- No backend — forms are front-end only (contact form shows a success message but does not send email yet).
 - Fonts: Plus Jakarta Sans (headings) + Inter (body), loaded from Google Fonts CDN.
+- Favicon is generated from the Tezzo logo (the "T" mark) — see `assets/favicon*.png` and `assets/favicon.ico`.
+
+## ⚠️ Action needed: Connect the contact form to a real inbox
+The contact form (`contact.html`) currently points to a placeholder Formspree endpoint and will fall back to opening the visitor's email app if it's not configured. To make it send real emails to your inbox:
+1. Go to [formspree.io](https://formspree.io) and sign up free
+2. Create a new form, get your Form ID (looks like `xeqpqgnz`)
+3. Open `contact.html`, find this line near the top of the form:
+   ```html
+   <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+   ```
+4. Replace `YOUR_FORM_ID` with your real Formspree ID and re-upload the file
+5. Formspree's free plan supports 50 submissions/month, which is enough to start
