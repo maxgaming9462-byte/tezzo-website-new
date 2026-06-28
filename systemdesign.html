@@ -12,6 +12,16 @@
 <link rel="shortcut icon" href="assets/favicon.ico">
 <title>System Design & Architecture – Tezzo</title>
 
+<!-- Google Analytics (GA4) -->
+<!-- Replace G-XXXXXXXXXX below with your real Measurement ID from analytics.google.com -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
 <meta property="og:type" content="website">
 <meta property="og:title" content="System Design & Architecture – Tezzo">
 <meta property="og:description" content="Tezzo — India's #1 carpooling community. Travel anywhere together. Spend smarter and greener.">
@@ -100,6 +110,9 @@
   .footer-social { display: flex; gap: 14px; }
   .social-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: background 0.2s; }
   .social-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* 3D TILT CARDS */
+  .tilt-card { transition: transform 0.15s ease-out, box-shadow 0.25s ease; }
 
   /* REVEAL */
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
@@ -230,12 +243,12 @@
     <h2 class="section-title reveal">How a Tezzo ride works</h2>
     <p class="section-sub reveal">From search to destination in 6 seamless steps.</p>
     <div class="how-grid reveal">
-      <div class="how-card"><div class="how-num">1</div><h3>Publish or Search</h3><p>Drivers publish their route, date, seats and suggested price. Passengers search in real time and see matching rides instantly, ranked by relevance.</p></div>
-      <div class="how-card"><div class="how-num">2</div><h3>Smart Matching</h3><p>Our algorithm ranks rides by proximity, ratings, departure time and price — returning results in under 80ms across 200+ cities.</p></div>
-      <div class="how-card"><div class="how-num">3</div><h3>Book &amp; Pay Securely</h3><p>Passengers pay via UPI, card or wallet — fully in-app. Funds are held in escrow and only released after the ride is completed.</p></div>
-      <div class="how-card"><div class="how-num">4</div><h3>Live Ride Tracking</h3><p>Real-time GPS tracking, ETA updates, and route monitoring — all inside the app. Share your live location with up to 5 trusted contacts.</p></div>
-      <div class="how-card"><div class="how-num">5</div><h3>Rate &amp; Review</h3><p>After every ride, both driver and passenger rate each other. Low-rated users are automatically flagged and reviewed by our trust team within 24 hours.</p></div>
-      <div class="how-card"><div class="how-num">6</div><h3>Instant Payout</h3><p>Drivers receive payment instantly via UPI once the ride completes. Tezzo Points are credited for both parties — redeemable on future trips.</p></div>
+      <div class="how-card tilt-card"><div class="how-num">1</div><h3>Publish or Search</h3><p>Drivers publish their route, date, seats and suggested price. Passengers search in real time and see matching rides instantly, ranked by relevance.</p></div>
+      <div class="how-card tilt-card"><div class="how-num">2</div><h3>Smart Matching</h3><p>Our algorithm ranks rides by proximity, ratings, departure time and price — returning results in under 80ms across 200+ cities.</p></div>
+      <div class="how-card tilt-card"><div class="how-num">3</div><h3>Book &amp; Pay Securely</h3><p>Passengers pay via UPI, card or wallet — fully in-app. Funds are held in escrow and only released after the ride is completed.</p></div>
+      <div class="how-card tilt-card"><div class="how-num">4</div><h3>Live Ride Tracking</h3><p>Real-time GPS tracking, ETA updates, and route monitoring — all inside the app. Share your live location with up to 5 trusted contacts.</p></div>
+      <div class="how-card tilt-card"><div class="how-num">5</div><h3>Rate &amp; Review</h3><p>After every ride, both driver and passenger rate each other. Low-rated users are automatically flagged and reviewed by our trust team within 24 hours.</p></div>
+      <div class="how-card tilt-card"><div class="how-num">6</div><h3>Instant Payout</h3><p>Drivers receive payment instantly via UPI once the ride completes. Tezzo Points are credited for both parties — redeemable on future trips.</p></div>
     </div>
   </div>
 </section>
@@ -276,18 +289,18 @@
     <h2 class="section-title reveal">Tech stack</h2>
     <p class="section-sub reveal">The tools powering India's largest carpooling platform.</p>
     <div class="tech-grid reveal">
-      <div class="tech-card"><div class="tech-icon">⚛️</div><div class="tech-name">React Native</div><div class="tech-role">iOS &amp; Android Apps</div></div>
-      <div class="tech-card"><div class="tech-icon">▲</div><div class="tech-name">Next.js</div><div class="tech-role">Web App &amp; SSR</div></div>
-      <div class="tech-card"><div class="tech-icon">🟢</div><div class="tech-name">Node.js</div><div class="tech-role">Backend API Services</div></div>
-      <div class="tech-card"><div class="tech-icon">🐘</div><div class="tech-name">PostgreSQL</div><div class="tech-role">Primary Database</div></div>
-      <div class="tech-card"><div class="tech-icon">🔴</div><div class="tech-name">Redis</div><div class="tech-role">Cache &amp; Job Queues</div></div>
-      <div class="tech-card"><div class="tech-icon">🔍</div><div class="tech-name">Elasticsearch</div><div class="tech-role">Ride Search Engine</div></div>
-      <div class="tech-card"><div class="tech-icon">☁️</div><div class="tech-name">AWS</div><div class="tech-role">Cloud Infrastructure</div></div>
-      <div class="tech-card"><div class="tech-icon">🗺️</div><div class="tech-name">Google Maps</div><div class="tech-role">Routing &amp; Live GPS</div></div>
-      <div class="tech-card"><div class="tech-icon">💳</div><div class="tech-name">Razorpay</div><div class="tech-role">Payments &amp; UPI</div></div>
-      <div class="tech-card"><div class="tech-icon">📬</div><div class="tech-name">Firebase</div><div class="tech-role">Push Notifications</div></div>
-      <div class="tech-card"><div class="tech-icon">📊</div><div class="tech-name">Grafana</div><div class="tech-role">Monitoring &amp; Alerts</div></div>
-      <div class="tech-card"><div class="tech-icon">🛡️</div><div class="tech-name">Sentry</div><div class="tech-role">Error Tracking</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">⚛️</div><div class="tech-name">React Native</div><div class="tech-role">iOS &amp; Android Apps</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">▲</div><div class="tech-name">Next.js</div><div class="tech-role">Web App &amp; SSR</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">🟢</div><div class="tech-name">Node.js</div><div class="tech-role">Backend API Services</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">🐘</div><div class="tech-name">PostgreSQL</div><div class="tech-role">Primary Database</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">🔴</div><div class="tech-name">Redis</div><div class="tech-role">Cache &amp; Job Queues</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">🔍</div><div class="tech-name">Elasticsearch</div><div class="tech-role">Ride Search Engine</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">☁️</div><div class="tech-name">AWS</div><div class="tech-role">Cloud Infrastructure</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">🗺️</div><div class="tech-name">Google Maps</div><div class="tech-role">Routing &amp; Live GPS</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">💳</div><div class="tech-name">Razorpay</div><div class="tech-role">Payments &amp; UPI</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">📬</div><div class="tech-name">Firebase</div><div class="tech-role">Push Notifications</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">📊</div><div class="tech-name">Grafana</div><div class="tech-role">Monitoring &amp; Alerts</div></div>
+      <div class="tech-card tilt-card"><div class="tech-icon">🛡️</div><div class="tech-name">Sentry</div><div class="tech-role">Error Tracking</div></div>
     </div>
   </div>
 </section>
@@ -297,12 +310,12 @@
     <h2 class="section-title reveal">Safety &amp; security by design</h2>
     <p class="section-sub reveal">Every layer of Tezzo is built with your safety in mind — not bolted on after.</p>
     <div class="security-grid reveal">
-      <div class="security-card"><div class="sec-icon">🆔</div><div><h3>Aadhaar KYC &amp; Liveness</h3><p>All drivers undergo Aadhaar-based government ID verification plus a real-time selfie liveness check to prevent impersonation fraud.</p></div></div>
-      <div class="security-card"><div class="sec-icon">📍</div><div><h3>Live GPS with Auto-SOS</h3><p>Every ride is tracked in real time. The app automatically triggers an SOS alert if a ride deviates significantly from the planned route.</p></div></div>
-      <div class="security-card"><div class="sec-icon">🔒</div><div><h3>Encrypted Escrow Payments</h3><p>End-to-end encrypted transactions. Passenger funds are held in escrow — the driver only gets paid after the trip is confirmed complete.</p></div></div>
-      <div class="security-card"><div class="sec-icon">🤖</div><div><h3>ML-powered Trust Score</h3><p>Every user has a live trust score calculated from reviews, cancellation rate, ID status, and ride behaviour. Low scores trigger automatic review.</p></div></div>
-      <div class="security-card"><div class="sec-icon">📞</div><div><h3>Number Masking</h3><p>Phone numbers are always masked in-app. Calls and messages go through Tezzo's relay — your real number is never shared with other users.</p></div></div>
-      <div class="security-card"><div class="sec-icon">🧑‍⚖️</div><div><h3>24/7 Trust Team</h3><p>A dedicated team monitors flagged rides, reviews complaints, and can remotely assist any ride in real time — around the clock, every day.</p></div></div>
+      <div class="security-card tilt-card"><div class="sec-icon">🆔</div><div><h3>Aadhaar KYC &amp; Liveness</h3><p>All drivers undergo Aadhaar-based government ID verification plus a real-time selfie liveness check to prevent impersonation fraud.</p></div></div>
+      <div class="security-card tilt-card"><div class="sec-icon">📍</div><div><h3>Live GPS with Auto-SOS</h3><p>Every ride is tracked in real time. The app automatically triggers an SOS alert if a ride deviates significantly from the planned route.</p></div></div>
+      <div class="security-card tilt-card"><div class="sec-icon">🔒</div><div><h3>Encrypted Escrow Payments</h3><p>End-to-end encrypted transactions. Passenger funds are held in escrow — the driver only gets paid after the trip is confirmed complete.</p></div></div>
+      <div class="security-card tilt-card"><div class="sec-icon">🤖</div><div><h3>ML-powered Trust Score</h3><p>Every user has a live trust score calculated from reviews, cancellation rate, ID status, and ride behaviour. Low scores trigger automatic review.</p></div></div>
+      <div class="security-card tilt-card"><div class="sec-icon">📞</div><div><h3>Number Masking</h3><p>Phone numbers are always masked in-app. Calls and messages go through Tezzo's relay — your real number is never shared with other users.</p></div></div>
+      <div class="security-card tilt-card"><div class="sec-icon">🧑‍⚖️</div><div><h3>24/7 Trust Team</h3><p>A dedicated team monitors flagged rides, reviews complaints, and can remotely assist any ride in real time — around the clock, every day.</p></div></div>
     </div>
   </div>
 </section>
@@ -374,6 +387,52 @@ window.addEventListener('scroll', () => {
   document.querySelector('nav').style.boxShadow =
     window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.12)' : '0 2px 8px rgba(0,0,0,0.07)';
 });
+
+// ===== 3D TILT CARDS =====
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.style.transformStyle = 'preserve-3d';
+  card.style.willChange = 'transform';
+  let rafId = null;
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateX = ((y / rect.height) - 0.5) * -10;
+    const rotateY = ((x / rect.width) - 0.5) * 10;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(6px)`;
+    });
+  });
+  card.addEventListener('mouseleave', () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+  });
+});
+
+// ===== HERO PARALLAX DEPTH (mouse-move floating circles) =====
+document.querySelectorAll('.ph-circle, .gh-circle, .bh-circle').forEach((el, i) => {
+  el.dataset.depth = (0.5 + (i % 3) * 0.5).toFixed(2);
+});
+const parallaxHero = document.querySelector('.page-hero, .ghost-hero, .bio-hero');
+if (parallaxHero) {
+  parallaxHero.addEventListener('mousemove', (e) => {
+    const rect = parallaxHero.getBoundingClientRect();
+    const cx = (e.clientX - rect.left) / rect.width - 0.5;
+    const cy = (e.clientY - rect.top) / rect.height - 0.5;
+    parallaxHero.querySelectorAll('.ph-circle, .gh-circle, .bh-circle').forEach(el => {
+      const depth = parseFloat(el.dataset.depth) || 1;
+      const moveX = cx * 24 * depth;
+      const moveY = cy * 24 * depth;
+      el.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+    });
+  });
+  parallaxHero.addEventListener('mouseleave', () => {
+    parallaxHero.querySelectorAll('.ph-circle, .gh-circle, .bh-circle').forEach(el => {
+      el.style.transform = 'translate3d(0,0,0)';
+    });
+  });
+}
 
 
 

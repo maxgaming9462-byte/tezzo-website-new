@@ -12,6 +12,16 @@
 <link rel="shortcut icon" href="assets/favicon.ico">
 <title>Contact Us – Tezzo</title>
 
+<!-- Google Analytics (GA4) -->
+<!-- Replace G-XXXXXXXXXX below with your real Measurement ID from analytics.google.com -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
 <meta property="og:type" content="website">
 <meta property="og:title" content="Contact Us – Tezzo">
 <meta property="og:description" content="Tezzo — India's #1 carpooling community. Travel anywhere together. Spend smarter and greener.">
@@ -100,6 +110,9 @@
   .footer-social { display: flex; gap: 14px; }
   .social-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: background 0.2s; }
   .social-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* 3D TILT CARDS */
+  .tilt-card { transition: transform 0.15s ease-out, box-shadow 0.25s ease; }
 
   /* REVEAL */
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
@@ -370,6 +383,52 @@ window.addEventListener('scroll', () => {
   document.querySelector('nav').style.boxShadow =
     window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.12)' : '0 2px 8px rgba(0,0,0,0.07)';
 });
+
+// ===== 3D TILT CARDS =====
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.style.transformStyle = 'preserve-3d';
+  card.style.willChange = 'transform';
+  let rafId = null;
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateX = ((y / rect.height) - 0.5) * -10;
+    const rotateY = ((x / rect.width) - 0.5) * 10;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(6px)`;
+    });
+  });
+  card.addEventListener('mouseleave', () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+  });
+});
+
+// ===== HERO PARALLAX DEPTH (mouse-move floating circles) =====
+document.querySelectorAll('.ph-circle, .gh-circle, .bh-circle').forEach((el, i) => {
+  el.dataset.depth = (0.5 + (i % 3) * 0.5).toFixed(2);
+});
+const parallaxHero = document.querySelector('.page-hero, .ghost-hero, .bio-hero');
+if (parallaxHero) {
+  parallaxHero.addEventListener('mousemove', (e) => {
+    const rect = parallaxHero.getBoundingClientRect();
+    const cx = (e.clientX - rect.left) / rect.width - 0.5;
+    const cy = (e.clientY - rect.top) / rect.height - 0.5;
+    parallaxHero.querySelectorAll('.ph-circle, .gh-circle, .bh-circle').forEach(el => {
+      const depth = parseFloat(el.dataset.depth) || 1;
+      const moveX = cx * 24 * depth;
+      const moveY = cy * 24 * depth;
+      el.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+    });
+  });
+  parallaxHero.addEventListener('mouseleave', () => {
+    parallaxHero.querySelectorAll('.ph-circle, .gh-circle, .bh-circle').forEach(el => {
+      el.style.transform = 'translate3d(0,0,0)';
+    });
+  });
+}
 
 
 const cf = document.getElementById('contactForm');

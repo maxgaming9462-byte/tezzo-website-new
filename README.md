@@ -42,7 +42,13 @@ Static HTML/CSS/JS website for Tezzo, India's carpooling platform.
 - Fonts: Plus Jakarta Sans (headings) + Inter (body), loaded from Google Fonts CDN.
 - Favicon is generated from the Tezzo logo (the "T" mark) — see `assets/favicon*.png` and `assets/favicon.ico`.
 
-## ⚠️ Action needed: Connect the contact form to a real inbox
+## ⚠️ Action needed: Connect Google Analytics
+Every page already includes the GA4 tracking snippet with a placeholder ID (`G-XXXXXXXXXX`). To start tracking real visitors:
+1. Go to [analytics.google.com](https://analytics.google.com), create a free account/property for `tezzo.co.in`
+2. Copy your Measurement ID (looks like `G-ABC1234XYZ`)
+3. Find and replace **every** occurrence of `G-XXXXXXXXXX` across all HTML files with your real ID (each page has it twice — once in the script `src` URL, once in `gtag('config', ...)`)
+4. Re-upload the updated files to GitHub
+5. Visit your site, then check Google Analytics → Reports → Realtime to confirm tracking works
 The contact form (`contact.html`) currently points to a placeholder Formspree endpoint and will fall back to opening the visitor's email app if it's not configured. To make it send real emails to your inbox:
 1. Go to [formspree.io](https://formspree.io) and sign up free
 2. Create a new form, get your Form ID (looks like `xeqpqgnz`)
