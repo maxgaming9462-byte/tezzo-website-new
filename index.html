@@ -59,7 +59,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { font-family: var(--font-body); color: var(--text); background: var(--white); -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--font-body); color: var(--text); background: var(--white); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   a { text-decoration: none; color: inherit; }
   h1, h2, h3, .nav-logo, .footer-brand-name, .stat-num, .ride-price { font-family: var(--font-display); }
 
@@ -446,6 +446,14 @@
     .why-grid { grid-template-columns: 1fr; }
     .stats-inner { grid-template-columns: 1fr; gap: 24px; }
     .trust-bar { gap: 24px; }
+    .currency-badge { display: none; }
+    .nav-right { gap: 8px; }
+    .nav-right .btn-outline { padding: 7px 14px; font-size: 13px; }
+    .nav-right .btn-green { padding: 7px 14px; font-size: 13px; }
+  }
+  @media (max-width: 420px) {
+    .nav-right .btn-outline { display: none; }
+    .nav-logo-img { height: 24px; }
   }
   @media (max-width: 500px) {
     .search-fields { grid-template-columns: 1fr; }
