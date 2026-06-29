@@ -132,6 +132,17 @@
 
   /* 3D TILT CARDS */
   .tilt-card { transition: transform 0.15s ease-out, box-shadow 0.25s ease; }
+  .tilt-card:hover .feat-icon, .tilt-card:hover .val-icon, .tilt-card:hover .sec-icon,
+  .tilt-card:hover .tech-icon, .tilt-card:hover .how-num, .tilt-card:hover .team-avatar,
+  .tilt-card:hover .inv-icon { transform: scale(1.15) rotate(-4deg); }
+  .feat-icon, .val-icon, .sec-icon, .tech-icon, .how-num, .team-avatar, .inv-icon {
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  /* ACCESSIBLE FOCUS STATES */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+    outline: 2.5px solid var(--green); outline-offset: 2px; border-radius: 4px;
+  }
 
   /* GRAIN TEXTURE for dark heroes */
   .page-hero::before, .ghost-hero::before, .bio-hero::before {
@@ -280,9 +291,9 @@
         <p>Today, Tezzo connects 30 million members across India. We're not just a carpooling app — we're building the trust infrastructure for shared travel in a country of 1.4 billion people who deserve better options.</p>
         <p>Every trip on Tezzo saves an average of 4.4 kg of CO₂. Across our community, that adds up to over 130,000 tonnes of emissions prevented every year — and growing.</p>
         <div class="mission-stat-row">
-          <div class="m-stat"><div class="m-stat-num">30M+</div><div class="m-stat-label">Members</div></div>
-          <div class="m-stat"><div class="m-stat-num">130K t</div><div class="m-stat-label">CO₂ saved/yr</div></div>
-          <div class="m-stat"><div class="m-stat-num">200+</div><div class="m-stat-label">Cities</div></div>
+          <div class="m-stat"><div class="m-stat-num counter">30M+</div><div class="m-stat-label">Members</div></div>
+          <div class="m-stat"><div class="m-stat-num counter">130K t</div><div class="m-stat-label">CO₂ saved/yr</div></div>
+          <div class="m-stat"><div class="m-stat-num counter">200+</div><div class="m-stat-label">Cities</div></div>
         </div>
       </div>
     </div>
@@ -291,10 +302,10 @@
 
 <section class="bio-stats">
   <div class="bio-stats-inner reveal">
-    <div><div class="bstat-num">30M+</div><div class="bstat-label">Members in India</div></div>
-    <div><div class="bstat-num">20 yrs</div><div class="bstat-label">Carpooling experience</div></div>
-    <div><div class="bstat-num">4.8★</div><div class="bstat-label">Average app rating</div></div>
-    <div><div class="bstat-num">#1</div><div class="bstat-label">Carpooling platform in India</div></div>
+    <div><div class="bstat-num counter">30M+</div><div class="bstat-label">Members in India</div></div>
+    <div><div class="bstat-num counter">20 yrs</div><div class="bstat-label">Carpooling experience</div></div>
+    <div><div class="bstat-num counter">4.8★</div><div class="bstat-label">Average app rating</div></div>
+    <div><div class="bstat-num counter">#1</div><div class="bstat-label">Carpooling platform in India</div></div>
   </div>
 </section>
 
@@ -456,6 +467,35 @@ if (parallaxHero) {
     });
   });
 }
+
+// ===== ANIMATED NUMBER COUNTERS =====
+function animateCounter(el) {
+  const text = el.textContent.trim();
+  const match = text.match(/^([^\d]*)([\d]+\.?[\d]*)(.*)$/);
+  if (!match) return;
+  const prefix = match[1], numStr = match[2], suffix = match[3];
+  const target = parseFloat(numStr);
+  const isFloat = numStr.includes('.');
+  const duration = 1300;
+  const startTime = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = target * eased;
+    el.textContent = prefix + (isFloat ? current.toFixed(1) : Math.round(current)) + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCounter(e.target);
+      counterObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.4 });
+document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
 
 
 

@@ -132,6 +132,17 @@
 
   /* 3D TILT CARDS */
   .tilt-card { transition: transform 0.15s ease-out, box-shadow 0.25s ease; }
+  .tilt-card:hover .feat-icon, .tilt-card:hover .val-icon, .tilt-card:hover .sec-icon,
+  .tilt-card:hover .tech-icon, .tilt-card:hover .how-num, .tilt-card:hover .team-avatar,
+  .tilt-card:hover .inv-icon { transform: scale(1.15) rotate(-4deg); }
+  .feat-icon, .val-icon, .sec-icon, .tech-icon, .how-num, .team-avatar, .inv-icon {
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  /* ACCESSIBLE FOCUS STATES */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+    outline: 2.5px solid var(--green); outline-offset: 2px; border-radius: 4px;
+  }
 
   /* GRAIN TEXTURE for dark heroes */
   .page-hero::before, .ghost-hero::before, .bio-hero::before {
@@ -403,6 +414,35 @@ if (parallaxHero) {
     });
   });
 }
+
+// ===== ANIMATED NUMBER COUNTERS =====
+function animateCounter(el) {
+  const text = el.textContent.trim();
+  const match = text.match(/^([^\d]*)([\d]+\.?[\d]*)(.*)$/);
+  if (!match) return;
+  const prefix = match[1], numStr = match[2], suffix = match[3];
+  const target = parseFloat(numStr);
+  const isFloat = numStr.includes('.');
+  const duration = 1300;
+  const startTime = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = target * eased;
+    el.textContent = prefix + (isFloat ? current.toFixed(1) : Math.round(current)) + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCounter(e.target);
+      counterObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.4 });
+document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
 
 
 
