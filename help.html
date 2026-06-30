@@ -35,8 +35,15 @@
 <meta name="twitter:description" content="Tezzo — India's #1 carpooling community. Travel anywhere together. Spend smarter and greener.">
 <meta name="twitter:image" content="https://tezzo.co.in/assets/logo-color.png">
 
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#2e9e54">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Tezzo">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Inter:wght@400;500;600;700&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 
@@ -142,6 +149,47 @@
   /* ACCESSIBLE FOCUS STATES */
   a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
     outline: 2.5px solid var(--green); outline-offset: 2px; border-radius: 4px;
+  }
+
+  /* TOUCH — bigger tap targets on mobile */
+  @media (pointer: coarse) {
+    .btn-green, .btn-outline, .btn-white, .plan-cta, .btn-purple {
+      min-height: 48px; padding-top: 12px; padding-bottom: 12px;
+    }
+    .nav-links a { padding: 10px 0; }
+    .footer-col a { padding: 6px 0; display: inline-block; }
+  }
+
+  /* PREFERS REDUCED MOTION — disable all animations for users who request it */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+    .reveal.in-view { opacity: 1; transform: none; }
+    .tilt-card { transition: none; }
+  }
+
+  /* PRINT STYLES */
+  @media print {
+    nav, footer, .btn-green, .btn-outline, .btn-white, .btn-purple, .nav-burger,
+    .mobile-menu, .modal-overlay, .search-toast { display: none !important; }
+    body { background: #fff; color: #000; font-size: 12pt; }
+    a { color: #000; text-decoration: underline; }
+    h1, h2, h3 { color: #000; page-break-after: avoid; }
+    .page-hero, .ghost-hero, .bio-hero { background: #fff !important; min-height: auto; padding: 20pt 0; }
+    .page-hero h1, .ghost-hero h1, .bio-hero h1 { color: #000 !important; -webkit-text-fill-color: #000 !important; }
+    .page-hero p, .ghost-hero p, .bio-hero p { color: #444 !important; }
+    .reveal { opacity: 1; transform: none; }
+    section { page-break-inside: avoid; }
+  }
+
+  /* SAFARI — fix gradient text clipping on Safari */
+  @supports (-webkit-touch-callout: none) {
+    .nav-links a::after { bottom: -8px; }
   }
 
   /* GRAIN TEXTURE for dark heroes */
@@ -261,6 +309,24 @@
 <a href="bio.html">👤 Bio</a>
 </div>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "How do I book a ride on Tezzo?", "acceptedAnswer": {"@type": "Answer", "text": "Open the Tezzo app or website, enter your pickup and drop locations, choose a date, and browse matching rides. Select a ride, choose your seat, and pay securely in-app to confirm your booking instantly."}},
+    {"@type": "Question", "name": "Can I cancel a booked ride?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Go to My Rides and select the booking you want to cancel. Cancellations made more than 2 hours before departure get a full refund. Late cancellations may incur a small fee and can affect your trust score."}},
+    {"@type": "Question", "name": "How does driver verification (KYC) work?", "acceptedAnswer": {"@type": "Answer", "text": "All drivers complete Aadhaar-based government ID verification along with a real-time selfie liveness check before they can publish a ride. This helps prevent impersonation and keeps the community safe."}},
+    {"@type": "Question", "name": "What payment methods are supported?", "acceptedAnswer": {"@type": "Answer", "text": "Tezzo supports UPI, debit/credit cards, and in-app wallet payments through our secure payment partner, Razorpay. All transactions are encrypted end-to-end."}},
+    {"@type": "Question", "name": "How do refunds work?", "acceptedAnswer": {"@type": "Answer", "text": "Eligible refunds (cancellations made in time, or driver no-shows) are processed back to your original payment method within 5-7 business days."}},
+    {"@type": "Question", "name": "What is Ghost Mode?", "acceptedAnswer": {"@type": "Answer", "text": "Ghost Mode lets you ride with extra privacy - your profile, exact pickup point, and chat identity stay hidden from other users, while all safety features remain fully active. Available on Explorer and Fleet plans."}},
+    {"@type": "Question", "name": "What should I do in a safety emergency during a ride?", "acceptedAnswer": {"@type": "Answer", "text": "Tap the SOS button in the app at any time during a ride to alert our 24/7 Trust and Safety team and share your live location with emergency contacts. If you're in immediate danger, also contact local emergency services."}},
+    {"@type": "Question", "name": "How do I become a Tezzo driver?", "acceptedAnswer": {"@type": "Answer", "text": "Sign up, select Become a driver, and complete KYC verification with your driving license, vehicle registration, and Aadhaar ID. Once approved, usually within 24 hours, you can start publishing rides."}},
+    {"@type": "Question", "name": "What's the difference between Traveller, Explorer, and Fleet plans?", "acceptedAnswer": {"@type": "Answer", "text": "Traveller is our free plan with basic booking. Explorer (Rs 199/mo) adds unlimited bookings, Ghost Mode, and priority support. Fleet (Rs 999/mo) is built for businesses with team accounts and dedicated support."}}
+  ]
+}
+</script>
+
 <div class="page-hero">
   <div class="ph-circle" style="width:420px;height:420px;right:-110px;top:-140px;"></div>
   <div class="ph-circle" style="width:260px;height:260px;left:-70px;bottom:-70px;"></div>
@@ -330,7 +396,7 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <div class="footer-brand-name"><img src="assets/logo-white.png" alt="Tezzo" class="footer-logo-img"></div>
+      <div class="footer-brand-name"><img src="assets/logo-white.png" alt="Tezzo" class="footer-logo-img" loading="lazy"></div>
       <p>India's #1 carpooling community. Travel anywhere together. Spend smarter and greener.</p>
     </div>
     <div class="footer-col">
@@ -382,27 +448,31 @@ window.addEventListener('scroll', () => {
     window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.12)' : '0 2px 8px rgba(0,0,0,0.07)';
 });
 
-// ===== 3D TILT CARDS =====
-document.querySelectorAll('.tilt-card').forEach(card => {
-  card.style.transformStyle = 'preserve-3d';
-  card.style.willChange = 'transform';
-  let rafId = null;
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const rotateX = ((y / rect.height) - 0.5) * -10;
-    const rotateY = ((x / rect.width) - 0.5) * 10;
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => {
-      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(6px)`;
+// ===== 3D TILT CARDS (desktop-only, disabled for touch/reduced-motion) =====
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+if (!prefersReducedMotion && !isTouchDevice) {
+  document.querySelectorAll('.tilt-card').forEach(card => {
+    card.style.transformStyle = 'preserve-3d';
+    card.style.willChange = 'transform';
+    let rafId = null;
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const rotateX = ((y / rect.height) - 0.5) * -10;
+      const rotateY = ((x / rect.width) - 0.5) * 10;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(6px)`;
+      });
+    });
+    card.addEventListener('mouseleave', () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
     });
   });
-  card.addEventListener('mouseleave', () => {
-    if (rafId) cancelAnimationFrame(rafId);
-    card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-  });
-});
+}
 
 // ===== HERO PARALLAX DEPTH (mouse-move floating circles) =====
 document.querySelectorAll('.ph-circle, .gh-circle, .bh-circle').forEach((el, i) => {
