@@ -153,15 +153,16 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl border border-[#e2e2e2] max-h-[90vh] flex flex-col my-6 animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl border border-[var(--color-border)] max-h-[90vh] flex flex-col my-6 animate-in fade-in zoom-in-95 duration-200">
         {/* Header Bar */}
-        <div className="bg-[#006a3b] text-white p-5 flex items-center justify-between shrink-0">
+        <div className="bg-[var(--color-primary)] text-white p-5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
-            <Award className="w-5 h-5 text-[#8af9b1]" />
+            <Award className="w-5 h-5 text-[var(--color-accent-mint)]" />
             <h3 className="font-bold text-lg">Driver Reviews & Ratings</h3>
           </div>
           <button
             onClick={onClose}
+            aria-label="Close"
             className="p-1 rounded-full hover:bg-white/20 transition-colors text-white cursor-pointer"
           >
             <X className="w-6 h-6" />
@@ -169,50 +170,50 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
         </div>
 
         {/* Driver Summary Banner */}
-        <div className="bg-[#f6fff4] p-5 border-b border-[#bdcabd] flex items-center justify-between gap-4 shrink-0">
+        <div className="bg-[var(--color-success-bg)] p-5 border-b border-[var(--color-outline-variant)] flex items-center justify-between gap-4 shrink-0">
           <div className="flex items-center gap-3">
             <img
               src={driver.avatar}
               alt={driver.name}
-              className="w-14 h-14 rounded-full object-cover border-2 border-[#006a3b] shadow-xs shrink-0"
+              className="w-14 h-14 rounded-full object-cover border-2 border-[var(--color-primary)] shadow-xs shrink-0"
             />
             <div>
               <div className="flex items-center gap-1.5 flex-wrap">
-                <h4 className="font-extrabold text-base text-[#1b1b1b]">{driver.name}</h4>
+                <h4 className="font-extrabold text-base text-[var(--color-on-surface)]">{driver.name}</h4>
                 {driver.verified && (
-                  <span className="inline-flex items-center gap-0.5 text-[10px] bg-[#eefcf2] text-[#006a3b] border border-[#a3e6b7] px-2 py-0.5 rounded-full font-bold">
-                    <CheckCircle2 className="w-3 h-3 text-[#006a3b] fill-[#8af9b1]" />
+                  <span className="inline-flex items-center gap-0.5 text-[10px] bg-[var(--color-success-bg-soft)] text-[var(--color-primary)] border border-[var(--color-primary-light)] px-2 py-0.5 rounded-full font-bold">
+                    <CheckCircle2 className="w-3 h-3 text-[var(--color-primary)] fill-[var(--color-accent-mint)]" />
                     Verified Driver
                   </span>
                 )}
               </div>
-              <p className="text-xs text-[#6e7a6f] mt-0.5">
+              <p className="text-xs text-[var(--color-outline)] mt-0.5">
                 Member since {driver.memberSince || '2023'} • {driver.ridesCompleted || 85}+ trips completed
               </p>
             </div>
           </div>
 
           {/* Average Rating Metric Badge */}
-          <div className="bg-white px-3.5 py-2 rounded-2xl border border-[#bdcabd] shadow-2xs text-center shrink-0">
+          <div className="bg-white px-3.5 py-2 rounded-2xl border border-[var(--color-outline-variant)] shadow-2xs text-center shrink-0">
             <div className="flex items-center justify-center gap-1 text-amber-500 font-black text-xl">
               <Star className="w-5 h-5 fill-amber-400 text-amber-500" />
               <span>{currentAverage.toFixed(1)}</span>
             </div>
-            <span className="text-[10px] text-[#6e7a6f] font-bold block mt-0.5">
+            <span className="text-[10px] text-[var(--color-outline)] font-bold block mt-0.5">
               {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}
             </span>
           </div>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-[#eeeeee] bg-[#f9f9f9] shrink-0">
+        <div className="flex border-b border-[var(--color-surface-container)] bg-[var(--color-background)] shrink-0">
           <button
             type="button"
             onClick={() => setActiveTab('reviews')}
             className={`flex-1 py-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center justify-center gap-1.5 cursor-pointer ${
               activeTab === 'reviews'
-                ? 'border-[#006a3b] text-[#006a3b] bg-white'
-                : 'border-transparent text-[#6e7a6f] hover:text-[#1b1b1b]'
+                ? 'border-[var(--color-primary)] text-[var(--color-primary)] bg-white'
+                : 'border-transparent text-[var(--color-outline)] hover:text-[var(--color-on-surface)]'
             }`}
           >
             <MessageSquare className="w-4 h-4" />
@@ -224,8 +225,8 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
             onClick={() => setActiveTab('write')}
             className={`flex-1 py-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center justify-center gap-1.5 cursor-pointer ${
               activeTab === 'write'
-                ? 'border-[#006a3b] text-[#006a3b] bg-white'
-                : 'border-transparent text-[#6e7a6f] hover:text-[#1b1b1b]'
+                ? 'border-[var(--color-primary)] text-[var(--color-primary)] bg-white'
+                : 'border-transparent text-[var(--color-outline)] hover:text-[var(--color-on-surface)]'
             }`}
           >
             <Sparkles className="w-4 h-4 text-amber-500" />
@@ -239,8 +240,8 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
             <div className="space-y-5">
               {/* Star distribution breakdown */}
               {reviews.length > 0 && (
-                <div className="bg-[#f9f9f9] p-4 rounded-2xl border border-[#eeeeee] space-y-1.5 text-xs">
-                  <span className="font-extrabold text-xs text-[#1b1b1b] block mb-2">
+                <div className="bg-[var(--color-background)] p-4 rounded-2xl border border-[var(--color-surface-container)] space-y-1.5 text-xs">
+                  <span className="font-extrabold text-xs text-[var(--color-on-surface)] block mb-2">
                     Rating Summary
                   </span>
                   {[5, 4, 3, 2, 1].map((star) => {
@@ -249,16 +250,16 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
                       reviews.length > 0 ? (count / reviews.length) * 100 : 0;
                     return (
                       <div key={star} className="flex items-center gap-2 text-xs">
-                        <span className="font-bold text-[#3e4a40] w-12 flex items-center gap-0.5">
+                        <span className="font-bold text-[var(--color-on-surface-variant)] w-12 flex items-center gap-0.5">
                           {star} <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
                         </span>
                         <div className="flex-1 bg-gray-200 h-2 rounded-full overflow-hidden">
                           <div
-                            className="bg-[#006a3b] h-full rounded-full transition-all duration-500"
+                            className="bg-[var(--color-primary)] h-full rounded-full transition-all duration-500"
                             style={{ width: `${percent}%` }}
                           />
                         </div>
-                        <span className="text-[#6e7a6f] font-semibold w-8 text-right">
+                        <span className="text-[var(--color-outline)] font-semibold w-8 text-right">
                           {count}
                         </span>
                       </div>
@@ -269,16 +270,16 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
 
               {/* Reviews List */}
               {reviews.length === 0 ? (
-                <div className="text-center py-10 bg-[#f9f9f9] rounded-2xl border border-dashed border-[#bdcabd] p-6 space-y-3">
+                <div className="text-center py-10 bg-[var(--color-background)] rounded-2xl border border-dashed border-[var(--color-outline-variant)] p-6 space-y-3">
                   <Star className="w-10 h-10 text-amber-300 mx-auto" />
-                  <p className="text-sm font-bold text-[#1b1b1b]">No User Reviews Yet</p>
-                  <p className="text-xs text-[#6e7a6f] max-w-xs mx-auto">
+                  <p className="text-sm font-bold text-[var(--color-on-surface)]">No User Reviews Yet</p>
+                  <p className="text-xs text-[var(--color-outline)] max-w-xs mx-auto">
                     Be the first rider to share your carpool experience with {driver.name}!
                   </p>
                   <button
                     type="button"
                     onClick={() => setActiveTab('write')}
-                    className="mt-2 bg-[#006a3b] text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-[#00864c] transition-colors"
+                    className="mt-2 bg-[var(--color-primary)] text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-[var(--color-primary-container)] transition-colors"
                   >
                     Write First Review
                   </button>
@@ -288,7 +289,7 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
                   {reviews.map((rev) => (
                     <div
                       key={rev.id}
-                      className="bg-white p-4 rounded-2xl border border-[#bdcabd] shadow-2xs space-y-2 hover:border-[#006a3b] transition-all"
+                      className="bg-white p-4 rounded-2xl border border-[var(--color-outline-variant)] shadow-2xs space-y-2 hover:border-[var(--color-primary)] transition-all"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex items-center gap-2.5">
@@ -296,18 +297,18 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
                             <img
                               src={rev.reviewerAvatar}
                               alt={rev.reviewerName}
-                              className="w-8 h-8 rounded-full object-cover border border-[#bdcabd]"
+                              className="w-8 h-8 rounded-full object-cover border border-[var(--color-outline-variant)]"
                             />
                           ) : (
-                            <div className="w-8 h-8 rounded-full bg-[#eefcf2] text-[#006a3b] flex items-center justify-center font-bold text-xs border border-[#a3e6b7]">
+                            <div className="w-8 h-8 rounded-full bg-[var(--color-success-bg-soft)] text-[var(--color-primary)] flex items-center justify-center font-bold text-xs border border-[var(--color-primary-light)]">
                               <User className="w-4 h-4" />
                             </div>
                           )}
                           <div>
-                            <span className="font-extrabold text-xs text-[#1b1b1b] block">
+                            <span className="font-extrabold text-xs text-[var(--color-on-surface)] block">
                               {rev.reviewerName}
                             </span>
-                            <span className="text-[10px] text-[#6e7a6f] font-medium">
+                            <span className="text-[10px] text-[var(--color-outline)] font-medium">
                               {rev.date}
                             </span>
                           </div>
@@ -320,7 +321,7 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
                         </div>
                       </div>
 
-                      <p className="text-xs text-[#3e4a40] leading-relaxed font-medium pt-1">
+                      <p className="text-xs text-[var(--color-on-surface-variant)] leading-relaxed font-medium pt-1">
                         "{rev.comment}"
                       </p>
 
@@ -330,7 +331,7 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
                           {rev.tags.map((t) => (
                             <span
                               key={t}
-                              className="text-[10px] bg-[#eefcf2] text-[#006a3b] border border-[#a3e6b7]/60 font-extrabold px-2 py-0.5 rounded-md"
+                              className="text-[10px] bg-[var(--color-success-bg-soft)] text-[var(--color-primary)] border border-[var(--color-primary-light)]/60 font-extrabold px-2 py-0.5 rounded-md"
                             >
                               ✓ {t}
                             </span>
@@ -340,8 +341,8 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
 
                       {/* Route badge */}
                       {rev.rideRoute && (
-                        <div className="text-[10px] text-[#6e7a6f] flex items-center gap-1 pt-1 border-t border-[#eeeeee]">
-                          <Car className="w-3 h-3 text-[#006a3b]" />
+                        <div className="text-[10px] text-[var(--color-outline)] flex items-center gap-1 pt-1 border-t border-[var(--color-surface-container)]">
+                          <Car className="w-3 h-3 text-[var(--color-primary)]" />
                           <span>Trip: {rev.rideRoute}</span>
                         </div>
                       )}
@@ -356,21 +357,21 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
             <div>
               {showSuccessMessage ? (
                 <div className="py-12 text-center flex flex-col items-center justify-center gap-3 animate-in fade-in duration-300">
-                  <div className="w-14 h-14 rounded-full bg-[#f6fff4] border-2 border-[#006a3b] text-[#006a3b] flex items-center justify-center">
-                    <CheckCircle2 className="w-8 h-8 fill-[#8af9b1]" />
+                  <div className="w-14 h-14 rounded-full bg-[var(--color-success-bg)] border-2 border-[var(--color-primary)] text-[var(--color-primary)] flex items-center justify-center">
+                    <CheckCircle2 className="w-8 h-8 fill-[var(--color-accent-mint)]" />
                   </div>
-                  <h4 className="font-extrabold text-lg text-[#1b1b1b]">
+                  <h4 className="font-extrabold text-lg text-[var(--color-on-surface)]">
                     Review Submitted!
                   </h4>
-                  <p className="text-xs text-[#3e4a40] max-w-xs">
+                  <p className="text-xs text-[var(--color-on-surface-variant)] max-w-xs">
                     Thank you for rating <strong>{driver.name}</strong>. Your feedback helps build trust in our carpool community.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmitReview} className="space-y-4">
                   {/* Star Selector */}
-                  <div className="bg-[#f6fff4] p-4 rounded-2xl border border-[#bdcabd] text-center space-y-2">
-                    <label className="text-xs font-extrabold text-[#1b1b1b] uppercase tracking-wider block">
+                  <div className="bg-[var(--color-success-bg)] p-4 rounded-2xl border border-[var(--color-outline-variant)] text-center space-y-2">
+                    <label className="text-xs font-extrabold text-[var(--color-on-surface)] uppercase tracking-wider block">
                       Select Star Rating
                     </label>
                     <div className="flex items-center justify-center gap-2 py-1">
@@ -397,14 +398,14 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
                         );
                       })}
                     </div>
-                    <span className="text-xs font-bold text-[#006a3b] block">
+                    <span className="text-xs font-bold text-[var(--color-primary)] block">
                       {getRatingLabel(hoverRating || selectedRating)}
                     </span>
                   </div>
 
                   {/* Compliment Tags */}
                   <div>
-                    <label className="text-xs font-bold text-[#1b1b1b] block mb-2">
+                    <label className="text-xs font-bold text-[var(--color-on-surface)] block mb-2">
                       What went well? (Select tags)
                     </label>
                     <div className="flex flex-wrap gap-1.5">
@@ -417,8 +418,8 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
                             onClick={() => toggleTag(tag)}
                             className={`text-xs px-3 py-1.5 rounded-xl font-bold transition-all border cursor-pointer ${
                               isSelected
-                                ? 'bg-[#006a3b] text-white border-[#006a3b] shadow-2xs'
-                                : 'bg-[#f3f3f3] text-[#3e4a40] border-[#bdcabd] hover:bg-gray-200'
+                                ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-2xs'
+                                : 'bg-[var(--color-surface-container-low)] text-[var(--color-on-surface-variant)] border-[var(--color-outline-variant)] hover:bg-gray-200'
                             }`}
                           >
                             {isSelected ? '✓ ' : '+ '}
@@ -431,7 +432,7 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
 
                   {/* Comment Textarea */}
                   <div>
-                    <label className="text-xs font-bold text-[#1b1b1b] block mb-1">
+                    <label className="text-xs font-bold text-[var(--color-on-surface)] block mb-1">
                       Your Review / Experience
                     </label>
                     <textarea
@@ -440,7 +441,7 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
                       required
                       rows={3}
                       placeholder={`Describe your commute with ${driver.name}. E.g. Punctual, safe driving, pleasant conversation...`}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#f9f9f9] border border-[#bdcabd] text-xs font-medium focus:outline-none focus:border-[#006a3b] focus:bg-white transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--color-background)] border border-[var(--color-outline-variant)] text-xs font-medium focus:outline-none focus:border-[var(--color-primary)] focus:bg-white transition-all"
                     />
                   </div>
 
@@ -450,7 +451,7 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
                       <button
                         type="button"
                         onClick={onOpenAuth}
-                        className="font-bold underline text-[#006a3b]"
+                        className="font-bold underline text-[var(--color-primary)]"
                       >
                         Sign In
                       </button>
@@ -460,7 +461,7 @@ export const DriverReviewsModal: React.FC<DriverReviewsModalProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting || !comment.trim()}
-                    className="w-full bg-[#006a3b] hover:bg-[#00864c] disabled:opacity-50 text-white font-extrabold text-xs py-3 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                    className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-container)] disabled:opacity-50 text-white font-extrabold text-xs py-3 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
                   >
                     <Send className="w-4 h-4" />
                     <span>{isSubmitting ? 'Posting Review...' : 'Post Review'}</span>

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { SearchWidget } from './components/SearchWidget';
@@ -11,14 +11,31 @@ import { ValuePropositions } from './components/ValuePropositions';
 import { PopularRoutes } from './components/PopularRoutes';
 import { SuggestedRoutes } from './components/SuggestedRoutes';
 import { Footer } from './components/Footer';
-import { SearchResultsModal } from './components/SearchResultsModal';
-import { RideDetailsModal } from './components/RideDetailsModal';
-import { OfferRideModal } from './components/OfferRideModal';
-import { AuthModal } from './components/AuthModal';
-import { MyBookingsModal } from './components/MyBookingsModal';
-import { UserProfileModal } from './components/UserProfileModal';
 import { RideReminderBanner } from './components/RideReminderBanner';
-import { DriverReviewsModal } from './components/DriverReviewsModal';
+
+// Modals are loaded on-demand (code-split) since they aren't needed for the
+// initial paint — this keeps the first-load JS bundle smaller.
+const SearchResultsModal = lazy(() =>
+  import('./components/SearchResultsModal').then((m) => ({ default: m.SearchResultsModal }))
+);
+const RideDetailsModal = lazy(() =>
+  import('./components/RideDetailsModal').then((m) => ({ default: m.RideDetailsModal }))
+);
+const OfferRideModal = lazy(() =>
+  import('./components/OfferRideModal').then((m) => ({ default: m.OfferRideModal }))
+);
+const AuthModal = lazy(() =>
+  import('./components/AuthModal').then((m) => ({ default: m.AuthModal }))
+);
+const MyBookingsModal = lazy(() =>
+  import('./components/MyBookingsModal').then((m) => ({ default: m.MyBookingsModal }))
+);
+const UserProfileModal = lazy(() =>
+  import('./components/UserProfileModal').then((m) => ({ default: m.UserProfileModal }))
+);
+const DriverReviewsModal = lazy(() =>
+  import('./components/DriverReviewsModal').then((m) => ({ default: m.DriverReviewsModal }))
+);
 
 import { Ride, SearchQuery, Booking, UserProfile, PreferredCommute, Driver } from './types';
 import { INITIAL_RIDES } from './data/mockRides';
@@ -248,7 +265,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f9f9f9] text-[#1b1b1b] selection:bg-[#00864c] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[var(--color-background)] text-[var(--color-on-surface)] selection:bg-[#00864c] selection:text-white">
       {/* Fixed Navigation Header */}
       <Header
         onOpenAuth={() => setIsAuthOpen(true)}
@@ -295,78 +312,93 @@ export default function App() {
       {/* Footer */}
       <Footer />
 
-      {/* Modals & Drawers */}
-      <SearchResultsModal
-        isOpen={isSearchResultsOpen}
-        onClose={() => setIsSearchResultsOpen(false)}
-        query={searchQuery}
-        rides={rides}
-        onSelectRide={handleSelectRide}
-        onUpdateQuery={(updated) => setSearchQuery(updated)}
-        onOpenDriverReviews={handleOpenDriverReviews}
-      />
+      {/* Modals & Drawers — mounted only when needed so their code chunk
+          loads on-demand instead of blocking the initial page render. */}
+      <Suspense fallback={null}>
+        {isSearchResultsOpen && (
+          <SearchResultsModal
+            isOpen={isSearchResultsOpen}
+            onClose={() => setIsSearchResultsOpen(false)}
+            query={searchQuery}
+            rides={rides}
+            onSelectRide={handleSelectRide}
+            onUpdateQuery={(updated) => setSearchQuery(updated)}
+            onOpenDriverReviews={handleOpenDriverReviews}
+          />
+        )}
 
-      <RideDetailsModal
-        ride={selectedRide}
-        onClose={() => setSelectedRide(null)}
-        user={user}
-        onOpenAuth={() => setIsAuthOpen(true)}
-        onConfirmBooking={handleConfirmBooking}
-        onUpdateProfile={handleUpdateProfile}
-        onOpenDriverReviews={handleOpenDriverReviews}
-      />
+        {selectedRide && (
+          <RideDetailsModal
+            ride={selectedRide}
+            onClose={() => setSelectedRide(null)}
+            user={user}
+            onOpenAuth={() => setIsAuthOpen(true)}
+            onConfirmBooking={handleConfirmBooking}
+            onUpdateProfile={handleUpdateProfile}
+            onOpenDriverReviews={handleOpenDriverReviews}
+          />
+        )}
 
-      <OfferRideModal
-        isOpen={isOfferRideOpen}
-        onClose={() => setIsOfferRideOpen(false)}
-        user={user}
-        onOpenAuth={() => setIsAuthOpen(true)}
-        onPublishRide={handlePublishRide}
-      />
+        {isOfferRideOpen && (
+          <OfferRideModal
+            isOpen={isOfferRideOpen}
+            onClose={() => setIsOfferRideOpen(false)}
+            user={user}
+            onOpenAuth={() => setIsAuthOpen(true)}
+            onPublishRide={handlePublishRide}
+          />
+        )}
 
-      <AuthModal
-        isOpen={isAuthOpen}
-        onClose={() => setIsAuthOpen(false)}
-        onLoginSuccess={(loggedInUser) => setUser(loggedInUser)}
-      />
+        {isAuthOpen && (
+          <AuthModal
+            isOpen={isAuthOpen}
+            onClose={() => setIsAuthOpen(false)}
+            onLoginSuccess={(loggedInUser) => setUser(loggedInUser)}
+          />
+        )}
 
+        {isMyBookingsOpen && (
+          <MyBookingsModal
+            isOpen={isMyBookingsOpen}
+            onClose={() => setIsMyBookingsOpen(false)}
+            bookings={bookings}
+            onCancelBooking={handleCancelBooking}
+            onSimulateNotification={(payload) => setActiveNotificationPayload(payload)}
+            onOpenDriverReviews={handleOpenDriverReviews}
+          />
+        )}
+
+        {isProfileOpen && (
+          <UserProfileModal
+            isOpen={isProfileOpen}
+            onClose={() => setIsProfileOpen(false)}
+            user={user}
+            onUpdateProfile={handleUpdateProfile}
+            onSelectCommuteForSearch={handleSearchSubmit}
+            onOpenDriverReviews={handleOpenDriverReviews}
+          />
+        )}
+
+        {reviewModalState.driver && (
+          <DriverReviewsModal
+            isOpen={reviewModalState.isOpen}
+            onClose={() => setReviewModalState({ isOpen: false, driver: null })}
+            driver={reviewModalState.driver}
+            user={user}
+            onOpenAuth={() => setIsAuthOpen(true)}
+            bookingId={reviewModalState.bookingId}
+            rideRoute={reviewModalState.rideRoute}
+          />
+        )}
+      </Suspense>
+
+      {/* Reminder banner stays outside Suspense — it's tiny and controls its
+          own visibility via the payload prop. */}
       <RideReminderBanner
         payload={activeNotificationPayload}
         onClose={() => setActiveNotificationPayload(null)}
         onOpenMyBookings={() => setIsMyBookingsOpen(true)}
       />
-
-      <MyBookingsModal
-        isOpen={isMyBookingsOpen}
-        onClose={() => setIsMyBookingsOpen(false)}
-        bookings={bookings}
-        onCancelBooking={handleCancelBooking}
-        onSimulateNotification={(payload) => setActiveNotificationPayload(payload)}
-        onOpenDriverReviews={handleOpenDriverReviews}
-      />
-
-      <UserProfileModal
-        isOpen={isProfileOpen}
-        onClose={() => setIsProfileOpen(false)}
-        user={user}
-        onUpdateProfile={handleUpdateProfile}
-        onSelectCommuteForSearch={handleSearchSubmit}
-        onOpenDriverReviews={handleOpenDriverReviews}
-      />
-
-      {reviewModalState.driver && (
-        <DriverReviewsModal
-          isOpen={reviewModalState.isOpen}
-          onClose={() =>
-            setReviewModalState({ isOpen: false, driver: null })
-          }
-          driver={reviewModalState.driver}
-          user={user}
-          onOpenAuth={() => setIsAuthOpen(true)}
-          bookingId={reviewModalState.bookingId}
-          rideRoute={reviewModalState.rideRoute}
-        />
-      )}
     </div>
   );
 }

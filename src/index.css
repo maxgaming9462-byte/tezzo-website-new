@@ -7,6 +7,7 @@
 }
 
 :root {
+  /* Brand core */
   --color-primary: #006a3b;
   --color-primary-container: #00864c;
   --color-secondary-container: #fdce6c;
@@ -19,4 +20,14 @@
   --color-on-surface-variant: #3e4a40;
   --color-outline: #6e7a6f;
   --color-outline-variant: #bdcabd;
+
+  /* Extended tokens (added for full design-system coverage) */
+  --color-border: #e2e2e2;
+  --color-primary-light: #a3e6b7;
+  --color-accent-mint: #8af9b1;
+  --color-success-bg: #f6fff4;
+  --color-success-bg-soft: #eefcf2;
+  --color-success-tint: #e2f7df;
+  --color-warning-text: #7a5900;
+  --color-error-bg: #fff0f0;
 }

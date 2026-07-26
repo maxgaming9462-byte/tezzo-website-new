@@ -31,6 +31,8 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
   const [passengerEmail, setPassengerEmail] = useState(user ? user.email : '');
   const [passengerPhone, setPassengerPhone] = useState(user ? user.phone : '');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isBooking, setIsBooking] = useState(false);
+  const [bookingError, setBookingError] = useState<string | null>(null);
   const [emailReceipt, setEmailReceipt] = useState<EmailReceipt | null>(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [showCostSplitTool, setShowCostSplitTool] = useState(true);
@@ -79,6 +81,11 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
       return;
     }
 
+    if (seats > ride.seatsAvailable) {
+      setBookingError(`Only ${ride.seatsAvailable} seat(s) left on this ride.`);
+      return;
+    }
+
     const newBooking: Booking = {
       id: `book-${Date.now()}`,
       ride,
@@ -95,23 +102,32 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
       passengerPhone: passengerPhone || user.phone,
     };
 
-    // Simulate sending email
-    const receipt = await sendBookingConfirmationEmail(newBooking);
-    setEmailReceipt(receipt);
+    setBookingError(null);
+    setIsBooking(true);
+    try {
+      // Simulate sending email
+      const receipt = await sendBookingConfirmationEmail(newBooking);
+      setEmailReceipt(receipt);
 
-    onConfirmBooking(newBooking);
-    setIsSuccess(true);
+      onConfirmBooking(newBooking);
+      setIsSuccess(true);
+    } catch (err) {
+      console.error('Booking failed:', err);
+      setBookingError('Something went wrong while confirming your booking. Please try again.');
+    } finally {
+      setIsBooking(false);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl border border-[#e2e2e2] animate-in fade-in zoom-in-95 duration-200 my-8">
+      <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl border border-[var(--color-border)] animate-in fade-in zoom-in-95 duration-200 my-8">
         {/* Header Bar */}
-        <div className="bg-[#006a3b] text-white p-5 flex items-center justify-between">
+        <div className="bg-[var(--color-primary)] text-white p-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h3 className="font-bold text-lg">Trip Details</h3>
             {ride.instantBooking && (
-              <span className="bg-[#8af9b1] text-[#00210f] text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+              <span className="bg-[var(--color-accent-mint)] text-[#00210f] text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1">
                 <Zap className="w-3 h-3 fill-[#00210f]" />
                 Instant
               </span>
@@ -119,6 +135,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
           </div>
           <button
             onClick={onClose}
+            aria-label="Close"
             className="p-1 rounded-full hover:bg-white/20 transition-colors text-white"
           >
             <X className="w-6 h-6" />
@@ -127,16 +144,16 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
 
         {isSuccess ? (
           <div className="p-8 text-center flex flex-col items-center justify-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-[#f6fff4] border-2 border-[#006a3b] text-[#006a3b] flex items-center justify-center">
-              <CheckCircle2 className="w-10 h-10 fill-[#8af9b1]" />
+            <div className="w-16 h-16 rounded-full bg-[var(--color-success-bg)] border-2 border-[var(--color-primary)] text-[var(--color-primary)] flex items-center justify-center">
+              <CheckCircle2 className="w-10 h-10 fill-[var(--color-accent-mint)]" />
             </div>
-            <h3 className="text-2xl font-extrabold text-[#1b1b1b]">Seat Booked Successfully!</h3>
-            <p className="text-sm text-[#3e4a40] max-w-sm">
-              Your carpool with <strong className="text-[#1b1b1b]">{ride.driver.name}</strong> from{' '}
-              <strong className="text-[#1b1b1b]">{ride.origin}</strong> to{' '}
-              <strong className="text-[#1b1b1b]">{ride.destination}</strong> is confirmed.
+            <h3 className="text-2xl font-extrabold text-[var(--color-on-surface)]">Seat Booked Successfully!</h3>
+            <p className="text-sm text-[var(--color-on-surface-variant)] max-w-sm">
+              Your carpool with <strong className="text-[var(--color-on-surface)]">{ride.driver.name}</strong> from{' '}
+              <strong className="text-[var(--color-on-surface)]">{ride.origin}</strong> to{' '}
+              <strong className="text-[var(--color-on-surface)]">{ride.destination}</strong> is confirmed.
             </p>
-            <div className="bg-[#f3f3f3] p-4 rounded-xl w-full text-left text-xs text-[#3e4a40] flex flex-col gap-1.5 border border-[#e2e2e2]">
+            <div className="bg-[var(--color-surface-container-low)] p-4 rounded-xl w-full text-left text-xs text-[var(--color-on-surface-variant)] flex flex-col gap-1.5 border border-[var(--color-border)]">
               <div><strong>Driver Contact:</strong> {ride.driver.phone || '+91 98765 43210'}</div>
               <div><strong>Pickup Location:</strong> {ride.originDetails || ride.origin}</div>
               <div><strong>Vehicle:</strong> {ride.car.model} ({ride.car.plateNumber})</div>
@@ -167,7 +184,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
               <button
                 type="button"
                 onClick={() => setIsChatOpen(true)}
-                className="bg-[#006a3b] hover:bg-[#00864c] text-white font-bold px-6 py-3 rounded-full text-sm transition-colors w-full flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-container)] text-white font-bold px-6 py-3 rounded-full text-sm transition-colors w-full flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
                 <MessageSquare className="w-4 h-4" />
                 <span>Message Driver to Coordinate Pick-Up</span>
@@ -175,7 +192,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="bg-[#f3f3f3] hover:bg-[#e2e2e2] text-[#3e4a40] font-bold px-6 py-3 rounded-full text-sm transition-colors w-full border border-[#bdcabd] cursor-pointer"
+                className="bg-[var(--color-surface-container-low)] hover:bg-[var(--color-border)] text-[var(--color-on-surface-variant)] font-bold px-6 py-3 rounded-full text-sm transition-colors w-full border border-[var(--color-outline-variant)] cursor-pointer"
               >
                 Done & View My Bookings
               </button>
@@ -184,22 +201,22 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
         ) : (
           <div className="p-6 flex flex-col gap-6 max-h-[80vh] overflow-y-auto">
             {/* Driver Profile Summary */}
-            <div className="flex items-center justify-between gap-3 p-4 rounded-2xl bg-[#f6fff4] border border-[#bdcabd]">
+            <div className="flex items-center justify-between gap-3 p-4 rounded-2xl bg-[var(--color-success-bg)] border border-[var(--color-outline-variant)]">
               <div className="flex items-center gap-3">
                 <img
                   src={ride.driver.avatar}
                   alt={ride.driver.name}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-[#006a3b]"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-[var(--color-primary)]"
                 />
                 <div>
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <h4 className="font-bold text-base text-[#1b1b1b]">{ride.driver.name}</h4>
+                    <h4 className="font-bold text-base text-[var(--color-on-surface)]">{ride.driver.name}</h4>
                     {ride.driver.verified && (
                       <span
-                        className="inline-flex items-center gap-1 bg-[#eefcf2] text-[#006a3b] border border-[#a3e6b7] text-[11px] font-extrabold px-2 py-0.5 rounded-full shadow-2xs"
+                        className="inline-flex items-center gap-1 bg-[var(--color-success-bg-soft)] text-[var(--color-primary)] border border-[var(--color-primary-light)] text-[11px] font-extrabold px-2 py-0.5 rounded-full shadow-2xs"
                         title="Verified Driver ID & License"
                       >
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#006a3b] fill-[#8af9b1]" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[var(--color-primary)] fill-[var(--color-accent-mint)]" />
                         <span>Verified Driver</span>
                       </span>
                     )}
@@ -214,7 +231,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                         `${ride.origin} → ${ride.destination}`
                       )
                     }
-                    className="flex items-center gap-1.5 text-xs text-[#3e4a40] mt-0.5 hover:bg-[#eefcf2] px-2 py-0.5 rounded-lg border border-transparent hover:border-[#a3e6b7] transition-all cursor-pointer group text-left"
+                    className="flex items-center gap-1.5 text-xs text-[var(--color-on-surface-variant)] mt-0.5 hover:bg-[var(--color-success-bg-soft)] px-2 py-0.5 rounded-lg border border-transparent hover:border-[var(--color-primary-light)] transition-all cursor-pointer group text-left"
                     title="Click to view driver reviews & ratings"
                   >
                     {(() => {
@@ -225,12 +242,12 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                       );
                       return (
                         <>
-                          <span className="flex items-center gap-1 font-bold text-[#7a5900] group-hover:text-[#006a3b]">
-                            <Star className="w-3.5 h-3.5 fill-[#fdce6c] text-[#7a5900]" />{' '}
+                          <span className="flex items-center gap-1 font-bold text-[var(--color-warning-text)] group-hover:text-[var(--color-primary)]">
+                            <Star className="w-3.5 h-3.5 fill-[var(--color-secondary-container)] text-[var(--color-warning-text)]" />{' '}
                             {stats.averageRating.toFixed(1)}
                           </span>
                           <span>•</span>
-                          <span className="underline decoration-dotted group-hover:text-[#006a3b] font-semibold">
+                          <span className="underline decoration-dotted group-hover:text-[var(--color-primary)] font-semibold">
                             {stats.totalCount} reviews
                           </span>
                         </>
@@ -247,13 +264,13 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                   className={`px-3 py-2 rounded-full font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs border ${
                     isDriverFavorited
                       ? 'bg-rose-50 text-rose-700 border-rose-300 hover:bg-rose-100'
-                      : 'bg-white text-[#3e4a40] border-[#bdcabd] hover:bg-gray-50'
+                      : 'bg-white text-[var(--color-on-surface-variant)] border-[var(--color-outline-variant)] hover:bg-gray-50'
                   }`}
                   title={isDriverFavorited ? 'Remove from Favorite Drivers' : 'Save as Favorite Driver'}
                 >
                   <Heart
                     className={`w-3.5 h-3.5 ${
-                      isDriverFavorited ? 'text-rose-600 fill-rose-600' : 'text-[#6e7a6f]'
+                      isDriverFavorited ? 'text-rose-600 fill-rose-600' : 'text-[var(--color-outline)]'
                     }`}
                   />
                   <span className="hidden sm:inline">
@@ -264,7 +281,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsChatOpen(true)}
-                  className="bg-[#006a3b] hover:bg-[#00864c] text-white font-bold text-xs px-3.5 py-2 rounded-full transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+                  className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-container)] text-white font-bold text-xs px-3.5 py-2 rounded-full transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Message Driver</span>
@@ -274,36 +291,36 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
             </div>
 
             {/* Itinerary Timeline */}
-            <div className="bg-[#f9f9f9] p-4 rounded-2xl border border-[#eeeeee] flex flex-col gap-4">
-              <div className="flex items-center justify-between text-xs font-semibold text-[#6e7a6f] border-b border-[#eeeeee] pb-2">
+            <div className="bg-[var(--color-background)] p-4 rounded-2xl border border-[var(--color-surface-container)] flex flex-col gap-4">
+              <div className="flex items-center justify-between text-xs font-semibold text-[var(--color-outline)] border-b border-[var(--color-surface-container)] pb-2">
                 <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {ride.date}</span>
                 <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> Duration: {ride.duration}</span>
               </div>
 
               <div className="flex items-start gap-3">
                 <div className="flex flex-col items-center mt-1">
-                  <div className="w-3 h-3 rounded-full border-2 border-[#006a3b] bg-white"></div>
-                  <div className="w-0.5 h-10 bg-[#bdcabd] my-0.5"></div>
-                  <div className="w-3 h-3 rounded-full bg-[#006a3b]"></div>
+                  <div className="w-3 h-3 rounded-full border-2 border-[var(--color-primary)] bg-white"></div>
+                  <div className="w-0.5 h-10 bg-[var(--color-outline-variant)] my-0.5"></div>
+                  <div className="w-3 h-3 rounded-full bg-[var(--color-primary)]"></div>
                 </div>
 
                 <div className="flex flex-col gap-4 flex-1">
                   <div>
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-base text-[#1b1b1b]">{ride.departureTime}</span>
-                      <span className="font-bold text-sm text-[#006a3b]">{ride.origin}</span>
+                      <span className="font-extrabold text-base text-[var(--color-on-surface)]">{ride.departureTime}</span>
+                      <span className="font-bold text-sm text-[var(--color-primary)]">{ride.origin}</span>
                     </div>
-                    <p className="text-xs text-[#6e7a6f] mt-0.5 flex items-center gap-1">
+                    <p className="text-xs text-[var(--color-outline)] mt-0.5 flex items-center gap-1">
                       <MapPin className="w-3 h-3" /> {ride.originDetails || ride.origin}
                     </p>
                   </div>
 
                   <div>
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-base text-[#1b1b1b]">{ride.arrivalTime}</span>
-                      <span className="font-bold text-sm text-[#006a3b]">{ride.destination}</span>
+                      <span className="font-extrabold text-base text-[var(--color-on-surface)]">{ride.arrivalTime}</span>
+                      <span className="font-bold text-sm text-[var(--color-primary)]">{ride.destination}</span>
                     </div>
-                    <p className="text-xs text-[#6e7a6f] mt-0.5 flex items-center gap-1">
+                    <p className="text-xs text-[var(--color-outline)] mt-0.5 flex items-center gap-1">
                       <MapPin className="w-3 h-3" /> {ride.destinationDetails || ride.destination}
                     </p>
                   </div>
@@ -313,33 +330,33 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
 
             {/* Vehicle & Rules */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3.5 rounded-xl bg-[#f3f3f3] border border-[#e2e2e2] flex flex-col gap-1">
-                <span className="text-xs text-[#6e7a6f] font-medium flex items-center gap-1">
+              <div className="p-3.5 rounded-xl bg-[var(--color-surface-container-low)] border border-[var(--color-border)] flex flex-col gap-1">
+                <span className="text-xs text-[var(--color-outline)] font-medium flex items-center gap-1">
                   <Car className="w-3.5 h-3.5" /> Vehicle
                 </span>
-                <span className="text-sm font-bold text-[#1b1b1b]">{ride.car.model}</span>
-                <span className="text-xs text-[#3e4a40]">{ride.car.plateNumber}</span>
+                <span className="text-sm font-bold text-[var(--color-on-surface)]">{ride.car.model}</span>
+                <span className="text-xs text-[var(--color-on-surface-variant)]">{ride.car.plateNumber}</span>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#f3f3f3] border border-[#e2e2e2] flex flex-col gap-1">
-                <span className="text-xs text-[#6e7a6f] font-medium">Seats Left</span>
-                <span className="text-sm font-bold text-[#7a5900]">{ride.seatsAvailable} available</span>
-                <span className="text-xs text-[#3e4a40]">₹{ride.price} per seat</span>
+              <div className="p-3.5 rounded-xl bg-[var(--color-surface-container-low)] border border-[var(--color-border)] flex flex-col gap-1">
+                <span className="text-xs text-[var(--color-outline)] font-medium">Seats Left</span>
+                <span className="text-sm font-bold text-[var(--color-warning-text)]">{ride.seatsAvailable} available</span>
+                <span className="text-xs text-[var(--color-on-surface-variant)]">₹{ride.price} per seat</span>
               </div>
             </div>
 
             {/* Eco Impact / CO2 Savings Card */}
-            <div className="bg-[#eefcf2] border border-[#a3e6b7] p-3.5 rounded-2xl flex items-center justify-between gap-3 text-xs">
+            <div className="bg-[var(--color-success-bg-soft)] border border-[var(--color-primary-light)] p-3.5 rounded-2xl flex items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-[#006a3b] text-white flex items-center justify-center shrink-0 shadow-xs">
+                <div className="w-9 h-9 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center shrink-0 shadow-xs">
                   <Leaf className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-extrabold text-[#006a3b] text-sm">
+                    <span className="font-extrabold text-[var(--color-primary)] text-sm">
                       ~{co2Savings.co2SavedKg} kg CO₂ Saved
                     </span>
-                    <span className="bg-[#006a3b]/10 text-[#006a3b] font-extrabold px-2 py-0.5 rounded-full text-[10px] border border-[#006a3b]/20">
+                    <span className="bg-[var(--color-primary)]/10 text-[var(--color-primary)] font-extrabold px-2 py-0.5 rounded-full text-[10px] border border-[var(--color-primary)]/20">
                       Green Carpool 🌱
                     </span>
                   </div>
@@ -360,16 +377,16 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
               const savingsPercent = estPrivateTaxiCost > 0 ? Math.round((savingsAmount / estPrivateTaxiCost) * 100) : 71;
 
               return (
-                <div className="bg-[#1b1b1b] text-white rounded-2xl p-4 border border-[#006a3b] shadow-md space-y-3">
+                <div className="bg-[var(--color-on-surface)] text-white rounded-2xl p-4 border border-[var(--color-primary)] shadow-md space-y-3">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-xl bg-[#006a3b] text-[#8af9b1] flex items-center justify-center font-bold shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-[var(--color-primary)] text-[var(--color-accent-mint)] flex items-center justify-center font-bold shrink-0">
                         <Calculator className="w-5 h-5" />
                       </div>
                       <div>
                         <h4 className="font-extrabold text-sm text-white flex items-center gap-1.5 flex-wrap">
                           <span>Cost-Split & Taxi Comparison</span>
-                          <span className="text-[10px] bg-[#006a3b] text-[#8af9b1] px-2 py-0.5 rounded-full font-bold border border-[#a3e6b7]/30">
+                          <span className="text-[10px] bg-[var(--color-primary)] text-[var(--color-accent-mint)] px-2 py-0.5 rounded-full font-bold border border-[var(--color-primary-light)]/30">
                             Fair Share
                           </span>
                         </h4>
@@ -382,7 +399,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setShowCostSplitTool(!showCostSplitTool)}
-                      className="text-xs font-bold text-[#8af9b1] hover:text-white flex items-center gap-1 bg-[#282828] px-2.5 py-1.5 rounded-xl border border-[#3e4a40] cursor-pointer shrink-0 transition-colors"
+                      className="text-xs font-bold text-[var(--color-accent-mint)] hover:text-white flex items-center gap-1 bg-[#282828] px-2.5 py-1.5 rounded-xl border border-[var(--color-on-surface-variant)] cursor-pointer shrink-0 transition-colors"
                     >
                       <span>{showCostSplitTool ? 'Hide' : 'Show Tool'}</span>
                       {showCostSplitTool ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -398,11 +415,11 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                           onClick={() => setActiveCostTab('split')}
                           className={`flex-1 py-1.5 rounded-lg font-bold text-center transition-all cursor-pointer flex items-center justify-center gap-1 text-[11px] ${
                             activeCostTab === 'split'
-                              ? 'bg-[#006a3b] text-white shadow-2xs border border-[#a3e6b7]/40'
+                              ? 'bg-[var(--color-primary)] text-white shadow-2xs border border-[var(--color-primary-light)]/40'
                               : 'text-gray-300 hover:text-white'
                           }`}
                         >
-                          <PieChart className="w-3.5 h-3.5 text-[#8af9b1]" />
+                          <PieChart className="w-3.5 h-3.5 text-[var(--color-accent-mint)]" />
                           <span>Fuel & Expenses Split</span>
                         </button>
                         <button
@@ -410,7 +427,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                           onClick={() => setActiveCostTab('taxiComparison')}
                           className={`flex-1 py-1.5 rounded-lg font-bold text-center transition-all cursor-pointer flex items-center justify-center gap-1 text-[11px] ${
                             activeCostTab === 'taxiComparison'
-                              ? 'bg-[#006a3b] text-white shadow-2xs border border-[#a3e6b7]/40'
+                              ? 'bg-[var(--color-primary)] text-white shadow-2xs border border-[var(--color-primary-light)]/40'
                               : 'text-gray-300 hover:text-white'
                           }`}
                         >
@@ -425,10 +442,10 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                           <div className="space-y-1.5">
                             <div className="flex justify-between text-[11px] font-bold text-gray-300">
                               <span>Allocation of ₹{totalPrice}</span>
-                              <span className="text-[#8af9b1] font-extrabold">100% Non-Profit Shared</span>
+                              <span className="text-[var(--color-accent-mint)] font-extrabold">100% Non-Profit Shared</span>
                             </div>
-                            <div className="h-3.5 w-full bg-[#1b1b1b] rounded-full overflow-hidden flex gap-0.5 p-0.5 border border-[#3e4a40]">
-                              <div className="bg-[#006a3b] h-full rounded-l-full" style={{ width: '60%' }} title="Fuel Share 60%" />
+                            <div className="h-3.5 w-full bg-[var(--color-on-surface)] rounded-full overflow-hidden flex gap-0.5 p-0.5 border border-[var(--color-on-surface-variant)]">
+                              <div className="bg-[var(--color-primary)] h-full rounded-l-full" style={{ width: '60%' }} title="Fuel Share 60%" />
                               <div className="bg-amber-500 h-full" style={{ width: '25%' }} title="Tolls & Fastag 25%" />
                               <div className="bg-slate-400 h-full rounded-r-full" style={{ width: '15%' }} title="Maintenance 15%" />
                             </div>
@@ -436,8 +453,8 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
 
                           {/* Detailed Item Grid */}
                           <div className="grid grid-cols-3 gap-2 text-[11px]">
-                            <div className="bg-[#1b1b1b] p-2.5 rounded-xl border border-[#3e4a40] space-y-0.5">
-                              <div className="flex items-center gap-1 text-[#8af9b1] font-bold">
+                            <div className="bg-[var(--color-on-surface)] p-2.5 rounded-xl border border-[var(--color-on-surface-variant)] space-y-0.5">
+                              <div className="flex items-center gap-1 text-[var(--color-accent-mint)] font-bold">
                                 <Fuel className="w-3.5 h-3.5" />
                                 <span>Fuel Share</span>
                               </div>
@@ -445,7 +462,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                               <span className="text-[9.5px] text-gray-400 block">60% Petrol/Diesel</span>
                             </div>
 
-                            <div className="bg-[#1b1b1b] p-2.5 rounded-xl border border-[#3e4a40] space-y-0.5">
+                            <div className="bg-[var(--color-on-surface)] p-2.5 rounded-xl border border-[var(--color-on-surface-variant)] space-y-0.5">
                               <div className="flex items-center gap-1 text-amber-300 font-bold">
                                 <Receipt className="w-3.5 h-3.5" />
                                 <span>Tolls & Fastag</span>
@@ -454,7 +471,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                               <span className="text-[9.5px] text-gray-400 block">25% Toll Plazas</span>
                             </div>
 
-                            <div className="bg-[#1b1b1b] p-2.5 rounded-xl border border-[#3e4a40] space-y-0.5">
+                            <div className="bg-[var(--color-on-surface)] p-2.5 rounded-xl border border-[var(--color-on-surface-variant)] space-y-0.5">
                               <div className="flex items-center gap-1 text-slate-300 font-bold">
                                 <Car className="w-3.5 h-3.5" />
                                 <span>Maintenance</span>
@@ -464,27 +481,27 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                             </div>
                           </div>
 
-                          <div className="bg-[#1b1b1b] p-2 rounded-lg border border-[#3e4a40] text-[10.5px] text-gray-300 flex items-center gap-1.5">
-                            <ShieldCheck className="w-4 h-4 text-[#8af9b1] shrink-0" />
+                          <div className="bg-[var(--color-on-surface)] p-2 rounded-lg border border-[var(--color-on-surface-variant)] text-[10.5px] text-gray-300 flex items-center gap-1.5">
+                            <ShieldCheck className="w-4 h-4 text-[var(--color-accent-mint)] shrink-0" />
                             <span>Your contribution directly covers driver out-of-pocket costs without commercial taxi surcharges.</span>
                           </div>
                         </div>
                       ) : (
                         <div className="space-y-2.5 bg-[#242424] p-3 rounded-xl border border-[#333333]">
-                          <div className="flex items-center justify-between bg-[#1b1b1b] p-3 rounded-xl border border-[#3e4a40]">
+                          <div className="flex items-center justify-between bg-[var(--color-on-surface)] p-3 rounded-xl border border-[var(--color-on-surface-variant)]">
                             <div className="space-y-0.5">
                               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Private Taxi (Solo Cab)</span>
                               <span className="font-extrabold text-red-400 text-base line-through">₹{estPrivateTaxiCost}</span>
                               <span className="text-[10px] text-gray-400 block">Uber/Ola sedan booking</span>
                             </div>
                             <div className="text-right space-y-0.5">
-                              <span className="text-[10px] text-[#8af9b1] font-bold uppercase tracking-wider block">Tezzo Shared Carpool</span>
-                              <span className="font-extrabold text-[#8af9b1] text-lg">₹{totalPrice}</span>
+                              <span className="text-[10px] text-[var(--color-accent-mint)] font-bold uppercase tracking-wider block">Tezzo Shared Carpool</span>
+                              <span className="font-extrabold text-[var(--color-accent-mint)] text-lg">₹{totalPrice}</span>
                               <span className="text-[10px] text-emerald-300 font-bold block">For {seats} {seats === 1 ? 'seat' : 'seats'}</span>
                             </div>
                           </div>
 
-                          <div className="bg-[#006a3b]/40 border border-[#006a3b] p-2.5 rounded-xl flex items-center justify-between text-xs">
+                          <div className="bg-[var(--color-primary)]/40 border border-[var(--color-primary)] p-2.5 rounded-xl flex items-center justify-between text-xs">
                             <div className="flex items-center gap-2">
                               <Coins className="w-4 h-4 text-amber-300 shrink-0" />
                               <span className="font-bold text-white">Your Pocket Savings:</span>
@@ -503,8 +520,8 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
 
             {/* Notes / Amenities */}
             {ride.notes && (
-              <div className="text-xs text-[#3e4a40] bg-[#fffdea] p-3.5 rounded-xl border border-[#fdce6c]">
-                <strong className="text-[#765600] block mb-1">Driver Note:</strong>
+              <div className="text-xs text-[var(--color-on-surface-variant)] bg-[#fffdea] p-3.5 rounded-xl border border-[var(--color-secondary-container)]">
+                <strong className="text-[var(--color-on-secondary-container)] block mb-1">Driver Note:</strong>
                 "{ride.notes}"
               </div>
             )}
@@ -512,15 +529,15 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
             {/* Ride Tags & Preferences */}
             {((ride.tags && ride.tags.length > 0) || (ride.amenities && ride.amenities.length > 0)) && (
               <div className="space-y-2">
-                <span className="text-xs font-bold text-[#1b1b1b] flex items-center gap-1.5 uppercase tracking-wider">
-                  <Tag className="w-3.5 h-3.5 text-[#006a3b]" />
+                <span className="text-xs font-bold text-[var(--color-on-surface)] flex items-center gap-1.5 uppercase tracking-wider">
+                  <Tag className="w-3.5 h-3.5 text-[var(--color-primary)]" />
                   Ride Tags & Preferences
                 </span>
                 
                 <div className="flex flex-wrap gap-1.5">
                   {/* Custom Tag Badges */}
                   {ride.tags?.map((tag, idx) => {
-                    let badgeStyle = 'bg-[#f0fdf4] text-[#006a3b] border-[#a3e6b7]';
+                    let badgeStyle = 'bg-[#f0fdf4] text-[var(--color-primary)] border-[var(--color-primary-light)]';
                     let TagIcon = Sparkles;
 
                     const lower = tag.toLowerCase();
@@ -559,9 +576,9 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                   {ride.amenities.map((item, idx) => (
                     <span
                       key={`amenity-${idx}`}
-                      className="inline-flex items-center gap-1 bg-[#eeeeee] text-[#1b1b1b] text-xs font-semibold px-2.5 py-1 rounded-lg border border-[#e2e2e2]"
+                      className="inline-flex items-center gap-1 bg-[var(--color-surface-container)] text-[var(--color-on-surface)] text-xs font-semibold px-2.5 py-1 rounded-lg border border-[var(--color-border)]"
                     >
-                      <Check className="w-3 h-3 text-[#006a3b]" />
+                      <Check className="w-3 h-3 text-[var(--color-primary)]" />
                       {item}
                     </span>
                   ))}
@@ -571,8 +588,8 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
 
             {/* Booking Form */}
             {isPast ? (
-              <div className="pt-4 border-t border-[#eeeeee] flex flex-col gap-4">
-                <div className="p-4 bg-[#fff0f0] border border-red-200 rounded-2xl flex items-center gap-3 text-xs text-red-800 font-medium">
+              <div className="pt-4 border-t border-[var(--color-surface-container)] flex flex-col gap-4">
+                <div className="p-4 bg-[var(--color-error-bg)] border border-red-200 rounded-2xl flex items-center gap-3 text-xs text-red-800 font-medium">
                   <AlertTriangle className="w-5 h-5 text-red-600 shrink-0" />
                   <div>
                     <strong className="block text-red-900 font-bold">This ride has departed</strong>
@@ -582,20 +599,20 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
 
                 <button
                   disabled
-                  className="w-full bg-[#e2e2e2] text-[#6e7a6f] font-bold py-4 rounded-full text-base border border-[#bdcabd] cursor-not-allowed"
+                  className="w-full bg-[var(--color-border)] text-[var(--color-outline)] font-bold py-4 rounded-full text-base border border-[var(--color-outline-variant)] cursor-not-allowed"
                 >
                   Departure Time Passed
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleBook} className="pt-4 border-t border-[#eeeeee] flex flex-col gap-4">
+              <form onSubmit={handleBook} className="pt-4 border-t border-[var(--color-surface-container)] flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-bold text-[#1b1b1b]">Number of Seats:</label>
-                  <div className="flex items-center gap-3 bg-[#f3f3f3] p-1.5 rounded-full border border-[#e2e2e2]">
+                  <label className="text-sm font-bold text-[var(--color-on-surface)]">Number of Seats:</label>
+                  <div className="flex items-center gap-3 bg-[var(--color-surface-container-low)] p-1.5 rounded-full border border-[var(--color-border)]">
                     <button
                       type="button"
                       onClick={() => setSeats(Math.max(1, seats - 1))}
-                      className="w-8 h-8 rounded-full bg-white shadow-xs text-bold text-[#1b1b1b] hover:bg-[#eeeeee]"
+                      className="w-8 h-8 rounded-full bg-white shadow-xs text-bold text-[var(--color-on-surface)] hover:bg-[var(--color-surface-container)]"
                     >
                       -
                     </button>
@@ -603,7 +620,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setSeats(Math.min(ride.seatsAvailable, seats + 1))}
-                      className="w-8 h-8 rounded-full bg-white shadow-xs text-bold text-[#1b1b1b] hover:bg-[#eeeeee]"
+                      className="w-8 h-8 rounded-full bg-white shadow-xs text-bold text-[var(--color-on-surface)] hover:bg-[var(--color-surface-container)]"
                     >
                       +
                     </button>
@@ -611,7 +628,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                 </div>
 
                 {!user && (
-                  <div className="p-3 bg-[#fff0f0] border border-red-200 rounded-xl text-xs text-red-700">
+                  <div className="p-3 bg-[var(--color-error-bg)] border border-red-200 rounded-xl text-xs text-red-700">
                     Please <strong>Sign up / Log in</strong> first to complete your booking reservation.
                   </div>
                 )}
@@ -624,7 +641,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                       value={passengerName}
                       onChange={(e) => setPassengerName(e.target.value)}
                       placeholder="Passenger Full Name"
-                      className="w-full px-4 py-3 rounded-xl bg-[#f3f3f3] border border-[#e2e2e2] text-sm"
+                      className="w-full px-4 py-3 rounded-xl bg-[var(--color-surface-container-low)] border border-[var(--color-border)] text-sm"
                     />
                     <div className="grid grid-cols-2 gap-2">
                       <input
@@ -633,7 +650,7 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                         value={passengerPhone}
                         onChange={(e) => setPassengerPhone(e.target.value)}
                         placeholder="Phone Number"
-                        className="w-full px-4 py-3 rounded-xl bg-[#f3f3f3] border border-[#e2e2e2] text-sm"
+                        className="w-full px-4 py-3 rounded-xl bg-[var(--color-surface-container-low)] border border-[var(--color-border)] text-sm"
                       />
                       <input
                         type="email"
@@ -641,28 +658,40 @@ export const RideDetailsModal: React.FC<RideDetailsModalProps> = ({
                         value={passengerEmail}
                         onChange={(e) => setPassengerEmail(e.target.value)}
                         placeholder="Email"
-                        className="w-full px-4 py-3 rounded-xl bg-[#f3f3f3] border border-[#e2e2e2] text-sm"
+                        className="w-full px-4 py-3 rounded-xl bg-[var(--color-surface-container-low)] border border-[var(--color-border)] text-sm"
                       />
                     </div>
                   </div>
                 )}
 
                 {/* Price Breakdown */}
-                <div className="flex items-center justify-between p-4 rounded-xl bg-[#f6fff4] border border-[#bdcabd] mt-1">
+                <div className="flex items-center justify-between p-4 rounded-xl bg-[var(--color-success-bg)] border border-[var(--color-outline-variant)] mt-1">
                   <div>
-                    <span className="text-xs text-[#3e4a40] block">Total Booking Fare</span>
-                    <span className="text-xs text-[#6e7a6f]">
+                    <span className="text-xs text-[var(--color-on-surface-variant)] block">Total Booking Fare</span>
+                    <span className="text-xs text-[var(--color-outline)]">
                       ₹{ride.price} × {seats} seat(s)
                     </span>
                   </div>
-                  <span className="text-2xl font-extrabold text-[#006a3b]">₹{totalPrice}</span>
+                  <span className="text-2xl font-extrabold text-[var(--color-primary)]">₹{totalPrice}</span>
                 </div>
+
+                {bookingError && (
+                  <p role="alert" className="text-sm text-red-600 bg-[var(--color-error-bg)] border border-red-200 rounded-lg px-3 py-2">
+                    {bookingError}
+                  </p>
+                )}
 
                 <button
                   type="submit"
-                  className="w-full bg-[#006a3b] hover:bg-[#00864c] text-white font-bold py-4 rounded-full text-base transition-colors shadow-md cursor-pointer"
+                  disabled={isBooking}
+                  aria-busy={isBooking}
+                  className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-container)] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-4 rounded-full text-base transition-colors shadow-md cursor-pointer"
                 >
-                  {user ? 'Confirm & Book Seat' : 'Log In to Book'}
+                  {isBooking
+                    ? 'Confirming…'
+                    : user
+                    ? 'Confirm & Book Seat'
+                    : 'Log In to Book'}
                 </button>
               </form>
             )}

@@ -95,8 +95,8 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#1b1b1b] text-white px-3 py-1.5 rounded-xl text-xs shadow-lg border border-[#3e4a40]">
-          <p className="font-extrabold text-[#8af9b1]">{`${label}: ${payload[0].value} kg CO₂`}</p>
+        <div className="bg-[var(--color-on-surface)] text-white px-3 py-1.5 rounded-xl text-xs shadow-lg border border-[var(--color-on-surface-variant)]">
+          <p className="font-extrabold text-[var(--color-accent-mint)]">{`${label}: ${payload[0].value} kg CO₂`}</p>
           <p className="text-[10px] text-gray-300">Emissions saved</p>
         </div>
       );
@@ -106,14 +106,15 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl border border-[#e2e2e2] max-h-[85vh] flex flex-col my-8 animate-in fade-in zoom-in-95 duration-200">
-        <div className="bg-[#006a3b] text-white p-5 flex items-center justify-between shrink-0">
+      <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl border border-[var(--color-border)] max-h-[85vh] flex flex-col my-8 animate-in fade-in zoom-in-95 duration-200">
+        <div className="bg-[var(--color-primary)] text-white p-5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
             <Car className="w-5 h-5" />
             <h3 className="font-bold text-lg">My Booked Trips</h3>
           </div>
           <button
             onClick={onClose}
+            aria-label="Close"
             className="p-1 rounded-full hover:bg-white/20 transition-colors text-white cursor-pointer"
           >
             <X className="w-6 h-6" />
@@ -123,70 +124,70 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
         <div className="p-6 overflow-y-auto flex flex-col gap-4">
           {/* Summary Card for Active Bookings */}
           {bookings.length > 0 && (
-            <div className="bg-gradient-to-br from-[#eefcf2] to-[#e2f8e9] border border-[#a3e6b7] rounded-2xl p-4 shadow-xs flex flex-col gap-2">
-              <div className="flex items-center justify-between pb-2 border-b border-[#a3e6b7]/50">
-                <div className="flex items-center gap-1.5 text-[#006a3b] font-extrabold text-xs">
-                  <Leaf className="w-4 h-4 fill-[#006a3b]/20" />
+            <div className="bg-gradient-to-br from-[var(--color-success-bg-soft)] to-[#e2f8e9] border border-[var(--color-primary-light)] rounded-2xl p-4 shadow-xs flex flex-col gap-2">
+              <div className="flex items-center justify-between pb-2 border-b border-[var(--color-primary-light)]/50">
+                <div className="flex items-center gap-1.5 text-[var(--color-primary)] font-extrabold text-xs">
+                  <Leaf className="w-4 h-4 fill-[var(--color-primary)]/20" />
                   <span>Your Green Impact Summary</span>
                 </div>
-                <span className="text-[11px] font-semibold text-[#2d5a3e] bg-[#006a3b]/10 px-2.5 py-0.5 rounded-full border border-[#006a3b]/20">
+                <span className="text-[11px] font-semibold text-[#2d5a3e] bg-[var(--color-primary)]/10 px-2.5 py-0.5 rounded-full border border-[var(--color-primary)]/20">
                   {activeBookings.length} Active {activeBookings.length === 1 ? 'Trip' : 'Trips'}
                 </span>
               </div>
 
               <div className="grid grid-cols-2 gap-3 pt-1">
-                <div className="bg-white/90 p-3 rounded-xl border border-[#a3e6b7]/60 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#006a3b]/10 text-[#006a3b] flex items-center justify-center shrink-0">
+                <div className="bg-white/90 p-3 rounded-xl border border-[var(--color-primary-light)]/60 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center shrink-0">
                     <Route className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[11px] text-[#6e7a6f] block font-medium">Distance Traveled</span>
-                    <span className="text-base font-extrabold text-[#1b1b1b]">{totalKm} km</span>
+                    <span className="text-[11px] text-[var(--color-outline)] block font-medium">Distance Traveled</span>
+                    <span className="text-base font-extrabold text-[var(--color-on-surface)]">{totalKm} km</span>
                   </div>
                 </div>
 
-                <div className="bg-white/90 p-3 rounded-xl border border-[#a3e6b7]/60 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#006a3b]/10 text-[#006a3b] flex items-center justify-center shrink-0">
+                <div className="bg-white/90 p-3 rounded-xl border border-[var(--color-primary-light)]/60 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center shrink-0">
                     <Leaf className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[11px] text-[#6e7a6f] block font-medium">CO₂ Saved</span>
-                    <span className="text-base font-extrabold text-[#006a3b]">{roundedCO2} kg</span>
+                    <span className="text-[11px] text-[var(--color-outline)] block font-medium">CO₂ Saved</span>
+                    <span className="text-base font-extrabold text-[var(--color-primary)]">{roundedCO2} kg</span>
                   </div>
                 </div>
               </div>
 
               {/* CO2 Savings Trend Chart */}
-              <div className="mt-2 pt-3 border-t border-[#a3e6b7]/50">
+              <div className="mt-2 pt-3 border-t border-[var(--color-primary-light)]/50">
                 <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#006a3b]">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--color-primary)]">
                     <BarChart2 className="w-3.5 h-3.5" />
                     <span>Monthly CO₂ Savings Trend (kg)</span>
                   </div>
-                  <span className="text-[10px] text-[#006a3b] font-extrabold bg-white/80 px-2 py-0.5 rounded-md border border-[#a3e6b7] flex items-center gap-1">
-                    <TrendingUp className="w-3 h-3 text-[#006a3b]" />
+                  <span className="text-[10px] text-[var(--color-primary)] font-extrabold bg-white/80 px-2 py-0.5 rounded-md border border-[var(--color-primary-light)] flex items-center gap-1">
+                    <TrendingUp className="w-3 h-3 text-[var(--color-primary)]" />
                     +24% vs last mo
                   </span>
                 </div>
 
-                <div className="h-32 w-full bg-white/90 p-2.5 rounded-xl border border-[#a3e6b7]/60">
+                <div className="h-32 w-full bg-white/90 p-2.5 rounded-xl border border-[var(--color-primary-light)]/60">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={monthlyCo2Data} margin={{ top: 8, right: 8, left: -22, bottom: 0 }}>
                       <defs>
                         <linearGradient id="co2Gradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#006a3b" stopOpacity={0.4} />
-                          <stop offset="95%" stopColor="#006a3b" stopOpacity={0.05} />
+                          <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.4} />
+                          <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0.05} />
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2f8e9" />
                       <XAxis
                         dataKey="month"
-                        tick={{ fontSize: 10, fill: '#6e7a6f', fontWeight: 600 }}
+                        tick={{ fontSize: 10, fill: 'var(--color-outline)', fontWeight: 600 }}
                         axisLine={false}
                         tickLine={false}
                       />
                       <YAxis
-                        tick={{ fontSize: 10, fill: '#6e7a6f', fontWeight: 600 }}
+                        tick={{ fontSize: 10, fill: 'var(--color-outline)', fontWeight: 600 }}
                         axisLine={false}
                         tickLine={false}
                       />
@@ -194,11 +195,11 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
                       <Area
                         type="monotone"
                         dataKey="co2"
-                        stroke="#006a3b"
+                        stroke="var(--color-primary)"
                         strokeWidth={2.5}
                         fillOpacity={1}
                         fill="url(#co2Gradient)"
-                        activeDot={{ r: 5, fill: '#006a3b', stroke: '#ffffff', strokeWidth: 2 }}
+                        activeDot={{ r: 5, fill: 'var(--color-primary)', stroke: '#ffffff', strokeWidth: 2 }}
                       />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -208,9 +209,9 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
           )}
 
           {/* Push Notification Service Banner */}
-          <div className="bg-[#1b1b1b] text-white rounded-2xl p-4 border border-[#006a3b] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="bg-[var(--color-on-surface)] text-white rounded-2xl p-4 border border-[var(--color-primary)] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#006a3b] text-[#8af9b1] flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-9 h-9 rounded-xl bg-[var(--color-primary)] text-[var(--color-accent-mint)] flex items-center justify-center shrink-0 mt-0.5">
                 <Bell className="w-5 h-5" />
               </div>
               <div>
@@ -219,7 +220,7 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
                     1-Hour Pre-Ride Push Reminders
                   </h4>
                   {notifPerm === 'granted' ? (
-                    <span className="text-[10px] bg-[#006a3b] text-[#8af9b1] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+                    <span className="text-[10px] bg-[var(--color-primary)] text-[var(--color-accent-mint)] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
                       <ShieldCheck className="w-3 h-3" /> Active
                     </span>
                   ) : (
@@ -238,13 +239,13 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
               <button
                 type="button"
                 onClick={handleRequestPerm}
-                className="bg-[#006a3b] hover:bg-[#00864c] text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer shadow-2xs"
+                className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-container)] text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer shadow-2xs"
               >
-                <Bell className="w-3.5 h-3.5 text-[#8af9b1]" />
+                <Bell className="w-3.5 h-3.5 text-[var(--color-accent-mint)]" />
                 <span>Enable Alerts</span>
               </button>
             ) : (
-              <span className="text-xs font-bold text-[#8af9b1] bg-[#006a3b]/40 px-3 py-1.5 rounded-xl border border-[#006a3b] shrink-0 text-center">
+              <span className="text-xs font-bold text-[var(--color-accent-mint)] bg-[var(--color-primary)]/40 px-3 py-1.5 rounded-xl border border-[var(--color-primary)] shrink-0 text-center">
                 Reminders Enabled
               </span>
             )}
@@ -252,11 +253,11 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
 
           {bookings.length === 0 ? (
             <div className="text-center py-12 flex flex-col items-center justify-center gap-3">
-              <div className="w-16 h-16 rounded-full bg-[#f3f3f3] text-[#6e7a6f] flex items-center justify-center">
+              <div className="w-16 h-16 rounded-full bg-[var(--color-surface-container-low)] text-[var(--color-outline)] flex items-center justify-center">
                 <Car className="w-8 h-8" />
               </div>
-              <p className="font-bold text-base text-[#1b1b1b]">No trips booked yet</p>
-              <p className="text-xs text-[#3e4a40] max-w-xs">
+              <p className="font-bold text-base text-[var(--color-on-surface)]">No trips booked yet</p>
+              <p className="text-xs text-[var(--color-on-surface-variant)] max-w-xs">
                 Search for rides from New Delhi to Gurgaon, Noida, Rohtak, Jaipur or Chandigarh and book your seat!
               </p>
             </div>
@@ -270,28 +271,28 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
                   key={booking.id}
                   className={`border p-5 rounded-2xl shadow-xs flex flex-col gap-3 relative transition-all ${
                     isCancelled
-                      ? 'bg-[#f8f8f8] border-[#e2e2e2] opacity-80'
-                      : 'bg-white border-[#bdcabd]'
+                      ? 'bg-[#f8f8f8] border-[var(--color-border)] opacity-80'
+                      : 'bg-white border-[var(--color-outline-variant)]'
                   }`}
                 >
-                  <div className="flex items-center justify-between border-b border-[#eeeeee] pb-3">
+                  <div className="flex items-center justify-between border-b border-[var(--color-surface-container)] pb-3">
                     <div className="flex items-center gap-2">
                       {isCancelled ? (
-                        <span className="bg-[#fff0f0] text-red-700 font-extrabold text-xs px-2.5 py-1 rounded-full border border-red-200 flex items-center gap-1">
+                        <span className="bg-[var(--color-error-bg)] text-red-700 font-extrabold text-xs px-2.5 py-1 rounded-full border border-red-200 flex items-center gap-1">
                           <Ban className="w-3.5 h-3.5 text-red-600" />
                           Cancelled
                         </span>
                       ) : (
-                        <span className="bg-[#f6fff4] text-[#006a3b] font-extrabold text-xs px-2.5 py-1 rounded-full border border-[#bdcabd] flex items-center gap-1">
-                          <CheckCircle2 className="w-3.5 h-3.5 fill-[#8af9b1]" />
+                        <span className="bg-[var(--color-success-bg)] text-[var(--color-primary)] font-extrabold text-xs px-2.5 py-1 rounded-full border border-[var(--color-outline-variant)] flex items-center gap-1">
+                          <CheckCircle2 className="w-3.5 h-3.5 fill-[var(--color-accent-mint)]" />
                           Confirmed
                         </span>
                       )}
-                      <span className="text-xs text-[#6e7a6f]">{booking.bookingDate}</span>
+                      <span className="text-xs text-[var(--color-outline)]">{booking.bookingDate}</span>
                     </div>
                     <span
                       className={`font-extrabold text-base ${
-                        isCancelled ? 'text-[#6e7a6f] line-through' : 'text-[#006a3b]'
+                        isCancelled ? 'text-[var(--color-outline)] line-through' : 'text-[var(--color-primary)]'
                       }`}
                     >
                       ₹{booking.totalPrice}
@@ -304,40 +305,40 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
                         src={booking.ride.driver.avatar}
                         alt={booking.ride.driver.name}
                         className={`w-10 h-10 rounded-full object-cover border ${
-                          isCancelled ? 'border-gray-300 grayscale' : 'border-[#006a3b]'
+                          isCancelled ? 'border-gray-300 grayscale' : 'border-[var(--color-primary)]'
                         }`}
                       />
                       <div>
-                        <h4 className="font-bold text-sm text-[#1b1b1b]">
+                        <h4 className="font-bold text-sm text-[var(--color-on-surface)]">
                           {booking.ride.driver.name}
                         </h4>
-                        <p className="text-xs text-[#3e4a40]">{booking.ride.car.model}</p>
+                        <p className="text-xs text-[var(--color-on-surface-variant)]">{booking.ride.car.model}</p>
                       </div>
                     </div>
 
-                    <div className="text-right text-xs text-[#3e4a40]">
+                    <div className="text-right text-xs text-[var(--color-on-surface-variant)]">
                       <span className="font-bold">{booking.seatsBooked} Seat(s)</span>
-                      <span className="block text-[#6e7a6f]">{booking.ride.departureTime}</span>
+                      <span className="block text-[var(--color-outline)]">{booking.ride.departureTime}</span>
                     </div>
                   </div>
 
-                  <div className="bg-[#f9f9f9] p-3 rounded-xl border border-[#eeeeee] text-xs flex flex-col gap-1.5">
-                    <div className="flex items-center justify-between font-bold text-[#1b1b1b]">
+                  <div className="bg-[var(--color-background)] p-3 rounded-xl border border-[var(--color-surface-container)] text-xs flex flex-col gap-1.5">
+                    <div className="flex items-center justify-between font-bold text-[var(--color-on-surface)]">
                       <span className="flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-[#006a3b]" /> {booking.ride.origin}
+                        <MapPin className="w-3.5 h-3.5 text-[var(--color-primary)]" /> {booking.ride.origin}
                       </span>
                       <span>→</span>
                       <span className="flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-[#006a3b]" /> {booking.ride.destination}
+                        <MapPin className="w-3.5 h-3.5 text-[var(--color-primary)]" /> {booking.ride.destination}
                       </span>
                     </div>
                     {booking.ride.originDetails && (
-                      <div className="text-[11px] text-[#006a3b] font-semibold bg-[#eefcf2] px-2.5 py-1 rounded-lg border border-[#a3e6b7]/60 flex items-center gap-1">
-                        <MapPin className="w-3 h-3 text-[#006a3b] shrink-0" />
+                      <div className="text-[11px] text-[var(--color-primary)] font-semibold bg-[var(--color-success-bg-soft)] px-2.5 py-1 rounded-lg border border-[var(--color-primary-light)]/60 flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-[var(--color-primary)] shrink-0" />
                         <span>Meeting Point: {booking.ride.originDetails}</span>
                       </div>
                     )}
-                    <div className="text-[#6e7a6f] flex items-center justify-between pt-1 border-t border-[#eeeeee]">
+                    <div className="text-[var(--color-outline)] flex items-center justify-between pt-1 border-t border-[var(--color-surface-container)]">
                       <span>
                         <Calendar className="inline w-3 h-3" /> {booking.ride.date}
                       </span>
@@ -346,24 +347,24 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
                   </div>
 
                   {!isCancelled && (
-                    <div className="flex items-center justify-between text-xs text-[#3e4a40] bg-[#f6fff4] px-3 py-2 rounded-lg border border-[#bdcabd]">
+                    <div className="flex items-center justify-between text-xs text-[var(--color-on-surface-variant)] bg-[var(--color-success-bg)] px-3 py-2 rounded-lg border border-[var(--color-outline-variant)]">
                       <span className="flex items-center gap-1">
-                        <Phone className="w-3.5 h-3.5 text-[#006a3b]" />{' '}
+                        <Phone className="w-3.5 h-3.5 text-[var(--color-primary)]" />{' '}
                         {booking.ride.driver.phone || '+91 98765 43210'}
                       </span>
                       <span className="flex items-center gap-1">
-                        <Mail className="w-3.5 h-3.5 text-[#006a3b]" /> {booking.passengerEmail}
+                        <Mail className="w-3.5 h-3.5 text-[var(--color-primary)]" /> {booking.passengerEmail}
                       </span>
                     </div>
                   )}
 
                   {/* Cancel Action Section */}
                   {isCancelled ? (
-                    <div className="p-2.5 bg-[#f3f3f3] rounded-xl text-xs text-[#6e7a6f] border border-[#e2e2e2] flex items-center justify-between">
+                    <div className="p-2.5 bg-[var(--color-surface-container-low)] rounded-xl text-xs text-[var(--color-outline)] border border-[var(--color-border)] flex items-center justify-between">
                       <span>Booking cancelled. Seats returned to ride pool.</span>
                     </div>
                   ) : isConfirmingCancel ? (
-                    <div className="p-3 bg-[#fff0f0] border border-red-200 rounded-xl flex flex-col gap-2">
+                    <div className="p-3 bg-[var(--color-error-bg)] border border-red-200 rounded-xl flex flex-col gap-2">
                       <div className="flex items-center gap-2 text-xs font-bold text-red-800">
                         <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
                         <span>Cancel booking for {booking.seatsBooked} seat(s)?</span>
@@ -415,18 +416,18 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
                       <button
                         type="button"
                         onClick={() => handleTriggerTestReminder(booking)}
-                        className="text-xs font-bold text-[#1b1b1b] hover:bg-gray-100 bg-[#f3f3f3] px-3 py-1.5 rounded-lg border border-[#bdcabd] transition-colors flex items-center gap-1 cursor-pointer"
+                        className="text-xs font-bold text-[var(--color-on-surface)] hover:bg-gray-100 bg-[var(--color-surface-container-low)] px-3 py-1.5 rounded-lg border border-[var(--color-outline-variant)] transition-colors flex items-center gap-1 cursor-pointer"
                         title="Simulate 1-hour pre-ride push notification with driver contact & meeting point"
                       >
-                        <Bell className="w-3.5 h-3.5 text-[#006a3b]" />
+                        <Bell className="w-3.5 h-3.5 text-[var(--color-primary)]" />
                         <span>Test 1-Hr Reminder</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => setActiveChatBooking(booking)}
-                        className="text-xs font-bold text-[#006a3b] hover:bg-[#eefcf2] bg-[#f6fff4] px-3 py-1.5 rounded-lg border border-[#a3e6b7] transition-colors flex items-center gap-1 cursor-pointer"
+                        className="text-xs font-bold text-[var(--color-primary)] hover:bg-[var(--color-success-bg-soft)] bg-[var(--color-success-bg)] px-3 py-1.5 rounded-lg border border-[var(--color-primary-light)] transition-colors flex items-center gap-1 cursor-pointer"
                       >
-                        <MessageSquare className="w-3.5 h-3.5 text-[#006a3b]" />
+                        <MessageSquare className="w-3.5 h-3.5 text-[var(--color-primary)]" />
                         Message Driver
                       </button>
                       <button
@@ -453,10 +454,12 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
           driver={activeChatBooking.ride.driver}
           ride={activeChatBooking.ride}
           user={{
-            id: 'u-me',
             name: activeChatBooking.passengerName,
             email: activeChatBooking.passengerEmail,
             phone: activeChatBooking.passengerPhone,
+            avatar: '',
+            verified: false,
+            bio: '',
           }}
         />
       )}

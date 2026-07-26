@@ -102,19 +102,19 @@ export const SuggestedRoutes: React.FC<SuggestedRoutesProps> = ({
   ).slice(0, 3);
 
   return (
-    <section className="px-4 sm:px-6 py-8 sm:py-12 bg-[#f6fff4] border-y border-[#bdcabd]/60">
+    <section className="px-4 sm:px-6 py-8 sm:py-12 bg-[var(--color-success-bg)] border-y border-[var(--color-outline-variant)]/60">
       <div className="max-w-[1120px] mx-auto flex flex-col gap-6">
         {/* Header Title */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-2 text-[#006a3b] font-extrabold text-xs tracking-wider uppercase">
-              <Sparkles className="w-4 h-4 fill-[#8af9b1]" />
+            <div className="flex items-center gap-2 text-[var(--color-primary)] font-extrabold text-xs tracking-wider uppercase">
+              <Sparkles className="w-4 h-4 fill-[var(--color-accent-mint)]" />
               <span>Smart Travel Engine</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1b1b1b] tracking-tight mt-1">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[var(--color-on-surface)] tracking-tight mt-1">
               Suggested Routes For You
             </h2>
-            <p className="text-sm text-[#3e4a40] mt-0.5">
+            <p className="text-sm text-[var(--color-on-surface-variant)] mt-0.5">
               {activeBookings.length > 0
                 ? `Personalized recommendations dynamically tailored to your ${activeBookings.length} past trip(s)`
                 : 'Commuter picks curated based on top travel patterns from New Delhi'}
@@ -122,11 +122,11 @@ export const SuggestedRoutes: React.FC<SuggestedRoutesProps> = ({
           </div>
 
           {activeBookings.length > 0 && (
-            <div className="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-full border border-[#a3e6b7] text-xs text-[#006a3b] font-bold shadow-2xs self-start sm:self-auto">
-              <History className="w-4 h-4 text-[#006a3b]" />
+            <div className="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-full border border-[var(--color-primary-light)] text-xs text-[var(--color-primary)] font-bold shadow-2xs self-start sm:self-auto">
+              <History className="w-4 h-4 text-[var(--color-primary)]" />
               <span>
                 Frequent Destination:{' '}
-                <span className="underline decoration-[#8af9b1] font-black">
+                <span className="underline decoration-[var(--color-accent-mint)] font-black">
                   {topDestinations[0] || 'Gurgaon'}
                 </span>
               </span>
@@ -144,65 +144,65 @@ export const SuggestedRoutes: React.FC<SuggestedRoutesProps> = ({
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.08 }}
-                className="bg-white rounded-2xl border border-[#bdcabd] p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between gap-4 relative group"
+                className="bg-white rounded-2xl border border-[var(--color-outline-variant)] p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between gap-4 relative group"
               >
                 {/* Tag Banner */}
-                <div className="flex items-center justify-between gap-2 border-b border-[#eeeeee] pb-3">
-                  <span className="text-[11px] font-extrabold text-[#006a3b] bg-[#eefcf2] px-2.5 py-1 rounded-full border border-[#a3e6b7] flex items-center gap-1.5 truncate">
-                    <Sparkles className="w-3 h-3 text-[#006a3b] shrink-0" />
+                <div className="flex items-center justify-between gap-2 border-b border-[var(--color-surface-container)] pb-3">
+                  <span className="text-[11px] font-extrabold text-[var(--color-primary)] bg-[var(--color-success-bg-soft)] px-2.5 py-1 rounded-full border border-[var(--color-primary-light)] flex items-center gap-1.5 truncate">
+                    <Sparkles className="w-3 h-3 text-[var(--color-primary)] shrink-0" />
                     <span className="truncate">{reason}</span>
                   </span>
-                  <span className="text-xs font-black text-[#006a3b] shrink-0">
+                  <span className="text-xs font-black text-[var(--color-primary)] shrink-0">
                     ₹{ride.price}
                   </span>
                 </div>
 
                 {/* Route Header */}
                 <div>
-                  <div className="flex items-center justify-between text-base font-extrabold text-[#1b1b1b]">
+                  <div className="flex items-center justify-between text-base font-extrabold text-[var(--color-on-surface)]">
                     <span>{ride.origin}</span>
-                    <ArrowRight className="w-4 h-4 text-[#006a3b]" />
+                    <ArrowRight className="w-4 h-4 text-[var(--color-primary)]" />
                     <span>{ride.destination}</span>
                   </div>
 
-                  <div className="flex items-center justify-between text-xs text-[#6e7a6f] mt-1">
+                  <div className="flex items-center justify-between text-xs text-[var(--color-outline)] mt-1">
                     <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-[#006a3b]" />
+                      <Calendar className="w-3.5 h-3.5 text-[var(--color-primary)]" />
                       {ride.date}
                     </span>
-                    <span className="flex items-center gap-1 font-semibold text-[#1b1b1b]">
-                      <Clock className="w-3.5 h-3.5 text-[#006a3b]" />
+                    <span className="flex items-center gap-1 font-semibold text-[var(--color-on-surface)]">
+                      <Clock className="w-3.5 h-3.5 text-[var(--color-primary)]" />
                       {ride.departureTime}
                     </span>
                   </div>
                 </div>
 
                 {/* Driver Info & Car */}
-                <div className="flex items-center justify-between bg-[#f9fbf9] p-3 rounded-xl border border-[#e2e2e2]">
+                <div className="flex items-center justify-between bg-[#f9fbf9] p-3 rounded-xl border border-[var(--color-border)]">
                   <div className="flex items-center gap-2.5">
                     <img
                       src={ride.driver.avatar}
                       alt={ride.driver.name}
-                      className="w-9 h-9 rounded-full object-cover border border-[#006a3b]"
+                      className="w-9 h-9 rounded-full object-cover border border-[var(--color-primary)]"
                     />
                     <div>
                       <div className="flex items-center gap-1">
-                        <span className="font-bold text-xs text-[#1b1b1b]">
+                        <span className="font-bold text-xs text-[var(--color-on-surface)]">
                           {ride.driver.name}
                         </span>
                         {ride.driver.verified && (
-                          <ShieldCheck className="w-3.5 h-3.5 text-[#006a3b]" />
+                          <ShieldCheck className="w-3.5 h-3.5 text-[var(--color-primary)]" />
                         )}
                       </div>
-                      <span className="text-[11px] text-[#7a5900] font-extrabold flex items-center gap-1">
-                        <Star className="w-3 h-3 fill-[#fdce6c]" />
+                      <span className="text-[11px] text-[var(--color-warning-text)] font-extrabold flex items-center gap-1">
+                        <Star className="w-3 h-3 fill-[var(--color-secondary-container)]" />
                         {ride.driver.rating.toFixed(1)} ({ride.driver.reviewsCount})
                       </span>
                     </div>
                   </div>
 
                   <div className="text-right">
-                    <span className="text-[11px] bg-[#006a3b]/10 text-[#006a3b] px-2 py-0.5 rounded-full font-bold block">
+                    <span className="text-[11px] bg-[var(--color-primary)]/10 text-[var(--color-primary)] px-2 py-0.5 rounded-full font-bold block">
                       {ride.seatsAvailable} seat(s) left
                     </span>
                     <span className="text-[10px] text-[#2d5a3e] font-semibold mt-0.5 block">
@@ -214,7 +214,7 @@ export const SuggestedRoutes: React.FC<SuggestedRoutesProps> = ({
                 {/* Action Button */}
                 <button
                   onClick={() => onSelectRide(ride)}
-                  className="w-full bg-[#006a3b] hover:bg-[#00864c] text-white font-bold text-xs py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs group-hover:bg-[#00864c]"
+                  className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-container)] text-white font-bold text-xs py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs group-hover:bg-[var(--color-primary-container)]"
                 >
                   <span>Book Recommended Trip</span>
                   <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />

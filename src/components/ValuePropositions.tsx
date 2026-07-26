@@ -24,20 +24,20 @@ export const ValuePropositions: React.FC = () => {
   ];
 
   return (
-    <section id="how-it-works" className="px-4 sm:px-6 py-8 sm:py-12 bg-[#f9f9f9]">
+    <section id="how-it-works" className="px-4 sm:px-6 py-8 sm:py-12 bg-[var(--color-background)]">
       <div className="max-w-[1120px] mx-auto flex flex-col gap-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {values.map((v, i) => (
             <div
               key={i}
-              className="bg-white p-6 sm:p-7 rounded-2xl shadow-xs border border-[#e2e2e2] flex flex-col gap-4 hover:shadow-md transition-all duration-300 group"
+              className="bg-white p-6 sm:p-7 rounded-2xl shadow-xs border border-[var(--color-border)] flex flex-col gap-4 hover:shadow-md transition-all duration-300 group"
             >
-              <div className="h-12 w-12 rounded-full bg-[#fdce6c] text-[#765600] flex items-center justify-center transition-transform group-hover:scale-110">
+              <div className="h-12 w-12 rounded-full bg-[var(--color-secondary-container)] text-[var(--color-on-secondary-container)] flex items-center justify-center transition-transform group-hover:scale-110">
                 {v.icon}
               </div>
               <div>
-                <h3 className="text-xl font-bold text-[#1b1b1b] mb-2">{v.title}</h3>
-                <p className="text-sm sm:text-base text-[#3e4a40] leading-relaxed">
+                <h3 className="text-xl font-bold text-[var(--color-on-surface)] mb-2">{v.title}</h3>
+                <p className="text-sm sm:text-base text-[var(--color-on-surface-variant)] leading-relaxed">
                   {v.description}
                 </p>
               </div>

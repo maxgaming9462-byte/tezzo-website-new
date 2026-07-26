@@ -209,15 +209,15 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
             isPast
               ? 'text-[#bcbcbc] cursor-not-allowed'
               : isSelected
-              ? 'bg-[#006a3b] text-white font-extrabold shadow-sm'
+              ? 'bg-[var(--color-primary)] text-white font-extrabold shadow-sm'
               : isToday
-              ? 'bg-[#eefcf2] text-[#006a3b] border border-[#a3e6b7] font-bold'
-              : 'hover:bg-[#f3f3f3] text-[#1b1b1b]'
+              ? 'bg-[var(--color-success-bg-soft)] text-[var(--color-primary)] border border-[var(--color-primary-light)] font-bold'
+              : 'hover:bg-[var(--color-surface-container-low)] text-[var(--color-on-surface)]'
           }`}
         >
           {day}
           {isToday && !isSelected && (
-            <span className="w-1 h-1 bg-[#006a3b] rounded-full absolute bottom-1"></span>
+            <span className="w-1 h-1 bg-[var(--color-primary)] rounded-full absolute bottom-1"></span>
           )}
         </button>
       );
@@ -228,15 +228,15 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
 
   return (
     <section className="px-4 sm:px-6 py-4 relative z-20 max-w-[1120px] mx-auto">
-      <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-[0_8px_24px_rgba(0,0,0,0.12)] flex flex-col gap-4 border border-[#eeeeee]">
+      <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-[0_8px_24px_rgba(0,0,0,0.12)] flex flex-col gap-4 border border-[var(--color-surface-container)]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1b1b1b] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[var(--color-on-surface)] tracking-tight">
               Where to next?
             </h2>
             {activeCommuteBadge && (
-              <span className="inline-flex items-center gap-1 bg-[#eefcf2] text-[#006a3b] border border-[#a3e6b7] text-[11px] font-bold px-2.5 py-1 rounded-full animate-in fade-in zoom-in-95 duration-150 shadow-2xs">
-                <Zap className="w-3.5 h-3.5 text-[#006a3b] fill-[#8af9b1]" />
+              <span className="inline-flex items-center gap-1 bg-[var(--color-success-bg-soft)] text-[var(--color-primary)] border border-[var(--color-primary-light)] text-[11px] font-bold px-2.5 py-1 rounded-full animate-in fade-in zoom-in-95 duration-150 shadow-2xs">
+                <Zap className="w-3.5 h-3.5 text-[var(--color-primary)] fill-[var(--color-accent-mint)]" />
                 <span>Auto-filled: {activeCommuteBadge}</span>
               </span>
             )}
@@ -246,7 +246,7 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
             <button
               type="button"
               onClick={onOpenProfile}
-              className="text-xs font-bold text-[#006a3b] hover:underline flex items-center gap-1 w-fit cursor-pointer"
+              className="text-xs font-bold text-[var(--color-primary)] hover:underline flex items-center gap-1 w-fit cursor-pointer"
             >
               <Bookmark className="w-3.5 h-3.5" />
               <span>Preferred Commutes ({preferredCommutes.length})</span>
@@ -256,10 +256,10 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
 
         {/* Preferred Commutes Quick Select Bar */}
         {preferredCommutes.length > 0 && (
-          <div className="bg-[#f6fff4] border border-[#a3e6b7] p-3 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div className="bg-[var(--color-success-bg)] border border-[var(--color-primary-light)] p-3 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-0.5">
-              <span className="text-[11px] font-extrabold text-[#006a3b] shrink-0 flex items-center gap-1">
-                <Star className="w-3.5 h-3.5 fill-[#006a3b]" />
+              <span className="text-[11px] font-extrabold text-[var(--color-primary)] shrink-0 flex items-center gap-1">
+                <Star className="w-3.5 h-3.5 fill-[var(--color-primary)]" />
                 Preferred Commutes:
               </span>
               {preferredCommutes.map((commute) => {
@@ -278,8 +278,8 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
                     }}
                     className={`text-xs font-bold px-3 py-1.5 rounded-full transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
                       isActive
-                        ? 'bg-[#006a3b] text-white shadow-xs'
-                        : 'bg-white hover:bg-[#eefcf2] text-[#006a3b] border border-[#a3e6b7]'
+                        ? 'bg-[var(--color-primary)] text-white shadow-xs'
+                        : 'bg-white hover:bg-[var(--color-success-bg-soft)] text-[var(--color-primary)] border border-[var(--color-primary-light)]'
                     }`}
                   >
                     <span>{commute.title}</span>
@@ -298,7 +298,7 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
               <button
                 type="button"
                 onClick={onOpenProfile}
-                className="text-[11px] font-bold text-[#006a3b] hover:bg-[#a3e6b7]/30 px-2.5 py-1 rounded-xl transition-colors cursor-pointer shrink-0 text-right"
+                className="text-[11px] font-bold text-[var(--color-primary)] hover:bg-[var(--color-primary-light)]/30 px-2.5 py-1 rounded-xl transition-colors cursor-pointer shrink-0 text-right"
               >
                 + Manage Routes
               </button>
@@ -309,25 +309,25 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Leaving from */}
           <div className="relative group">
-            <Circle className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6e7a6f] group-focus-within:text-[#006a3b] transition-colors" />
+            <Circle className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-outline)] group-focus-within:text-[var(--color-primary)] transition-colors" />
             <input
               type="text"
               value={origin}
               onChange={(e) => setOrigin(e.target.value)}
               placeholder="Leaving from"
-              className="w-full pl-12 pr-4 py-4 rounded-full bg-[#f3f3f3] border border-transparent focus:border-[#006a3b] focus:bg-white focus:outline-none text-base text-[#1b1b1b] placeholder:text-[#6e7a6f] transition-all font-medium"
+              className="w-full pl-12 pr-4 py-4 rounded-full bg-[var(--color-surface-container-low)] border border-transparent focus:border-[var(--color-primary)] focus:bg-white focus:outline-none text-base text-[var(--color-on-surface)] placeholder:text-[var(--color-outline)] transition-all font-medium"
             />
           </div>
 
           {/* Going to */}
           <div className="relative group">
-            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6e7a6f] group-focus-within:text-[#006a3b] transition-colors" />
+            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-outline)] group-focus-within:text-[var(--color-primary)] transition-colors" />
             <input
               type="text"
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
               placeholder="Going to"
-              className="w-full pl-12 pr-4 py-4 rounded-full bg-[#f3f3f3] border border-transparent focus:border-[#006a3b] focus:bg-white focus:outline-none text-base text-[#1b1b1b] placeholder:text-[#6e7a6f] transition-all font-medium"
+              className="w-full pl-12 pr-4 py-4 rounded-full bg-[var(--color-surface-container-low)] border border-transparent focus:border-[var(--color-primary)] focus:bg-white focus:outline-none text-base text-[var(--color-on-surface)] placeholder:text-[var(--color-outline)] transition-all font-medium"
             />
           </div>
 
@@ -338,28 +338,28 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
               <button
                 type="button"
                 onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                className={`w-full pl-12 pr-4 py-4 rounded-full bg-[#f3f3f3] border text-left font-medium transition-all cursor-pointer flex items-center justify-between text-base ${
+                className={`w-full pl-12 pr-4 py-4 rounded-full bg-[var(--color-surface-container-low)] border text-left font-medium transition-all cursor-pointer flex items-center justify-between text-base ${
                   isCalendarOpen
-                    ? 'border-[#006a3b] bg-white ring-2 ring-[#006a3b]/20 text-[#006a3b]'
-                    : 'border-transparent hover:border-[#bdcabd] text-[#1b1b1b]'
+                    ? 'border-[var(--color-primary)] bg-white ring-2 ring-[var(--color-primary)]/20 text-[var(--color-primary)]'
+                    : 'border-transparent hover:border-[var(--color-outline-variant)] text-[var(--color-on-surface)]'
                 }`}
               >
-                <CalendarIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6e7a6f] group-hover:text-[#006a3b] transition-colors" />
+                <CalendarIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-outline)] group-hover:text-[var(--color-primary)] transition-colors" />
                 <span className="truncate">{date}</span>
-                <span className="text-[10px] bg-[#006a3b]/10 text-[#006a3b] px-2 py-0.5 rounded-full font-bold ml-1">
+                <span className="text-[10px] bg-[var(--color-primary)]/10 text-[var(--color-primary)] px-2 py-0.5 rounded-full font-bold ml-1">
                   Change
                 </span>
               </button>
 
               {/* Graphical Calendar Popover Dropdown */}
               {isCalendarOpen && (
-                <div className="absolute left-0 top-full mt-2 z-50 bg-white rounded-2xl shadow-xl border border-[#bdcabd] p-4 w-[310px] sm:w-[330px] animate-in fade-in zoom-in-95 duration-150">
+                <div className="absolute left-0 top-full mt-2 z-50 bg-white rounded-2xl shadow-xl border border-[var(--color-outline-variant)] p-4 w-[310px] sm:w-[330px] animate-in fade-in zoom-in-95 duration-150">
                   {/* Preset Pills */}
-                  <div className="flex items-center gap-1.5 pb-3 border-b border-[#eeeeee] overflow-x-auto scrollbar-none">
+                  <div className="flex items-center gap-1.5 pb-3 border-b border-[var(--color-surface-container)] overflow-x-auto scrollbar-none">
                     <button
                       type="button"
                       onClick={() => selectDateObj(new Date(), 'Today')}
-                      className="text-[11px] bg-[#f6fff4] hover:bg-[#eefcf2] text-[#006a3b] border border-[#a3e6b7] px-2.5 py-1 rounded-full font-bold transition-colors cursor-pointer shrink-0"
+                      className="text-[11px] bg-[var(--color-success-bg)] hover:bg-[var(--color-success-bg-soft)] text-[var(--color-primary)] border border-[var(--color-primary-light)] px-2.5 py-1 rounded-full font-bold transition-colors cursor-pointer shrink-0"
                     >
                       Today
                     </button>
@@ -370,7 +370,7 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
                         tmrw.setDate(tmrw.getDate() + 1);
                         selectDateObj(tmrw, 'Tomorrow');
                       }}
-                      className="text-[11px] bg-[#f3f3f3] hover:bg-[#e2e2e2] text-[#3e4a40] px-2.5 py-1 rounded-full font-semibold transition-colors cursor-pointer shrink-0"
+                      className="text-[11px] bg-[var(--color-surface-container-low)] hover:bg-[var(--color-border)] text-[var(--color-on-surface-variant)] px-2.5 py-1 rounded-full font-semibold transition-colors cursor-pointer shrink-0"
                     >
                       Tomorrow
                     </button>
@@ -383,7 +383,7 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
                         wknd.setDate(wknd.getDate() + daysToSat);
                         selectDateObj(wknd, 'This Weekend');
                       }}
-                      className="text-[11px] bg-[#f3f3f3] hover:bg-[#e2e2e2] text-[#3e4a40] px-2.5 py-1 rounded-full font-semibold transition-colors cursor-pointer shrink-0"
+                      className="text-[11px] bg-[var(--color-surface-container-low)] hover:bg-[var(--color-border)] text-[var(--color-on-surface-variant)] px-2.5 py-1 rounded-full font-semibold transition-colors cursor-pointer shrink-0"
                     >
                       This Weekend
                     </button>
@@ -394,18 +394,18 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
                     <button
                       type="button"
                       onClick={prevMonth}
-                      className="p-1 rounded-full hover:bg-[#f3f3f3] text-[#1b1b1b] transition-colors cursor-pointer"
+                      className="p-1 rounded-full hover:bg-[var(--color-surface-container-low)] text-[var(--color-on-surface)] transition-colors cursor-pointer"
                       title="Previous Month"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
-                    <span className="font-extrabold text-sm text-[#1b1b1b]">
+                    <span className="font-extrabold text-sm text-[var(--color-on-surface)]">
                       {viewDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
                     </span>
                     <button
                       type="button"
                       onClick={nextMonth}
-                      className="p-1 rounded-full hover:bg-[#f3f3f3] text-[#1b1b1b] transition-colors cursor-pointer"
+                      className="p-1 rounded-full hover:bg-[var(--color-surface-container-low)] text-[var(--color-on-surface)] transition-colors cursor-pointer"
                       title="Next Month"
                     >
                       <ChevronRight className="w-5 h-5" />
@@ -415,7 +415,7 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
                   {/* Weekday Labels */}
                   <div className="grid grid-cols-7 gap-1 text-center mb-1">
                     {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((wd) => (
-                      <span key={wd} className="text-[10px] font-bold text-[#6e7a6f] uppercase">
+                      <span key={wd} className="text-[10px] font-bold text-[var(--color-outline)] uppercase">
                         {wd}
                       </span>
                     ))}
@@ -427,14 +427,14 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
                   </div>
 
                   {/* Selected Date Footer */}
-                  <div className="mt-3 pt-2.5 border-t border-[#eeeeee] flex items-center justify-between text-xs">
-                    <span className="text-[#6e7a6f] font-medium">
-                      Selected: <strong className="text-[#006a3b]">{date}</strong>
+                  <div className="mt-3 pt-2.5 border-t border-[var(--color-surface-container)] flex items-center justify-between text-xs">
+                    <span className="text-[var(--color-outline)] font-medium">
+                      Selected: <strong className="text-[var(--color-primary)]">{date}</strong>
                     </span>
                     <button
                       type="button"
                       onClick={() => setIsCalendarOpen(false)}
-                      className="text-[11px] bg-[#006a3b] hover:bg-[#00864c] text-white font-bold px-3 py-1 rounded-full transition-colors cursor-pointer"
+                      className="text-[11px] bg-[var(--color-primary)] hover:bg-[var(--color-primary-container)] text-white font-bold px-3 py-1 rounded-full transition-colors cursor-pointer"
                     >
                       Confirm
                     </button>
@@ -445,11 +445,11 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
 
             {/* Passengers */}
             <div className="relative group">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6e7a6f] group-focus-within:text-[#006a3b] transition-colors" />
+              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-outline)] group-focus-within:text-[var(--color-primary)] transition-colors" />
               <select
                 value={passengers}
                 onChange={(e) => setPassengers(Number(e.target.value))}
-                className="w-full pl-12 pr-4 py-4 rounded-full bg-[#f3f3f3] border border-transparent focus:border-[#006a3b] focus:bg-white focus:outline-none text-base text-[#1b1b1b] transition-all appearance-none cursor-pointer font-medium"
+                className="w-full pl-12 pr-4 py-4 rounded-full bg-[var(--color-surface-container-low)] border border-transparent focus:border-[var(--color-primary)] focus:bg-white focus:outline-none text-base text-[var(--color-on-surface)] transition-all appearance-none cursor-pointer font-medium"
               >
                 <option value={1}>1 seat</option>
                 <option value={2}>2 seats</option>
@@ -463,7 +463,7 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
           <div className="flex flex-col sm:flex-row items-center gap-2 mt-2">
             <button
               type="submit"
-              className="flex-1 w-full bg-[#006a3b] hover:bg-[#00864c] text-white rounded-full py-4 text-base font-semibold transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 cursor-pointer"
+              className="flex-1 w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-container)] text-white rounded-full py-4 text-base font-semibold transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Find a ride</span>
               <ArrowRight className="w-5 h-5" />
@@ -484,10 +484,10 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
                   });
                   setActiveCommuteBadge(title);
                 }}
-                className="w-full sm:w-auto px-5 py-4 rounded-full bg-[#f6fff4] hover:bg-[#e2f7df] text-[#006a3b] border border-[#a3e6b7] text-sm font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+                className="w-full sm:w-auto px-5 py-4 rounded-full bg-[var(--color-success-bg)] hover:bg-[var(--color-success-tint)] text-[var(--color-primary)] border border-[var(--color-primary-light)] text-sm font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
                 title="Bookmark as a Preferred Commute route in your profile"
               >
-                <Bookmark className="w-4 h-4 text-[#006a3b]" />
+                <Bookmark className="w-4 h-4 text-[var(--color-primary)]" />
                 <span className="hidden sm:inline">Save as Preferred</span>
                 <span className="sm:hidden">Save Route</span>
               </button>
@@ -497,9 +497,9 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
 
         {/* Recent Searches Section */}
         {recentSearches.length > 0 && (
-          <div className="pt-3 border-t border-[#eeeeee] flex flex-col gap-2">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-[#6e7a6f]">
-              <History className="w-3.5 h-3.5 text-[#006a3b]" />
+          <div className="pt-3 border-t border-[var(--color-surface-container)] flex flex-col gap-2">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--color-outline)]">
+              <History className="w-3.5 h-3.5 text-[var(--color-primary)]" />
               <span>Recent Searches</span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -507,19 +507,19 @@ export const SearchWidget: React.FC<SearchWidgetProps> = ({
                 <div
                   key={`${search.origin}-${search.destination}-${index}`}
                   onClick={() => handleSelectRecent(search)}
-                  className="group flex items-center gap-2 bg-[#f6fff4] hover:bg-[#eefcf2] border border-[#a3e6b7] text-[#006a3b] px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-all shadow-2xs hover:shadow-xs"
+                  className="group flex items-center gap-2 bg-[var(--color-success-bg)] hover:bg-[var(--color-success-bg-soft)] border border-[var(--color-primary-light)] text-[var(--color-primary)] px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-all shadow-2xs hover:shadow-xs"
                 >
-                  <Clock className="w-3 h-3 text-[#006a3b] shrink-0" />
+                  <Clock className="w-3 h-3 text-[var(--color-primary)] shrink-0" />
                   <span>
                     {search.origin} → {search.destination || 'Anywhere'}
                   </span>
-                  <span className="text-[10px] text-[#3e4a40] bg-white/80 px-1.5 py-0.5 rounded-md border border-[#a3e6b7]/50">
+                  <span className="text-[10px] text-[var(--color-on-surface-variant)] bg-white/80 px-1.5 py-0.5 rounded-md border border-[var(--color-primary-light)]/50">
                     {search.date}
                   </span>
                   <button
                     type="button"
                     onClick={(e) => handleRemoveRecent(index, e)}
-                    className="p-0.5 rounded-full hover:bg-[#006a3b]/10 text-[#6e7a6f] hover:text-red-600 transition-colors cursor-pointer"
+                    className="p-0.5 rounded-full hover:bg-[var(--color-primary)]/10 text-[var(--color-outline)] hover:text-red-600 transition-colors cursor-pointer"
                     title="Remove from recent searches"
                   >
                     <X className="w-3 h-3" />
