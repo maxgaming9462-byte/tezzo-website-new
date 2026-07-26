@@ -1,0 +1,6 @@
+{
+  "name": "Tezzo Carpool",
+  "description": "Tezzo Carpool - Share the journey, not just the ride. Find rides, offer seats, and travel sustainably.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+:root {
+  --color-primary: #006a3b;
+  --color-primary-container: #00864c;
+  --color-secondary-container: #fdce6c;
+  --color-on-secondary-container: #765600;
+  --color-background: #f9f9f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3f3;
+  --color-surface-container: #eeeeee;
+  --color-on-surface: #1b1b1b;
+  --color-on-surface-variant: #3e4a40;
+  --color-outline: #6e7a6f;
+  --color-outline-variant: #bdcabd;
+}
