@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.tezzo.app",
+      "sha256_cert_fingerprints": [
+        "ED:D7:25:DA:A1:83:2C:A7:9F:1B:1B:72:72:27:1C:79:47:62:94:22:25:21:F8:EC:E6:1A:80:F7:FA:E0:3B:44",
+        "58:12:19:52:0B:DA:70:12:BF:4E:D9:A2:1E:6B:9D:09:5B:26:89:9C:95:CF:58:B3:81:41:4A:27:78:8F:C0:62"
+      ]
+    }
+  }
+]
