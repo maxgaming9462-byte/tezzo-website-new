@@ -4,52 +4,263 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tezzo — intercity carpooling in India</title>
-<meta name="description" content="Tezzo connects drivers with empty seats to passengers going the same way. Share the cost of the trip, not just the road.">
+<meta name="description" content="Tezzo connects drivers who have empty seats with passengers heading the same way. 101 cities, ID-verified profiles, UPI payments and no platform fee on top of the seat price.">
+<link rel="canonical" href="https://tezzo.co.in/">
+<link rel="icon" href="./assets/favicon.png">
+<link rel="apple-touch-icon" href="./assets/icon.png">
+<meta name="theme-color" content="#1E9E5E">
 <meta property="og:title" content="Tezzo — intercity carpooling in India">
 <meta property="og:description" content="Share intercity rides. Pay less, travel with people going your way.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://tezzo.co.in/">
+<meta property="og:image" content="https://tezzo.co.in/assets/icon.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
-  :root { color-scheme: light dark; --fg:#1a1d21; --muted:#5f6b7a; --bg:#ffffff; --panel:#f5f7fa; --line:#e3e7ec; --accent:#157545; --accent-fg:#ffffff; }
+  :root {
+    color-scheme: light dark;
+    --fg:#0d1b2a; --muted:#5f6b7a; --bg:#ffffff; --panel:#f5f7fa; --line:#e3e7ec;
+    --accent:#157545; --accent-bright:#1E9E5E; --accent-fg:#ffffff; --tint:rgba(30,158,94,0.08);
+    --shadow:0 1px 2px rgba(13,27,42,0.04), 0 8px 24px rgba(13,27,42,0.06);
+  }
   @media (prefers-color-scheme: dark) {
-    :root { --fg:#e6edf3; --muted:#9aa5b1; --bg:#0d1117; --panel:#161b22; --line:#232a31; --accent:#1E9E5E; --accent-fg:#ffffff; }
+    :root {
+      --fg:#e6edf3; --muted:#9aa5b1; --bg:#0d1117; --panel:#161b22; --line:#232a31;
+      --accent:#1E9E5E; --accent-bright:#4ade80; --accent-fg:#04140c; --tint:rgba(30,158,94,0.12);
+      --shadow:none;
+    }
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   body {
     margin: 0; background: var(--bg); color: var(--fg);
-    font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-text-size-adjust: 100%;
   }
-  main { max-width: 860px; margin: 0 auto; padding: 56px 20px 80px; }
-  .brand { font-weight: 700; letter-spacing: -0.01em; margin: 0 0 40px; }
-  h1 { font-size: clamp(30px, 5vw, 42px); line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 12px; }
-  .lede { font-size: 18px; color: var(--muted); margin: 0 0 28px; max-width: 60ch; }
-  .btn {
-    display: inline-block; background: var(--accent); color: var(--accent-fg);
-    text-decoration: none; font-weight: 600; padding: 13px 22px; border-radius: 10px;
-  }
-  .soon { display: inline-block; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; font-size: 14px; color: var(--muted); margin: 0; }
-  code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
-  h2 { font-size: 22px; margin: 56px 0 20px; letter-spacing: -0.01em; }
-  ul.grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
-  .card h3 { font-size: 16px; margin: 0 0 6px; }
-  .card p { font-size: 15px; color: var(--muted); margin: 0; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
   a { color: var(--accent); }
-  footer { border-top: 1px solid var(--line); margin-top: 64px; padding-top: 24px; font-size: 14px; color: var(--muted); }
-  footer p { margin: 0 0 8px; }
-  footer a { margin-right: 16px; }
+  h2 { font-size: clamp(24px, 3.2vw, 32px); letter-spacing: -0.02em; line-height: 1.2; margin: 0 0 10px; }
+  h3 { font-size: 17px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  p { margin: 0 0 12px; }
+
+  /* ── header ─────────────────────────────────────────────── */
+  header.site {
+    position: sticky; top: 0; z-index: 10;
+    /* Opaque first: a browser without color-mix() must not end up with a
+       see-through sticky bar that the page scrolls underneath. */
+    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; gap: 20px; height: 62px; }
+  .nav .logo { display: flex; align-items: center; }
+  .nav img { height: 26px; width: auto; display: block; }
+  .nav .links { display: flex; gap: 22px; margin-left: auto; font-size: 15px; }
+  .nav .links a { color: var(--muted); text-decoration: none; }
+  .nav .links a:hover { color: var(--fg); }
+  @media (max-width: 800px) { .nav .links { display: none; } .nav .btn-sm { margin-left: auto; } }
+
+  .btn, .btn-sm {
+    display: inline-block; background: var(--accent); color: var(--accent-fg);
+    text-decoration: none; font-weight: 650; border-radius: 10px; white-space: nowrap;
+  }
+  .btn { padding: 14px 24px; font-size: 16px; }
+  .btn-sm { padding: 9px 16px; font-size: 14px; }
+  .btn:hover, .btn-sm:hover { background: var(--accent-bright); }
+  .btn-ghost {
+    display: inline-block; padding: 14px 24px; font-size: 16px; font-weight: 650;
+    border: 1px solid var(--line); border-radius: 10px; color: var(--fg); text-decoration: none;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .soon {
+    display: inline-block; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 10px; padding: 13px 18px; font-size: 15px; color: var(--muted);
+  }
+  code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+
+  /* ── hero ───────────────────────────────────────────────── */
+  .hero { padding: 72px 0 8px; background: radial-gradient(120% 100% at 50% 0%, var(--tint), transparent 60%); }
+  .eyebrow {
+    display: inline-block; font-size: 13px; font-weight: 650; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--accent); background: var(--tint);
+    border-radius: 999px; padding: 6px 14px; margin: 0 0 20px;
+  }
+  h1 { font-size: clamp(34px, 6vw, 56px); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 16px; max-width: 16ch; }
+  .lede { font-size: clamp(17px, 2vw, 20px); color: var(--muted); margin: 0 0 28px; max-width: 58ch; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .stats {
+    list-style: none; padding: 0; margin: 56px 0 0;
+    display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+  }
+  .stats li { background: var(--bg); padding: 20px; }
+  .stats b { display: block; font-size: 30px; letter-spacing: -0.02em; line-height: 1.1; }
+  .stats span { font-size: 14px; color: var(--muted); }
+
+  /* ── sections ───────────────────────────────────────────── */
+  section { padding: 72px 0; }
+  section + section { border-top: 1px solid var(--line); }
+  .sub { color: var(--muted); max-width: 62ch; margin: 0 0 32px; font-size: 17px; }
+  .note { font-size: 14px; color: var(--muted); margin: 20px 0 0; }
+
+  ul.grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .card p { font-size: 15px; color: var(--muted); margin: 0; }
+
+  /* how it works */
+  .lanes { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .lane { border: 1px solid var(--line); border-radius: 16px; padding: 26px; background: var(--panel); }
+  .lane > h3 { font-size: 20px; margin: 0 0 20px; }
+  .lane ol { list-style: none; margin: 0; padding: 0; }
+  .lane li { display: flex; gap: 14px; padding-bottom: 20px; }
+  .lane li:last-child { padding-bottom: 0; }
+  .lane .n {
+    flex: 0 0 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--accent-fg);
+    font-size: 14px; font-weight: 700; display: grid; place-items: center;
+  }
+  .lane h4 { font-size: 16px; margin: 3px 0 4px; }
+  .lane p { font-size: 15px; color: var(--muted); margin: 0; }
+
+  /* routes */
+  ul.routes { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .route { border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow); }
+  .pair { display: flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 650; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .pair .arrow { color: var(--accent); font-weight: 400; }
+  .via { font-size: 14px; color: var(--muted); margin: 0 0 8px; }
+  .km { font-size: 13px; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums; }
+  details.cities { margin-top: 24px; border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; }
+  details.cities > summary { cursor: pointer; font-weight: 650; }
+  .state-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 18px; }
+  .state h4 { font-size: 14px; margin: 0 0 4px; }
+  .state p { font-size: 14px; color: var(--muted); margin: 0; }
+
+  /* faq */
+  .faq-group { margin-bottom: 32px; }
+  .faq-group h3 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 12px; }
+  .faq-group details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+  .faq-group summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  .faq-group summary::-webkit-details-marker { display: none; }
+  .faq-group summary::after { content: "+"; color: var(--muted); font-weight: 400; }
+  .faq-group details[open] summary::after { content: "−"; }
+  .faq-group details p { font-size: 15px; color: var(--muted); margin: 10px 0 2px; max-width: 70ch; }
+
+  /* closing cta */
+  .closing { text-align: center; }
+  .closing h2 { max-width: 20ch; margin-inline: auto; }
+  .closing .sub { margin-inline: auto; }
+  .closing .cta { justify-content: center; }
+
+  /* footer */
+  footer { border-top: 1px solid var(--line); background: var(--panel); padding: 48px 0 40px; font-size: 15px; }
+  .fcols { display: grid; gap: 28px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+  footer h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 0 0 10px; }
+  footer ul { list-style: none; margin: 0; padding: 0; }
+  footer li { margin-bottom: 7px; }
+  footer a { text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer img { height: 24px; width: auto; display: block; margin-bottom: 12px; }
+  .legal { border-top: 1px solid var(--line); margin-top: 36px; padding-top: 20px; color: var(--muted); font-size: 14px; }
+  .legal p { margin: 0 0 6px; }
 </style>
 </head>
-<body>
+<body id="top">
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Tezzo, home">
+      <picture>
+        <source srcset="./assets/tezzo-wordmark-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="./assets/tezzo-wordmark.png" alt="Tezzo" width="97" height="26">
+      </picture>
+    </a>
+    <nav class="links" aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#routes">Routes</a>
+      <a href="#drivers">Drivers</a>
+      <a href="#safety">Trust &amp; safety</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn-sm" href="https://play.google.com/store/apps/details?id=com.tezzo.app">Get Tezzo on Google Play</a>
+  </div>
+</header>
+
 <main>
-  <p class="brand">Tezzo</p>
 
-  <h1>Share the cost of the trip, not just the road.</h1>
-  <p class="lede">Tezzo connects drivers who have empty seats with passengers heading the same way. Intercity travel across India, split between the people already making the journey.</p>
-  <p class="soon">Coming to Google Play — Android package <code>com.tezzo.app</code>.</p>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Intercity carpooling in India</p>
+      <h1>Share the cost of the trip, not just the road.</h1>
+      <p class="lede">Tezzo connects drivers who already have empty seats with passengers heading the same way. You see the seat price before you book, you pay the driver by UPI, and Tezzo adds no fee on top.</p>
+      <div class="cta">
+        <a class="btn" href="https://play.google.com/store/apps/details?id=com.tezzo.app">Get Tezzo on Google Play</a>
+        <a class="btn-ghost" href="#how">See how it works</a>
+      </div>
+      <ul class="stats">
+        <li><b>101</b><span>cities in the app’s city list</span></li>
+        <li><b>23</b><span>states &amp; union territories</span></li>
+        <li><b>₹0</b><span>platform fee on the seat price</span></li>
+        <li><b>4</b><span>government ID types accepted</span></li>
+      </ul>
+    </div>
+  </section>
 
-  <h2>What you can do</h2>
-  <ul class="grid">
+  <section id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="sub">Two sides of the same trip. One of you is already driving it.</p>
+      <div class="lanes">
+        <div class="lane">
+          <h3>If you need a seat</h3>
+          <ol>
+        <li>
+          <span class="n" aria-hidden="true">1</span>
+          <div><h4>Search your route</h4><p>Enter where you are leaving from, where you are going and the date. Filter and sort what comes back — price, time, rating.</p></div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">2</span>
+          <div><h4>Request your seats</h4><p>You see the seat price and any optional add-ons before you commit. If the driver has auto-accept on, the booking confirms instantly; otherwise they review your request.</p></div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">3</span>
+          <div><h4>Chat, then travel</h4><p>Message the driver in the app. Phone numbers are exchanged only once the booking is confirmed, and you can watch the car approach once the ride starts.</p></div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">4</span>
+          <div><h4>Pay by UPI and rate</h4><p>Pay the driver for the seat by UPI. There is no Tezzo fee added on top. Afterwards you rate each other.</p></div>
+        </li>
+          </ol>
+        </div>
+        <div class="lane">
+          <h3>If you have a car</h3>
+          <ol>
+        <li>
+          <span class="n" aria-hidden="true">1</span>
+          <div><h4>Publish the ride</h4><p>A guided flow takes you through route and stops, date and time, seats, price per seat, optional add-ons and your ride preferences.</p></div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">2</span>
+          <div><h4>Decide how requests come in</h4><p>Auto-accept confirms bookings instantly. Leave it off and every request waits for you to approve it.</p></div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">3</span>
+          <div><h4>Drive from the dashboard</h4><p>Your dashboard holds the day’s requests and passengers. You start the ride when you are actually at the pickup point, and your location is then shared with the people on board.</p></div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">4</span>
+          <div><h4>Get paid out</h4><p>Add a payout method under Profile → Account. Bank payouts land in 2–3 business days; UPI payouts are instant. Your full history sits in Earnings &amp; Payouts.</p></div>
+        </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>What you can do</h2>
+      <p class="sub">Everything below is a screen in the app today.</p>
+      <ul class="grid">
       <li class="card">
         <h3>Find a ride</h3>
         <p>Search intercity routes by city and date, filter and sort the results, and see the full price before you book.</p>
@@ -64,7 +275,7 @@
       </li>
       <li class="card">
         <h3>Know who you travel with</h3>
-        <p>Profiles carry ratings and reviews from real completed rides. Government ID verification is available for drivers.</p>
+        <p>Profiles carry ratings and reviews from real completed rides. Government ID verification is available.</p>
       </li>
       <li class="card">
         <h3>Women-only rides</h3>
@@ -72,28 +283,460 @@
       </li>
       <li class="card">
         <h3>Help when you need it</h3>
-        <p>An SOS button shares your live location and ride details with your emergency contact, and alerts our team.</p>
+        <p>An SOS button can call 112, call your emergency contact, or share your live trip — and it alerts our team.</p>
       </li>
       <li class="card">
         <h3>Follow the journey</h3>
         <p>Passengers can watch the driver approach in real time once a ride starts.</p>
       </li>
       <li class="card">
-        <h3>Pay directly, no card</h3>
-        <p>Fares are settled between you and the driver over UPI or cash. Tezzo never handles or stores card details.</p>
+        <h3>Pay by UPI, no cards</h3>
+        <p>You pay the driver by UPI. Tezzo never stores card numbers, CVVs or full bank account numbers.</p>
       </li>
-  </ul>
+      </ul>
+    </div>
+  </section>
 
-  <h2>Questions</h2>
-  <p>Write to <a href="mailto:Tezzocar@gmail.com">Tezzocar@gmail.com</a> or call <a href="tel:+917851099496">+91 78510 99496</a>. We answer data access and deletion requests within 30 days.</p>
+  <section id="routes">
+    <div class="wrap">
+      <h2>Where Tezzo runs</h2>
+      <p class="sub">Tezzo’s city list covers 101 cities across 23 states and union territories — the Delhi NCR–Rajasthan corridors in depth, and the major cities beyond them. These are some of the intercity stretches they connect.</p>
+      <ul class="routes">
+      <li class="route">
+        <p class="pair"><span>Delhi</span><span class="arrow" aria-hidden="true">→</span><span>Jaipur</span></p>
+        <p class="via">via Gurugram · Manesar · Rewari · Behror · Kotputli</p>
+        <p class="km">≈ 238 km apart</p>
+      </li>
+      <li class="route">
+        <p class="pair"><span>Delhi</span><span class="arrow" aria-hidden="true">→</span><span>Chandigarh</span></p>
+        <p class="via">via Sonipat · Panipat · Karnal · Ambala</p>
+        <p class="km">≈ 228 km apart</p>
+      </li>
+      <li class="route">
+        <p class="pair"><span>Delhi</span><span class="arrow" aria-hidden="true">→</span><span>Agra</span></p>
+        <p class="via">via Faridabad · Mathura</p>
+        <p class="km">≈ 192 km apart</p>
+      </li>
+      <li class="route">
+        <p class="pair"><span>Delhi</span><span class="arrow" aria-hidden="true">→</span><span>Dehradun</span></p>
+        <p class="via">via Ghaziabad · Haridwar</p>
+        <p class="km">≈ 201 km apart</p>
+      </li>
+      <li class="route">
+        <p class="pair"><span>Jaipur</span><span class="arrow" aria-hidden="true">→</span><span>Sikar</span></p>
+        <p class="via">via Chomu · Reengus · Sri Madhopur</p>
+        <p class="km">≈ 101 km apart</p>
+      </li>
+      <li class="route">
+        <p class="pair"><span>Sikar</span><span class="arrow" aria-hidden="true">→</span><span>Jhunjhunu</span></p>
+        <p class="via">via Nawalgarh · Mukundgarh</p>
+        <p class="km">≈ 63 km apart</p>
+      </li>
+      <li class="route">
+        <p class="pair"><span>Jaipur</span><span class="arrow" aria-hidden="true">→</span><span>Bikaner</span></p>
+        <p class="via">via Sikar · Fatehpur · Churu · Ratangarh</p>
+        <p class="km">≈ 274 km apart</p>
+      </li>
+      <li class="route">
+        <p class="pair"><span>Jaipur</span><span class="arrow" aria-hidden="true">→</span><span>Udaipur</span></p>
+        <p class="via">via Kishangarh · Ajmer · Bhilwara · Chittorgarh</p>
+        <p class="km">≈ 332 km apart</p>
+      </li>
+      <li class="route">
+        <p class="pair"><span>Jaipur</span><span class="arrow" aria-hidden="true">→</span><span>Jodhpur</span></p>
+        <p class="via">via Kishangarh · Beawar · Pali</p>
+        <p class="km">≈ 285 km apart</p>
+      </li>
+      <li class="route">
+        <p class="pair"><span>Jaipur</span><span class="arrow" aria-hidden="true">→</span><span>Kota</span></p>
+        <p class="via">via Tonk · Bundi</p>
+        <p class="km">≈ 189 km apart</p>
+      </li>
+      <li class="route">
+        <p class="pair"><span>Mumbai</span><span class="arrow" aria-hidden="true">→</span><span>Pune</span></p>
+        <p class="km">≈ 120 km apart</p>
+      </li>
+      </ul>
+    <details class="cities">
+      <summary>See all 101 cities</summary>
+      <div class="state-grid">
+        <div class="state">
+          <h4>Rajasthan</h4>
+          <p>Bhiwadi, Jaipur, Sikar, Jhunjhunu, Gudha Gorji, Alwar, Behror, Kotputli, Shahpura, Chomu, Bagru, Dausa, Reengus, Sri Madhopur, Neem Ka Thana, Fatehpur, Churu, Ratangarh, Sujangarh, Nagaur, Bikaner, Ajmer, Pushkar, Kishangarh, Beawar, Bhilwara, Udaipur, Chittorgarh, Kota, Bundi, Jhalawar, Baran, Sawai Madhopur, Tonk, Bharatpur, Dholpur, Karauli, Pali, Jodhpur, Barmer, Jaisalmer, Sirohi, Sikar Road, Khatu Shyamji, Lakshmangarh, Ramgarh Shekhawati, Mukundgarh, Nawalgarh, Pilani, Mandawa, Sadulpur</p>
+        </div>
+        <div class="state">
+          <h4>Haryana</h4>
+          <p>Gurugram, Faridabad, Manesar, Rewari, Narnaul, Mahendragarh, Loharu, Karnal, Panipat, Ambala, Hisar, Rohtak, Sonipat</p>
+        </div>
+        <div class="state">
+          <h4>Uttar Pradesh</h4>
+          <p>Noida, Greater Noida, Ghaziabad, Agra, Mathura, Lucknow, Kanpur</p>
+        </div>
+        <div class="state">
+          <h4>Gujarat</h4>
+          <p>Ahmedabad, Surat, Vadodara</p>
+        </div>
+        <div class="state">
+          <h4>Maharashtra</h4>
+          <p>Mumbai, Pune, Nagpur</p>
+        </div>
+        <div class="state">
+          <h4>Delhi</h4>
+          <p>Delhi, New Delhi</p>
+        </div>
+        <div class="state">
+          <h4>Jammu and Kashmir</h4>
+          <p>Jammu, Srinagar</p>
+        </div>
+        <div class="state">
+          <h4>Kerala</h4>
+          <p>Thiruvananthapuram, Kochi</p>
+        </div>
+        <div class="state">
+          <h4>Madhya Pradesh</h4>
+          <p>Bhopal, Indore</p>
+        </div>
+        <div class="state">
+          <h4>Punjab</h4>
+          <p>Ludhiana, Amritsar</p>
+        </div>
+        <div class="state">
+          <h4>Uttarakhand</h4>
+          <p>Dehradun, Haridwar</p>
+        </div>
+        <div class="state">
+          <h4>Assam</h4>
+          <p>Guwahati</p>
+        </div>
+        <div class="state">
+          <h4>Bihar</h4>
+          <p>Patna</p>
+        </div>
+        <div class="state">
+          <h4>Chandigarh</h4>
+          <p>Chandigarh</p>
+        </div>
+        <div class="state">
+          <h4>Chhattisgarh</h4>
+          <p>Raipur</p>
+        </div>
+        <div class="state">
+          <h4>Goa</h4>
+          <p>Panaji</p>
+        </div>
+        <div class="state">
+          <h4>Himachal Pradesh</h4>
+          <p>Shimla</p>
+        </div>
+        <div class="state">
+          <h4>Jharkhand</h4>
+          <p>Ranchi</p>
+        </div>
+        <div class="state">
+          <h4>Karnataka</h4>
+          <p>Bengaluru</p>
+        </div>
+        <div class="state">
+          <h4>Odisha</h4>
+          <p>Bhubaneswar</p>
+        </div>
+        <div class="state">
+          <h4>Tamil Nadu</h4>
+          <p>Chennai</p>
+        </div>
+        <div class="state">
+          <h4>Telangana</h4>
+          <p>Hyderabad</p>
+        </div>
+        <div class="state">
+          <h4>West Bengal</h4>
+          <p>Kolkata</p>
+        </div>
+      </div>
+    </details>
+      <p class="note">Distances are straight-line, computed from the coordinates in the app’s own city list. Whether a seat is free on any given date depends on who has published a ride — search the route in the app to see what is running.</p>
+    </div>
+  </section>
 
-  <footer>
-    <p>
-      <a href="./privacy.html">Privacy Policy</a>
-      <a href="./terms.html">Terms &amp; Conditions</a>
-    </p>
-    <p>Tezzo — intercity carpooling. Policies last updated June 2026.</p>
-  </footer>
+  <section id="drivers">
+    <div class="wrap">
+      <h2>Driving anyway? Fill the empty seats.</h2>
+      <p class="sub">You are making the journey either way. Publishing it takes a few minutes, and the seats you were not using pay for part of the fuel.</p>
+      <ul class="grid">
+      <li class="card">
+        <h3>You set the price</h3>
+        <p>You choose the price per seat when you publish. Tezzo adds no platform fee on top of it, so what the passenger pays for the seat is what you set.</p>
+      </li>
+      <li class="card">
+        <h3>Optional paid add-ons</h3>
+        <p>Offer extras such as extra luggage space, each with its own price and quantity limit. Passengers pay only for what they pick.</p>
+      </li>
+      <li class="card">
+        <h3>Up to 5 vehicles</h3>
+        <p>Keep up to five vehicles on your account and choose one per ride. Premium Driver status raises the limit to ten.</p>
+      </li>
+      <li class="card">
+        <h3>Preferences that stick</h3>
+        <p>Travel Preferences save your defaults for chattiness, music, pets, smoking and luggage, and pre-fill every ride you publish.</p>
+      </li>
+      <li class="card">
+        <h3>Women-only rides</h3>
+        <p>Women drivers can restrict a ride to women passengers. It is enforced in the database when the seat is booked, not just hidden in the app.</p>
+      </li>
+      <li class="card">
+        <h3>No-show claims</h3>
+        <p>If a passenger does not turn up, raise a no-show claim from the app and our team reviews it.</p>
+      </li>
+      </ul>
+      <p class="note">Payouts go to a bank account or a UPI ID you add under Profile → Account. Bank transfers take 2–3 business days; UPI is instant.</p>
+    </div>
+  </section>
+
+  <section id="safety">
+    <div class="wrap">
+      <h2>Trust &amp; safety</h2>
+      <p class="sub">You are getting into a car with someone you have not met. These are the things the app does about that.</p>
+      <ul class="grid">
+      <li class="card">
+        <h3>Government ID verification</h3>
+        <p>Submit an Aadhaar, Driving License, PAN or Passport. Tezzo reviews it, and an approved profile carries a checkmark badge.</p>
+      </li>
+      <li class="card">
+        <h3>A trust page per person</h3>
+        <p>Tap the checkmark on any profile to see verification status, how long they have been a member, rides completed and rating.</p>
+      </li>
+      <li class="card">
+        <h3>Your number stays private</h3>
+        <p>Phone numbers are never on a public profile. They are revealed only to the other side of a confirmed booking, and to nobody else.</p>
+      </li>
+      <li class="card">
+        <h3>Ratings from real rides</h3>
+        <p>Ratings and reviews can only be left after a ride you actually took, so the score on a profile is built from completed trips.</p>
+      </li>
+      <li class="card">
+        <h3>SOS while you travel</h3>
+        <p>From an active ride you can call 112, call your emergency contact, or share your live trip and location. Every press is logged for our team.</p>
+      </li>
+      <li class="card">
+        <h3>Report anything off</h3>
+        <p>Report a driver, a passenger, a ride or a chat from inside the app. Our trust team reviews every report.</p>
+      </li>
+      <li class="card">
+        <h3>Account security</h3>
+        <p>Two-factor authentication and biometric unlock are both available, and your session is held in the device’s own secure keystore.</p>
+      </li>
+      <li class="card">
+        <h3>No card details anywhere</h3>
+        <p>Tezzo does not take card payments and stores no card numbers, CVVs or full bank account numbers.</p>
+      </li>
+      </ul>
+      <p class="note">Always pay through UPI as shown in the app — never send or accept money outside it for a Tezzo ride, and check that the driver, vehicle and route match your booking before you get in.</p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>Questions</h2>
+      <p class="sub">The same answers the Help &amp; Support screen gives inside the app.</p>
+      <div class="faq-group">
+        <h3>Booking &amp; Rides</h3>
+        <details>
+          <summary>How do I book a ride?</summary>
+          <p>Search for a route on the Find a ride tab, pick a matching ride, and confirm your seats. You can book for yourself and any saved passengers travelling with you.</p>
+        </details>
+        <details>
+          <summary>Can I book more than one ride on the same route and date?</summary>
+          <p>No — you can only hold one active booking per route (from city, to city, date) at a time. If you need to change rides, cancel your current booking first.</p>
+        </details>
+        <details>
+          <summary>What does &quot;auto-accept&quot; mean for a ride?</summary>
+          <p>When a driver enables auto-accept, bookings are confirmed instantly. If it's off, the driver reviews each request before confirming.</p>
+        </details>
+        <details>
+          <summary>What is &quot;women only&quot; on a ride?</summary>
+          <p>Some drivers mark a ride as reserved for women passengers only. If you try to book one and this doesn't apply to you, you'll see &quot;This ride is reserved for women passengers only.&quot;</p>
+        </details>
+        <details>
+          <summary>Can I set a seat position or chattiness preference?</summary>
+          <p>Yes — your Travel Preferences (in Profile &gt; Account) let you set defaults for chattiness, music, pets, smoking, and luggage space, which pre-fill new rides you publish. You can still change any of them per ride.</p>
+        </details>
+      </div>
+      <div class="faq-group">
+        <h3>Payments (UPI)</h3>
+        <details>
+          <summary>What payment methods does Tezzo support?</summary>
+          <p>Tezzo currently supports UPI only. Card payments are not yet available.</p>
+        </details>
+        <details>
+          <summary>How do I get paid as a driver?</summary>
+          <p>Set up your payout method (bank account or UPI ID) under Profile &gt; Account &gt; Payout Bank / UPI. Bank payouts are transferred within 2-3 business days; UPI payouts are instant.</p>
+        </details>
+        <details>
+          <summary>Where can I see my earnings history?</summary>
+          <p>Profile &gt; Account &gt; Earnings &amp; Payouts shows your full payout history.</p>
+        </details>
+        <details>
+          <summary>Is my payment information secure?</summary>
+          <p>Only your UPI ID is stored — Tezzo never stores card numbers, CVVs, or full bank account details.</p>
+        </details>
+        <details>
+          <summary>How is the total price of my ride calculated?</summary>
+          <p>The total is your seat price (price per seat × number of seats) plus any optional add-ons you choose during booking, like extra luggage space. There is no separate Tezzo platform fee added on top.</p>
+        </details>
+        <details>
+          <summary>What are add-ons and are they optional?</summary>
+          <p>Add-ons are extras a driver may offer when publishing a ride (e.g. extra luggage space), each with its own price and quantity limit. They're entirely optional — only what you select is added to your total.</p>
+        </details>
+      </div>
+      <div class="faq-group">
+        <h3>Cancellations &amp; Refunds</h3>
+        <details>
+          <summary>Can I cancel a booked ride?</summary>
+          <p>Yes, both drivers and passengers can cancel before the ride starts, from the Bookings tab.</p>
+        </details>
+        <details>
+          <summary>Does cancelling affect my account?</summary>
+          <p>Late cancellations (close to the scheduled pickup time) may affect your account rating and, for drivers, future visibility in ride search results.</p>
+        </details>
+        <details>
+          <summary>How long do refunds take?</summary>
+          <p>Refunds for cancelled or disputed rides are handled per our cancellation policy and may take several business days to reflect, depending on your payment provider.</p>
+        </details>
+        <details>
+          <summary>Where can I see my refund status?</summary>
+          <p>Profile &gt; Account &gt; Payments &amp; refunds lists your refund history and status.</p>
+        </details>
+      </div>
+      <div class="faq-group">
+        <h3>Safety &amp; Verification</h3>
+        <details>
+          <summary>What does &quot;ID Verified&quot; mean?</summary>
+          <p>A verified user has submitted a government ID (Aadhaar, Driving License, PAN, or Passport) that Tezzo has reviewed and approved. Look for the checkmark badge on a profile.</p>
+        </details>
+        <details>
+          <summary>How do I verify my own ID?</summary>
+          <p>Go to Profile &gt; Verify your Govt. ID, choose your document type, and upload clear front/back photos. Review usually happens shortly after submission.</p>
+        </details>
+        <details>
+          <summary>Where can I see someone's full trust info before riding with them?</summary>
+          <p>Tap the verified checkmark on their profile to open the Trust &amp; Safety screen — it shows verification status, member-since duration, rides completed, and rating.</p>
+        </details>
+        <details>
+          <summary>When is a driver or passenger's phone number shared?</summary>
+          <p>Phone numbers are only revealed to each other once a booking is confirmed — never before, and never to anyone outside that specific booking.</p>
+        </details>
+        <details>
+          <summary>How do I report a safety concern?</summary>
+          <p>Use &quot;Report a problem&quot; from your Profile, or the report option on a specific driver/passenger/ride. See &quot;Still need help?&quot; below for a shortcut.</p>
+        </details>
+        <details>
+          <summary>How do I stay safe from scams while using Tezzo?</summary>
+          <p>Always pay and receive payment through UPI as shown in the app — never send or accept money outside the app for a Tezzo ride. Confirm the driver, vehicle, and route match what's shown in your booking before getting in, and meet at the agreed pickup point in a public area rather than a private location.</p>
+        </details>
+        <details>
+          <summary>What if someone asks me to pay outside the app or change plans last-minute?</summary>
+          <p>Treat this as a warning sign — legitimate rides on Tezzo are paid for as shown in the app. Don't send money through any other method, and use &quot;Report a problem&quot; to let us know right away.</p>
+        </details>
+        <details>
+          <summary>What should I do if something feels off during a ride?</summary>
+          <p>Trust your instincts. Don't get in if the vehicle or driver doesn't match your booking details, meet in a public place for pickup, and use the Report option on the profile, chat, or booking to flag anything suspicious — our trust team reviews every report.</p>
+        </details>
+      </div>
+      <div class="faq-group">
+        <h3>Driver-specific questions</h3>
+        <details>
+          <summary>How many vehicles can I add?</summary>
+          <p>Up to 5 vehicles. Premium Driver status raises this to 10.</p>
+        </details>
+        <details>
+          <summary>What is Premium Driver status?</summary>
+          <p>A ribbon badge shown on your profile and ride cards, plus a higher vehicle limit. It's manually tracked for now — contact support if you believe you should have it.</p>
+        </details>
+        <details>
+          <summary>How do add-ons work when publishing a ride?</summary>
+          <p>You can offer optional paid add-ons (e.g. extra luggage space) when posting a ride. Passengers choose and pay for any add-ons during booking.</p>
+        </details>
+        <details>
+          <summary>Can I set default ride preferences so I don't re-enter them every time?</summary>
+          <p>Yes — Travel Preferences (Profile &gt; Account) saves your defaults for chattiness, pets, smoking, and luggage space, and pre-fills them whenever you publish a new ride.</p>
+        </details>
+      </div>
+      <div class="faq-group">
+        <h3>Account &amp; Privacy</h3>
+        <details>
+          <summary>Who can see my profile information?</summary>
+          <p>Your name, photo, rating, ride count, and verification/premium badges are visible to anyone. Your bio and city are private by default — you can choose to share them in Edit personal details.</p>
+        </details>
+        <details>
+          <summary>Is my phone number ever public?</summary>
+          <p>No. Your phone number is never shown on your public profile — it's only shared with a confirmed booking counterpart.</p>
+        </details>
+        <details>
+          <summary>How do I change my email or password?</summary>
+          <p>Profile &gt; Account has separate options for Change Email and Password, plus Two-Factor Authentication.</p>
+        </details>
+        <details>
+          <summary>What happens if I delete my account?</summary>
+          <p>Your personal info is erased immediately. Completed ride records are retained for legal compliance, and the account can't be used to sign back in.</p>
+        </details>
+      </div>
+      <p class="note">Still stuck? Email <a href="mailto:Tezzocar@gmail.com">Tezzocar@gmail.com</a> or call <a href="tel:+917851099496">+91 78510 99496</a>. We answer data access and deletion requests within 30 days.</p>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <h2>Going somewhere this week?</h2>
+      <p class="sub">Find a seat, or offer the ones you have.</p>
+      <div class="cta"><a class="btn" href="https://play.google.com/store/apps/details?id=com.tezzo.app">Get Tezzo on Google Play</a></div>
+    </div>
+  </section>
+
 </main>
+
+<footer>
+  <div class="wrap">
+    <div class="fcols">
+      <div>
+        <picture>
+          <source srcset="./assets/tezzo-wordmark-dark.png" media="(prefers-color-scheme: dark)">
+          <img src="./assets/tezzo-wordmark.png" alt="Tezzo" width="90" height="24">
+        </picture>
+        <p style="color:var(--muted);margin:0">Intercity carpooling in India.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#routes">Where Tezzo runs</a></li>
+          <li><a href="#drivers">For drivers</a></li>
+          <li><a href="#safety">Trust &amp; safety</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="mailto:Tezzocar@gmail.com">Tezzocar@gmail.com</a></li>
+          <li><a href="tel:+917851099496">+91 78510 99496</a></li>
+          <li><a href="./delete-account.html">Delete your account</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="./privacy.html">Privacy Policy</a></li>
+          <li><a href="./terms.html">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <p>Tezzo is a carpooling marketplace: it connects drivers and passengers making the same journey. It is not a taxi service, and drivers are not employees.</p>
+      <p>Policies last updated June 2026. © 2026 Tezzo.</p>
+    </div>
+  </div>
+</footer>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I book a ride?","acceptedAnswer":{"@type":"Answer","text":"Search for a route on the Find a ride tab, pick a matching ride, and confirm your seats. You can book for yourself and any saved passengers travelling with you."}},{"@type":"Question","name":"Can I book more than one ride on the same route and date?","acceptedAnswer":{"@type":"Answer","text":"No — you can only hold one active booking per route (from city, to city, date) at a time. If you need to change rides, cancel your current booking first."}},{"@type":"Question","name":"What does \"auto-accept\" mean for a ride?","acceptedAnswer":{"@type":"Answer","text":"When a driver enables auto-accept, bookings are confirmed instantly. If it's off, the driver reviews each request before confirming."}},{"@type":"Question","name":"What is \"women only\" on a ride?","acceptedAnswer":{"@type":"Answer","text":"Some drivers mark a ride as reserved for women passengers only. If you try to book one and this doesn't apply to you, you'll see \"This ride is reserved for women passengers only.\""}},{"@type":"Question","name":"Can I set a seat position or chattiness preference?","acceptedAnswer":{"@type":"Answer","text":"Yes — your Travel Preferences (in Profile > Account) let you set defaults for chattiness, music, pets, smoking, and luggage space, which pre-fill new rides you publish. You can still change any of them per ride."}},{"@type":"Question","name":"What payment methods does Tezzo support?","acceptedAnswer":{"@type":"Answer","text":"Tezzo currently supports UPI only. Card payments are not yet available."}},{"@type":"Question","name":"How do I get paid as a driver?","acceptedAnswer":{"@type":"Answer","text":"Set up your payout method (bank account or UPI ID) under Profile > Account > Payout Bank / UPI. Bank payouts are transferred within 2-3 business days; UPI payouts are instant."}},{"@type":"Question","name":"Where can I see my earnings history?","acceptedAnswer":{"@type":"Answer","text":"Profile > Account > Earnings & Payouts shows your full payout history."}},{"@type":"Question","name":"Is my payment information secure?","acceptedAnswer":{"@type":"Answer","text":"Only your UPI ID is stored — Tezzo never stores card numbers, CVVs, or full bank account details."}},{"@type":"Question","name":"How is the total price of my ride calculated?","acceptedAnswer":{"@type":"Answer","text":"The total is your seat price (price per seat × number of seats) plus any optional add-ons you choose during booking, like extra luggage space. There is no separate Tezzo platform fee added on top."}},{"@type":"Question","name":"What are add-ons and are they optional?","acceptedAnswer":{"@type":"Answer","text":"Add-ons are extras a driver may offer when publishing a ride (e.g. extra luggage space), each with its own price and quantity limit. They're entirely optional — only what you select is added to your total."}},{"@type":"Question","name":"Can I cancel a booked ride?","acceptedAnswer":{"@type":"Answer","text":"Yes, both drivers and passengers can cancel before the ride starts, from the Bookings tab."}},{"@type":"Question","name":"Does cancelling affect my account?","acceptedAnswer":{"@type":"Answer","text":"Late cancellations (close to the scheduled pickup time) may affect your account rating and, for drivers, future visibility in ride search results."}},{"@type":"Question","name":"How long do refunds take?","acceptedAnswer":{"@type":"Answer","text":"Refunds for cancelled or disputed rides are handled per our cancellation policy and may take several business days to reflect, depending on your payment provider."}},{"@type":"Question","name":"Where can I see my refund status?","acceptedAnswer":{"@type":"Answer","text":"Profile > Account > Payments & refunds lists your refund history and status."}},{"@type":"Question","name":"What does \"ID Verified\" mean?","acceptedAnswer":{"@type":"Answer","text":"A verified user has submitted a government ID (Aadhaar, Driving License, PAN, or Passport) that Tezzo has reviewed and approved. Look for the checkmark badge on a profile."}},{"@type":"Question","name":"How do I verify my own ID?","acceptedAnswer":{"@type":"Answer","text":"Go to Profile > Verify your Govt. ID, choose your document type, and upload clear front/back photos. Review usually happens shortly after submission."}},{"@type":"Question","name":"Where can I see someone's full trust info before riding with them?","acceptedAnswer":{"@type":"Answer","text":"Tap the verified checkmark on their profile to open the Trust & Safety screen — it shows verification status, member-since duration, rides completed, and rating."}},{"@type":"Question","name":"When is a driver or passenger's phone number shared?","acceptedAnswer":{"@type":"Answer","text":"Phone numbers are only revealed to each other once a booking is confirmed — never before, and never to anyone outside that specific booking."}},{"@type":"Question","name":"How do I report a safety concern?","acceptedAnswer":{"@type":"Answer","text":"Use \"Report a problem\" from your Profile, or the report option on a specific driver/passenger/ride. See \"Still need help?\" below for a shortcut."}},{"@type":"Question","name":"How do I stay safe from scams while using Tezzo?","acceptedAnswer":{"@type":"Answer","text":"Always pay and receive payment through UPI as shown in the app — never send or accept money outside the app for a Tezzo ride. Confirm the driver, vehicle, and route match what's shown in your booking before getting in, and meet at the agreed pickup point in a public area rather than a private location."}},{"@type":"Question","name":"What if someone asks me to pay outside the app or change plans last-minute?","acceptedAnswer":{"@type":"Answer","text":"Treat this as a warning sign — legitimate rides on Tezzo are paid for as shown in the app. Don't send money through any other method, and use \"Report a problem\" to let us know right away."}},{"@type":"Question","name":"What should I do if something feels off during a ride?","acceptedAnswer":{"@type":"Answer","text":"Trust your instincts. Don't get in if the vehicle or driver doesn't match your booking details, meet in a public place for pickup, and use the Report option on the profile, chat, or booking to flag anything suspicious — our trust team reviews every report."}},{"@type":"Question","name":"How many vehicles can I add?","acceptedAnswer":{"@type":"Answer","text":"Up to 5 vehicles. Premium Driver status raises this to 10."}},{"@type":"Question","name":"What is Premium Driver status?","acceptedAnswer":{"@type":"Answer","text":"A ribbon badge shown on your profile and ride cards, plus a higher vehicle limit. It's manually tracked for now — contact support if you believe you should have it."}},{"@type":"Question","name":"How do add-ons work when publishing a ride?","acceptedAnswer":{"@type":"Answer","text":"You can offer optional paid add-ons (e.g. extra luggage space) when posting a ride. Passengers choose and pay for any add-ons during booking."}},{"@type":"Question","name":"Can I set default ride preferences so I don't re-enter them every time?","acceptedAnswer":{"@type":"Answer","text":"Yes — Travel Preferences (Profile > Account) saves your defaults for chattiness, pets, smoking, and luggage space, and pre-fills them whenever you publish a new ride."}},{"@type":"Question","name":"Who can see my profile information?","acceptedAnswer":{"@type":"Answer","text":"Your name, photo, rating, ride count, and verification/premium badges are visible to anyone. Your bio and city are private by default — you can choose to share them in Edit personal details."}},{"@type":"Question","name":"Is my phone number ever public?","acceptedAnswer":{"@type":"Answer","text":"No. Your phone number is never shown on your public profile — it's only shared with a confirmed booking counterpart."}},{"@type":"Question","name":"How do I change my email or password?","acceptedAnswer":{"@type":"Answer","text":"Profile > Account has separate options for Change Email and Password, plus Two-Factor Authentication."}},{"@type":"Question","name":"What happens if I delete my account?","acceptedAnswer":{"@type":"Answer","text":"Your personal info is erased immediately. Completed ride records are retained for legal compliance, and the account can't be used to sign back in."}}]}</script>
 </body>
 </html>
